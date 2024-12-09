@@ -5,23 +5,29 @@ import Layout from "./ui/Layout";
 import Products from "./pages/Products";
 import Login from "./pages/Login";
 import { Dashboard } from "@mui/icons-material";
+import ProductDetails from "./pages/ProductDetails";
 
 const routes = [
   {
     element: <Layout />,
     children: [
+      // {
+      //   path: "/",
+      //   element: <Login />,
+      // },
       {
         path: "/",
-        element: <Login />,
-      },
-      {
-        path: "/products",
-        element: <Products />,
+        // element: <Products />,
+        element: <ProductDetails />,
       },
       {
         path: "/dashboard",
         element: <Dashboard />,
       },
+      // {
+      //   path: "/products/:productId",
+      //   element: <ProductDetails />,
+      // },
     ],
   },
 ];

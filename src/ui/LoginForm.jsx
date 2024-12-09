@@ -17,30 +17,6 @@ export default function SignupForm() {
           component="div"
           sx={{ display: "flex", alignItems: "center", gap: "1rem" }}
         >
-          <label htmlFor="name">Name:</label>
-          <TextField
-            id="name"
-            variant="outlined"
-            label="Name"
-            sx={{ flexGrow: "1" }}
-          />
-        </Box>
-        <Box
-          component="div"
-          sx={{ display: "flex", alignItems: "center", gap: "1rem" }}
-        >
-          <label htmlFor="lastName">last Name:</label>
-          <TextField
-            id="lastName"
-            variant="outlined"
-            label="last Name"
-            sx={{ flexGrow: "1" }}
-          />
-        </Box>{" "}
-        <Box
-          component="div"
-          sx={{ display: "flex", alignItems: "center", gap: "1rem" }}
-        >
           <label htmlFor="email">email:</label>
           <TextField
             id="email"
@@ -58,6 +34,19 @@ export default function SignupForm() {
             id="password"
             variant="outlined"
             label="password"
+            type="password"
+            sx={{ flexGrow: "1" }}
+          />
+        </Box>{" "}
+        <Box
+          component="div"
+          sx={{ display: "flex", alignItems: "center", gap: "1rem" }}
+        >
+          <label htmlFor="confirmPassword">confirm:</label>
+          <TextField
+            id="confirmPassword"
+            variant="outlined"
+            label="confirmPassword"
             type="password"
             sx={{ flexGrow: "1" }}
           />

@@ -9,7 +9,6 @@ export default function Layout() {
     <Box
       component="div"
       sx={{
-        width: "50%",
         height: "100dvh",
         display: "flex",
         flexDirection: "column",
@@ -17,7 +16,16 @@ export default function Layout() {
       }}
     >
       <Header />
-      <Box component="section">
+      <Box
+        component="section"
+        sx={{
+          width: "100dvw",
+          display: "flex",
+          flexDirection: "column",
+          height: "80vh",
+          overflow: "auto",
+        }}
+      >
         <Outlet />
       </Box>
       <BottomNavigation />
