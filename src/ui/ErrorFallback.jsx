@@ -1,11 +1,12 @@
+import { Box } from "@mui/material";
 import React from "react";
 
-export default function ErrorBoundaryPage({ error, resetErrorBoundary }) {
+export default function ErrorFallback({ error, resetErrorBoundary }) {
   return (
-    <div role="alert">
+    <Box>
       <p>Something went Wrong!!</p>
       <h1>{error.message}</h1>
       <button onClick={resetErrorBoundary}>Try Again</button>
-    </div>
+    </Box>
   );
 }

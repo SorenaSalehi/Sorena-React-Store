@@ -6,7 +6,9 @@ import { Box, Typography, Rating, Divider } from "@mui/material";
 import "swiper/css";
 import ProductImageSwiper from "../../ui/ProductImgSwiper";
 
-export default function ProductItem() {
+export default function ProductItem({
+  item: { brand, category, images, price, rating, title, tags },
+}) {
   return (
     <Card
       component="li"
@@ -30,16 +32,16 @@ export default function ProductItem() {
       </Box>
 
       {/* Image Slider */}
-      <ProductImageSwiper />
+      <ProductImageSwiper images={images}/>
 
       <CardActionArea>
         {/* Product Details */}
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            Fashion Timepieces
+            {brand}
           </Typography>
           <Typography gutterBottom variant="body1" component="div">
-            Brown Leather Belt Watch
+            {title}
           </Typography>
           <Divider variant="middle" />
           <Typography
@@ -51,9 +53,9 @@ export default function ProductItem() {
               paddingTop: "1rem",
             }}
           >
-            <Box component="p">Man | Leather Watch</Box>
-            <Box component="p">Price: 9.99 $</Box>
-            <Rating name="read-only" value={4} readOnly />
+            <Box component="p">{category} | {...tags}</Box>
+            <Box component="p">Price: {price} $</Box>
+            <Rating name="read-only" value={rating} readOnly />
           </Typography>
         </CardContent>
       </CardActionArea>

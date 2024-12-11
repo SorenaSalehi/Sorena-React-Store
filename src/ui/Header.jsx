@@ -192,7 +192,8 @@ export default function PrimarySearchAppBar() {
             aria-label="open drawer"
             sx={{ mr: 2 }}
           >
-            <SideMenu />
+            {/* //*lg screen */}
+            {/* <SideMenu /> */}
           </IconButton>
           <Typography
             variant="h6"

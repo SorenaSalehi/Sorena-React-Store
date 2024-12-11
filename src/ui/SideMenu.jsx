@@ -21,6 +21,7 @@ import {
   Menu as MenuIcon,
   Inbox,
   Mail,
+  Woman2Outlined,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router";
 
@@ -113,7 +114,7 @@ export default function SideMenu() {
         {/* Women Category */}
         <ListItemButton onClick={handleClickWomen}>
           <ListItemIcon>
-            <Man2Outlined />
+            <Woman2Outlined />
           </ListItemIcon>
           <ListItemText primary="Women" />
           {isWomenCategoryOpen ? <ExpandLess /> : <ExpandMore />}

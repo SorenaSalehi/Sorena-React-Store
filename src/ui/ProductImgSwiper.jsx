@@ -14,13 +14,19 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-export default function ProductImageSwiper({ autoplay = 10000 }) {
+export default function ProductImageSwiper({
+  images,
+  container = "90%",
+  containerHeight = "400px",
+  autoplay = 10000,
+}) {
   return (
     <Box
       sx={{
-        width: "90%",
-        height: "400px",
+        width: { container },
+        height: { containerHeight },
         margin: "0 auto",
+        zIndex: "500",
 
         "& .swiper": {
           width: "100%",
@@ -59,24 +65,11 @@ export default function ProductImageSwiper({ autoplay = 10000 }) {
           disableOnInteraction: false,
         }}
       >
-        <SwiperSlide>
-          <img
-            src="https://cdn.dummyjson.com/products/images/mens-watches/Brown%20Leather%20Belt%20Watch/1.png"
-            alt="Brown Leather Belt Watch 1"
-          />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img
-            src="https://cdn.dummyjson.com/products/images/mens-watches/Brown%20Leather%20Belt%20Watch/2.png"
-            alt="Brown Leather Belt Watch 2"
-          />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img
-            src="https://cdn.dummyjson.com/products/images/mens-watches/Brown%20Leather%20Belt%20Watch/3.png"
-            alt="Brown Leather Belt Watch 3"
-          />
-        </SwiperSlide>
+        {images?.map((img) => (
+          <SwiperSlide>
+            <Box component="img" lazy alt={`product-img-${img}  `} src={img} />
+          </SwiperSlide>
+        ))}
       </Swiper>
     </Box>
   );

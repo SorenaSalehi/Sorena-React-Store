@@ -1,8 +1,8 @@
 import React from "react";
 import Header from "./Header";
-import BottomNavigation from "./BottomNavigation";
 import { Outlet } from "react-router";
 import { Box } from "@mui/material";
+import BottomNavigate from "./BottomNavigate";
 
 export default function Layout() {
   return (
@@ -24,11 +24,12 @@ export default function Layout() {
           flexDirection: "column",
           height: "80vh",
           overflow: "auto",
+          padding: " 2rem 0 4rem",
         }}
       >
         <Outlet />
       </Box>
-      <BottomNavigation />
+      <BottomNavigate />
     </Box>
   );
 }

@@ -4,9 +4,9 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { Box, Divider, Fab, Rating } from "@mui/material";
 import { Favorite, ShoppingBasket } from "@mui/icons-material";
-import ShowMoreDrawer from "./ShowMoreDrawer";
-import ProductImageSwiper from "./ProductImgSwiper";
-import ProductDetailsContent from "./ProductDetailsContent";
+import ShowMoreDrawer from "../ui/ShowMoreDrawer";
+import ProductImageSwiper from "../ui/ProductImgSwiper";
+import ProductDetailsContent from "../ui/ProductDetailsContent";
 
 export default function ProductDetails() {
   return (
@@ -21,9 +21,11 @@ export default function ProductDetails() {
           height: "75vh",
         }}
       >
+        {/* //*imgs  */}
         <ProductImageSwiper autoplay={100000} />
       </div>
-      {/* //*wishlist and shopping basket*/}
+
+      {/* //*wishlist and shopping basket btn*/}
       <Box component="div" sx={{ position: "fixed" }}>
         <Fab
           sx={{
@@ -46,7 +48,8 @@ export default function ProductDetails() {
           <Favorite fontSize="small" />
         </Fab>
       </Box>
-      {/* Scrolling Content */}
+
+      {/* //*Scrolling Content */}
       <ProductDetailsContent />
     </Box>
   );
