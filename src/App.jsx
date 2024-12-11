@@ -4,30 +4,29 @@ import { createBrowserRouter, RouterProvider } from "react-router";
 import Layout from "./ui/Layout";
 import Products from "./pages/Products";
 import Login from "./pages/Login";
-import { Dashboard } from "@mui/icons-material";
-import ProductDetails from "./pages/ProductDetails";
+import Dashboard from "./pages/Dashboard";
+import ProductDetails from "./ui/ProductDetails";
 
 const routes = [
   {
     element: <Layout />,
     children: [
       // {
-      //   path: "/",
+      // path: "/",
       //   element: <Login />,
       // },
       {
-        path: "/",
-        // element: <Products />,
-        element: <ProductDetails />,
+        index: true,
+        element: <Products />,
       },
       {
-        path: "/dashboard",
+        path: "dashboard",
         element: <Dashboard />,
       },
-      // {
-      //   path: "/products/:productId",
-      //   element: <ProductDetails />,
-      // },
+      {
+        path: "product/details",
+        element: <ProductDetails />,
+      },
     ],
   },
 ];

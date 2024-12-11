@@ -1,21 +1,25 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import React from "react";
+import { useNavigate } from "react-router";
+
 import ProductItem from "./ProductItem";
 
-// "womens-shoes",
-//     "womens-watches"
-//     "womens-dresses",
-//     "mens-shirts",
-//     "mens-shoes",
-//     "mens-watches",
-
 export default function ProductsList() {
+  const navigate = useNavigate();
   return (
     <Box component="ul">
-      <ProductItem />
-      <ProductItem />
-      <ProductItem />
-      <ProductItem />
+      <Typography component="li" onClick={() => navigate("product/details")}>
+        <ProductItem />
+      </Typography>
+      <Typography component="li" onClick={() => navigate("product/details")}>
+        <ProductItem />
+      </Typography>
+      <Typography component="li" onClick={() => navigate("product/details")}>
+        <ProductItem />
+      </Typography>
+      <Typography component="li" onClick={() => navigate("product/details")}>
+        <ProductItem />
+      </Typography>
     </Box>
   );
 }

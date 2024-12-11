@@ -16,6 +16,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import SideMenu from "./SideMenu";
 import { DarkMode, ShoppingBasket } from "@mui/icons-material";
+import DarkModeToggle from "./DarkModeToggle";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -254,7 +255,8 @@ export default function PrimarySearchAppBar() {
               onClick={handleMobileMenuOpen}
               color="inherit"
             >
-              <MoreIcon />
+              {/* <MoreIcon /> */}
+              <DarkModeToggle />
             </IconButton>
           </Box>
         </Toolbar>
