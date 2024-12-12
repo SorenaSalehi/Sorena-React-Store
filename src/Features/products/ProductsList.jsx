@@ -4,37 +4,28 @@ import { useNavigate } from "react-router";
 
 import ProductItem from "./ProductItem";
 import { useProducts } from "./useProducts";
+import { useOneProduct } from "./useOneProduct";
 
-const items = Array.from({ length: 10 }, (_, i) => i + 1);
-
-export default function ProductsList() {
+export default function ProductsList({ category }) {
   const navigate = useNavigate();
-  const { allProducts, isLoading } = useProducts();
+  const { allProducts, isLoading: isAllProdLoading } = useProducts();
+  const { oneProduct, isLoading: isOneProdLoading } = useOneProduct(category);
 
-  if (isLoading) return <div>is Loading</div>;
+  if (isAllProdLoading || isOneProdLoading) return <div>is Loading</div>;
 
-  const first = allProducts.at(0).products;
-  console.log(first);
+  //*flatMap for get the arrays of object and then making it shuffle
+  const allResults = allProducts
+    ?.flatMap((obj) => obj.products)
+    .sort(() => Math.random() - 0.5);
+  const showingResults = oneProduct ? oneProduct.products : allResults;
 
   return (
     <Box component="ul" sx={{ listStyle: "none" }}>
-      {first?.map((item) => (
+      {showingResults?.map((item) => (
         <Typography>
           <ProductItem item={item} />
         </Typography>
       ))}
-      {/* <Typography component="li" onClick={() => navigate("product/details")}>
-        <ProductItem />
-      </Typography>
-      <Typography component="li" onClick={() => navigate("product/details")}>
-        <ProductItem />
-      </Typography>
-      <Typography component="li" onClick={() => navigate("product/details")}>
-        <ProductItem />
-      </Typography>
-      <Typography component="li" onClick={() => navigate("product/details")}>
-        <ProductItem />
-      </Typography> */}
     </Box>
   );
 }

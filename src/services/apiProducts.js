@@ -27,3 +27,16 @@ export async function getAllProducts() {
     throw error;
   }
 }
+
+export async function getOneProduct(category) {
+  console.log(category);
+  if (!category) return;
+
+  const res = await fetch(
+    `https://dummyjson.com/products/category/${category}`
+  );
+
+  if (!res.ok) throw new Error(`Failed to fetch category: ${category}`);
+  const data = await res.json();
+  return data;
+}
