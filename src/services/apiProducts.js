@@ -40,3 +40,13 @@ export async function getOneProduct(category) {
   const data = await res.json();
   return data;
 }
+
+export async function getProductById(id) {
+  if (!id) return;
+
+  const res = await fetch(`https://dummyjson.com/products/${id}`);
+
+  if (!res.ok) throw new Error(`Failed to fetch category: ${category}`);
+  const data = await res.json();
+  return data;
+}

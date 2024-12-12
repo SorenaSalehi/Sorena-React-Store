@@ -6,7 +6,7 @@ import MoreDetails from "../Features/moreDetails/MoreDetails";
 
 const drawerBleeding = 56;
 
-function ShowMoreDrawer({ section }) {
+function ShowMoreDrawer({ section, reviews }) {
   const [open, setOpen] = useState(false);
 
   const toggleDrawer = (newOpen) => () => {

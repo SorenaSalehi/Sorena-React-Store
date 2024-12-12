@@ -21,7 +21,7 @@ export default function BottomNavigate() {
   return (
     <BottomNavigation
       sx={{
-        width: 100,
+        width: 300,
         zIndex: 1100,
         position: "fixed",
         bottom: 0,

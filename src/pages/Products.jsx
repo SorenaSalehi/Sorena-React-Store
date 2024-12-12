@@ -37,7 +37,7 @@ export default function Products() {
               component="img"
               alt="default"
               src={src.src}
-              sx={{ width: "100px", height: "100px", borderRadius: "50%" }}
+              sx={{ width: "50px", height: "50px", borderRadius: "50%" }}
             />
           </Grid2>
         ))}

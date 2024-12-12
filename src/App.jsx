@@ -13,11 +13,12 @@ import Delivered from "./pages/Delivered";
 import Wishlist from "./pages/Wishlist";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { ShopProvider } from "./context/ShopContext";
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 10000,
+      staleTime: 5 * 60 * 1000,
     },
   },
 });
@@ -43,7 +44,7 @@ const routes = [
         element: <UserProfile />,
       },
       {
-        path: "/product/details",
+        path: "/product/:productId",
         element: <ProductDetails />,
       },
       {
@@ -69,8 +70,10 @@ const router = createBrowserRouter(routes, {
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
-      <RouterProvider router={router} />;
+      <ShopProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
+        <RouterProvider router={router} />;
+      </ShopProvider>
     </QueryClientProvider>
   );
 }

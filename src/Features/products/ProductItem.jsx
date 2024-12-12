@@ -5,13 +5,16 @@ import CardActionArea from "@mui/material/CardActionArea";
 import { Box, Typography, Rating, Divider } from "@mui/material";
 import "swiper/css";
 import ProductImageSwiper from "../../ui/ProductImgSwiper";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 
 export default function ProductItem({
-  item: { brand, category, images, price, rating, title, tags },
+  item: { id, brand, category, images, price, rating, title, tags },
 }) {
   const navigate = useNavigate();
 
+  function handleNavigate() {
+    navigate(`/product/${id}`);
+  }
   return (
     <Card
       component="li"
@@ -39,7 +42,7 @@ export default function ProductItem({
 
       <CardActionArea>
         {/* Product Details */}
-        <CardContent onClick={() => navigate("/product/details")}>
+        <CardContent onClick={handleNavigate}>
           <Typography gutterBottom variant="h5" component="div">
             {brand}
           </Typography>

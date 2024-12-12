@@ -8,8 +8,20 @@ import {
 } from "@mui/material";
 import React from "react";
 import ShowMoreDrawer from "./ShowMoreDrawer";
+import { calcDiscount } from "../utils/helpers";
 
-export default function ProductDetailsContent() {
+export default function ProductDetailsContent({
+  details: {
+    brand,
+    title,
+    category,
+    price,
+
+    description,
+
+    discountPercentage,
+  },
+}) {
   return (
     <Card
       sx={{
@@ -21,10 +33,10 @@ export default function ProductDetailsContent() {
     >
       <CardContent>
         <Box sx={{ marginBottom: "0.5rem" }}>
-          <Typography>Fashion Timepieces</Typography>
+          <Typography>{brand}</Typography>
 
           <Typography gutterBottom variant="h5" component="div">
-            Brown Leather Belt Watch
+            {title}
           </Typography>
         </Box>
         <Divider />
@@ -33,26 +45,22 @@ export default function ProductDetailsContent() {
           variant="body2"
           sx={{ color: "text.secondary", display: "flex", gap: "0.3rem" }}
         >
-          <Box component="p">mens-watches | beauty |</Box>
+          <Box component="p">{category} |</Box>
           <Box component="p" sx={{ display: "flex" }}>
             Price:{" "}
             <Typography
               sx={{ textDecoration: "line-through", marginRight: "0.3rem" }}
             >
-              89.99
+              {price}
             </Typography>
             <span>&rarr;</span>
-            <Typography>79.99 $</Typography>
+            <Typography>{calcDiscount(price, discountPercentage)}</Typography>
           </Box>
           <Rating name="read-only" value={4} readOnly />
         </Typography>
         <Divider />
 
-        <Typography sx={{ marginTop: "1rem" }}>
-          The Brown Leather Belt Watch is a stylish timepiece with a classic
-          design. Featuring a genuine leather strap and a sleek dial, it adds a
-          touch of sophistication to your look.
-        </Typography>
+        <Typography sx={{ marginTop: "1rem" }}>{description}</Typography>
         <Divider />
         <Box sx={{ display: "flex" }}>
           <ShowMoreDrawer section="reviews" />
