@@ -14,6 +14,7 @@ import Wishlist from "./pages/Wishlist";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ShopProvider } from "./context/ShopContext";
+import { Toaster } from "react-hot-toast";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -69,11 +70,12 @@ const router = createBrowserRouter(routes, {
 
 export default function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <ShopProvider>
+    <ShopProvider>
+      <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools initialIsOpen={false} />
+        <Toaster />
         <RouterProvider router={router} />;
-      </ShopProvider>
-    </QueryClientProvider>
+      </QueryClientProvider>
+    </ShopProvider>
   );
 }

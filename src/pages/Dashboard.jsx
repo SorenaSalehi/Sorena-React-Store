@@ -117,13 +117,9 @@ export default function Dashboard() {
           boxShadow: 1,
         }}
       >
-        <ListItem divider>
+        <ListItem divider onClick={() => navigate("/dashboard/:profile")}>
           <ListItemText primary="Profile" />
-          <IconButton
-            color="primary"
-            aria-label="edit profile"
-            onClick={() => navigate("/dashboard/:profile")}
-          >
+          <IconButton color="primary" aria-label="edit profile">
             <Edit />
           </IconButton>
         </ListItem>

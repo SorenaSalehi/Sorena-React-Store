@@ -1,28 +1,85 @@
-import { createContext, useContext, useState } from "react";
-import { set } from "react-hook-form";
+// contexts/ShopContext.js
+import React, { createContext, useContext, useState, useCallback } from "react";
 
 const ShopContext = createContext();
 
-function ShopProvider({ children }) {
+export const ShopProvider = ({ children }) => {
+  // Wishlist state
+  const [wishlist, setWishlist] = useState([]);
+
+  // Shopping Basket state
+  const [basket, setBasket] = useState([]);
+
+  // Current viewed product
   const [currentProduct, setCurrentProduct] = useState(null);
-  const [shoppingBasket, setShoppingBasket] = useState(null);
-  const [wishlist, setWishlist] = useState(null);
+
+  // Wishlist actions
+  const addToWishlist = useCallback((product) => {
+    setWishlist((prev) => {
+      // Prevent duplicates
+      if (prev.some((item) => item.id === product.id)) return prev;
+      return [...prev, product];
+    });
+  }, []);
+
+  const removeFromWishlist = useCallback((productId) => {
+    setWishlist((prev) => prev.filter((item) => item.id !== productId));
+  }, []);
+
+  // Basket actions
+  const addToBasket = useCallback((product, quantity = 1) => {
+    setBasket((prev) => {
+      const existingItem = prev.find((item) => item.id === product.id);
+      if (existingItem) {
+        return prev.map((item) =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + quantity }
+            : item
+        );
+      }
+      return [...prev, { ...product, quantity }];
+    });
+  }, []);
+
+  const removeFromBasket = useCallback((productId) => {
+    setBasket((prev) => prev.filter((item) => item.id !== productId));
+  }, []);
+
+  const updateBasketQuantity = useCallback((productId, quantity) => {
+    setBasket((prev) =>
+      prev.map((item) => (item.id === productId ? { ...item, quantity } : item))
+    );
+  }, []);
 
   return (
     <ShopContext.Provider
-      value={{ currentProduct, setCurrentProduct, shoppingBasket, wishlist }}
+      value={{
+        // Wishlist
+        wishlist,
+        addToWishlist,
+        removeFromWishlist,
+
+        // Basket
+        basket,
+        addToBasket,
+        removeFromBasket,
+        updateBasketQuantity,
+
+        // Current Product
+        currentProduct,
+        setCurrentProduct,
+      }}
     >
       {children}
     </ShopContext.Provider>
   );
-}
+};
 
-function useShopContext() {
-  const Context = useContext(ShopContext);
-
-  if (!Context) throw new Error("Shop context was used outside the provider");
-
-  return Context;
-}
-
-export { ShopProvider, useShopContext };
+// Custom hook for using shop context
+export const useShopContext = () => {
+  const context = useContext(ShopContext);
+  if (!context) {
+    throw new Error("useShopContext must be used within a ShopProvider");
+  }
+  return context;
+};

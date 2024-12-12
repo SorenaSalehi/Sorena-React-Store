@@ -18,13 +18,11 @@ export default function ProductsList({ category }) {
     ?.flatMap((obj) => obj.products)
     .sort(() => Math.random() - 0.5);
   const showingResults = oneProduct ? oneProduct.products : allResults;
-  
+
   return (
     <Box component="ul" sx={{ listStyle: "none" }}>
       {showingResults?.map((item) => (
-        <Typography key={item.id}>
-          <ProductItem item={item} />
-        </Typography>
+        <ProductItem item={item} key={item.id} />
       ))}
     </Box>
   );
