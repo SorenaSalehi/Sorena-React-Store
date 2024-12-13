@@ -2,6 +2,7 @@ import React from "react";
 import { useShopContext } from "../../context/ShopContext";
 import ShoppingBasketItem from "./ShoppingBasketItem";
 import { Box, Button, Typography } from "@mui/material";
+import { calcDiscount } from "../../utils/helpers";
 
 export default function ShoppingBasketList() {
   const { basket } = useShopContext();
@@ -9,10 +10,28 @@ export default function ShoppingBasketList() {
 
   if (isEmpty) return <div>basket is empty</div>;
 
+  const itemMoreThenOne = basket?.filter((item) => item.quantity > 1);
+  const itemsQuantities = itemMoreThenOne?.reduce(
+    (acc, item) => acc + (item.quantity || 1),
+    0
+  );
+  // console.log("quantity", itemsQuantities);
+  // console.log("lengt", basket?.length);
   const itemCount =
-    basket?.reduce((acc, item) => acc + item.quantity, 0) + basket.length - 1;
-  // const itemQuantity=
-  const totalPrice = basket?.reduce((acc, item) => acc + item.price, 0);
+    basket?.filter((item) => item.quantity === 1).length +
+    (itemsQuantities || 0);
+  // console.log("count", itemCount);
+  // const totalPrice = basket?.reduce((acc, item) => acc + item.price, 0);
+
+  const totalPrice = basket
+    ?.reduce((acc, item) => {
+      return (
+        acc +
+        Number(calcDiscount(item.price, item.discountPercentage)) *
+          (item.quantity || 0)
+      );
+    }, 0)
+    .toFixed(2);
 
   return (
     <Box sx={{ textAlign: "center" }}>

@@ -257,8 +257,8 @@ export default function PrimarySearchAppBar() {
               color="inherit"
             >
               {/* <MoreIcon /> */}
-              <DarkModeToggle />
             </IconButton>
+            <DarkModeToggle />
           </Box>
         </Toolbar>
       </AppBar>

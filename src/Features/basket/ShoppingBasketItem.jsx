@@ -1,13 +1,21 @@
 import React, { useState } from "react";
-import { Box, Typography, Button, IconButton, Divider } from "@mui/material";
-import { Delete, Remove, Add } from "@mui/icons-material";
+import {
+  Box,
+  Typography,
+  Button,
+  IconButton,
+  Divider,
+  Fab,
+} from "@mui/material";
+import { Delete, Remove, Add, Favorite } from "@mui/icons-material";
 import ProductImageSwiper from "../../ui/ProductImgSwiper";
 import { calcDiscount } from "../../utils/helpers";
 import { useShopContext } from "../../context/ShopContext";
 import toast from "react-hot-toast";
 
 export default function ShoppingBasketItem({ item }) {
-  const { removeFromBasket, updateBasketQuantity } = useShopContext();
+  const { removeFromBasket, updateBasketQuantity, addToWishlist } =
+    useShopContext();
 
   const {
     id,
@@ -35,7 +43,12 @@ export default function ShoppingBasketItem({ item }) {
     removeFromBasket(id);
     toast.success("One item has ben deleted!");
   }
-
+  function handleAddToWishlist(item) {
+    addToWishlist(item);
+    toast.success("One Item Added to Your Wishlist", {
+      duration: 2000,
+    });
+  }
   // const totalPrice =
   return (
     <Box sx={{ padding: "1rem", textAlign: "center" }}>
@@ -63,6 +76,17 @@ export default function ShoppingBasketItem({ item }) {
                 borderRadius: "8px",
               }}
             >
+              <Fab
+                onClick={() => handleAddToWishlist(item)}
+                sx={{
+                  margin: " 0 0.5rem",
+                  padding: "0.5rem",
+                  width: "max-Content",
+                  height: "max-content",
+                }}
+              >
+                <Favorite fontSize="small" />
+              </Fab>
               <Box sx={{ width: "200px" }}>
                 <ProductImageSwiper images={images} />
               </Box>

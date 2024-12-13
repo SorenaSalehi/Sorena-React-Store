@@ -15,6 +15,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ShopProvider } from "./context/ShopContext";
 import { Toaster } from "react-hot-toast";
+import SignupForm from "./ui/SignupForm";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -28,10 +29,6 @@ const routes = [
   {
     element: <Layout />,
     children: [
-      // {
-      //   path: "/",
-      //   element: <Login />,
-      // },
       {
         index: true,
         element: <Products />,
@@ -58,6 +55,7 @@ const routes = [
       },
       { path: "/currentOrders", element: <CurrentOrders /> },
       { path: "/delivered", element: <Delivered /> },
+      { path: "/signup", element: <SignupForm /> },
     ],
   },
 ];

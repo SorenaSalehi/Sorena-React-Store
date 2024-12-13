@@ -6,13 +6,13 @@ import { Box, Typography, Rating, Divider, Fab } from "@mui/material";
 import "swiper/css";
 import ProductImageSwiper from "../../ui/ProductImgSwiper";
 import { useNavigate, useSearchParams } from "react-router";
-import { Favorite, ShoppingBasket } from "@mui/icons-material";
+import { Favorite, Remove, ShoppingBasket } from "@mui/icons-material";
 import { useShopContext } from "../../context/ShopContext";
 import toast from "react-hot-toast";
 
-export default function ProductItem({ item }) {
+export default function ProductItem({ item, type }) {
   const navigate = useNavigate();
-  const { addToBasket, addToWishlist } = useShopContext();
+  const { addToBasket, addToWishlist, removeFromWishlist } = useShopContext();
 
   const {
     id,
@@ -33,18 +33,28 @@ export default function ProductItem({ item }) {
     if (value === "wishlist") {
       console.log(item);
       addToWishlist(item);
-      toast.success("One Item Added to Your Wishlist");
+      toast.success(`${item.title} Added to Your Wishlist`, {
+        duration: 2000,
+      });
       console.log("afhbajf");
     } else {
       addToBasket(item);
-      toast.success("One Item Added to Your Shopping Basket");
+      toast.success("One Item Added to Your Shopping Basket", {
+        duration: 2000,
+      });
     }
+  }
+  function handleRemove(title, id) {
+    removeFromWishlist(id);
+    toast.success(`${title} remove from Wishlist!!`, {
+      duration: 2000,
+    });
   }
 
   return (
     <Card
       component="li"
-      sx={{ margin: "1rem 0", position: "relative", borderRadius: "1rem" }}
+      sx={{ margin: "1rem 3rem", position: "relative", borderRadius: "1rem" }}
     >
       {/* Discount Badge */}
       <Box
@@ -76,17 +86,31 @@ export default function ProductItem({ item }) {
         >
           <ShoppingBasket fontSize="small" />
         </Fab>
-        <Fab
-          onClick={() => handleAddItem(item, "wishlist")}
-          sx={{
-            margin: " 0 0.5rem",
-            padding: "0.5rem",
-            width: "max-Content",
-            height: "max-content",
-          }}
-        >
-          <Favorite fontSize="small" />
-        </Fab>
+        {type === "wishlist" ? (
+          <Fab
+            onClick={() => handleRemove(title, id)}
+            sx={{
+              margin: " 0 0.5rem",
+              padding: "0.5rem",
+              width: "max-Content",
+              height: "max-content",
+            }}
+          >
+            <Remove fontSize="small" />
+          </Fab>
+        ) : (
+          <Fab
+            onClick={() => handleAddItem(item, "wishlist")}
+            sx={{
+              margin: " 0 0.5rem",
+              padding: "0.5rem",
+              width: "max-Content",
+              height: "max-content",
+            }}
+          >
+            <Favorite fontSize="small" />
+          </Fab>
+        )}
       </Box>
       <CardActionArea>
         {/* Product Details */}

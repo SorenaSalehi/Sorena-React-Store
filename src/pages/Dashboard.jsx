@@ -15,6 +15,7 @@ import {
 } from "@mui/icons-material";
 import { NavLink, useNavigate } from "react-router";
 import Login from "./Login";
+import toast from "react-hot-toast";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -66,7 +67,14 @@ export default function Dashboard() {
             </Typography>
           </NavLink>
 
-          <NavLink to="/currentOrders" style={{ textDecoration: "none" }}>
+          <NavLink
+            style={{ textDecoration: "none" }}
+            onClick={() =>
+              toast.error("You have not Any order", {
+                duration: 2000,
+              })
+            }
+          >
             <Typography
               variant="button"
               sx={{
@@ -86,7 +94,14 @@ export default function Dashboard() {
             </Typography>
           </NavLink>
 
-          <NavLink to="/delivered" style={{ textDecoration: "none" }}>
+          <NavLink
+            style={{ textDecoration: "none" }}
+            onClick={() =>
+              toast.error("You have not Any order", {
+                duration: 2000,
+              })
+            }
+          >
             <Typography
               variant="button"
               sx={{
@@ -117,7 +132,7 @@ export default function Dashboard() {
           boxShadow: 1,
         }}
       >
-        <ListItem divider onClick={() => navigate("/dashboard/:profile")}>
+        <ListItem divider onClick={() => navigate("/signup")}>
           <ListItemText primary="Profile" />
           <IconButton color="primary" aria-label="edit profile">
             <Edit />

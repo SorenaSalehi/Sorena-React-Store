@@ -1,7 +1,7 @@
 import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 import React from "react";
 
-export default function SignupForm() {
+export default function LoginForm() {
   return (
     <Paper elevation={5}>
       <Box

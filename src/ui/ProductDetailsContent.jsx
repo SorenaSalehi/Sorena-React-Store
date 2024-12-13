@@ -45,7 +45,7 @@ export default function ProductDetailsContent({
           variant="body2"
           sx={{ color: "text.secondary", display: "flex", gap: "0.3rem" }}
         >
-          <Box component="p">{category} |</Box>
+          <Box component="p">{category.replace("-", " ").toUpperCase()} |</Box>
           <Box component="p" sx={{ display: "flex" }}>
             Price:{" "}
             <Typography

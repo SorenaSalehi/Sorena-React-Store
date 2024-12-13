@@ -10,11 +10,18 @@ import ProductDetailsContent from "../ui/ProductDetailsContent";
 import { useParams } from "react-router";
 import { useProductById } from "../Features/products/useProductById";
 import { useShopContext } from "../context/ShopContext";
+import toast from "react-hot-toast";
 
 export default function ProductDetails() {
   const params = useParams();
   const { productById, isLoading } = useProductById(params.productId);
-  const { currentProduct, setCurrentProduct } = useShopContext();
+  const {
+    currentProduct,
+    setCurrentProduct,
+    wishlist,
+    addToWishlist,
+    addToBasket,
+  } = useShopContext();
 
   useEffect(() => {
     if (productById) {
@@ -24,21 +31,41 @@ export default function ProductDetails() {
 
   if (isLoading) return <div>is loading</div>;
 
+  const isWishlistItem = wishlist?.some((item) => item.id === productById?.id);
+
+  function handleAddItem(currentProduct, value) {
+    if (value === "wishlist") {
+      addToWishlist(currentProduct);
+      toast.success(`${currentProduct.title} Added to Your Wishlist`, {
+        duration: 2000,
+      });
+      console.log("afhbajf");
+    } else {
+      addToBasket(currentProduct);
+      toast.success(`${currentProduct.title}  Added to Your Shopping Basket`, {
+        duration: 2000,
+      });
+    }
+  }
+
   return (
     <Box component="div" style={{ position: "relative" }}>
       {/* Fixed Image */}
-      <div
+      <Typography
+        component="div"
         style={{
           position: "fixed",
           top: 45,
-          left: 0,
-          width: "100%",
+          left: "50%",
+          right: "50%",
+          transform: "translateX(-50%)",
+          width: "80%",
           height: "75vh",
         }}
       >
         {/* //*imgs  */}
         <ProductImageSwiper autoplay={100000} images={productById.images} />
-      </div>
+      </Typography>
 
       {/* //*wishlist and shopping basket btn*/}
       <Box component="div" sx={{ position: "fixed" }}>
@@ -49,19 +76,23 @@ export default function ProductDetails() {
             width: "max-Content",
             height: "max-content",
           }}
+          onClick={() => handleAddItem(currentProduct, "shopping")}
         >
           <ShoppingBasket fontSize="small" />
         </Fab>
-        <Fab
-          sx={{
-            margin: " 0 0.5rem",
-            padding: "0.5rem",
-            width: "max-Content",
-            height: "max-content",
-          }}
-        >
-          <Favorite fontSize="small" />
-        </Fab>
+        {!isWishlistItem && (
+          <Fab
+            sx={{
+              margin: " 0 0.5rem",
+              padding: "0.5rem",
+              width: "max-Content",
+              height: "max-content",
+            }}
+            onClick={() => handleAddItem(currentProduct, "wishlist")}
+          >
+            <Favorite fontSize="small" />
+          </Fab>
+        )}
       </Box>
 
       {/* //*Scrolling Content */}
