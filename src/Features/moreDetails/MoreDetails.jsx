@@ -50,7 +50,7 @@ export default function MoreDetails({ detailOf }) {
       <Card>
         <CardContent>
           <Typography variant="h6">Quick Overview</Typography>
-          <Grid2 container spacing={10}>
+          <Grid2 container spacing={2}>
             <Grid2 item xs={4}>
               <Typography component="p" color="text.secondary">
                 Discount

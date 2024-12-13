@@ -39,7 +39,7 @@ export default function ProductItem({ item, type }) {
       console.log("afhbajf");
     } else {
       addToBasket(item);
-      toast.success("One Item Added to Your Shopping Basket", {
+      toast.success(`${item.title} Added to Your Shopping Basket`, {
         duration: 2000,
       });
     }
@@ -54,7 +54,7 @@ export default function ProductItem({ item, type }) {
   return (
     <Card
       component="li"
-      sx={{ margin: "1rem 3rem", position: "relative", borderRadius: "1rem" }}
+      sx={{ margin: "1rem 1rem", position: "relative", borderRadius: "1rem" }}
     >
       {/* Discount Badge */}
       <Box
@@ -116,12 +116,21 @@ export default function ProductItem({ item, type }) {
         {/* Product Details */}
         <CardContent onClick={handleNavigate}>
           {/* Image Slider */}
-          <ProductImageSwiper images={images} />
+          <Box
+            component="div"
+            sx={{
+              width: "80%",
+              height: "80%",
+              margin: "0 auto",
+            }}
+          >
+            <ProductImageSwiper images={images} />
+          </Box>
 
-          <Typography gutterBottom variant="h5" component="div">
+          <Typography gutterBottom variant="h6" component="p">
             {brand}
           </Typography>
-          <Typography gutterBottom variant="body1" component="div">
+          <Typography gutterBottom variant="body2" component="p">
             {title}
           </Typography>
           <Divider variant="middle" />
@@ -134,12 +143,14 @@ export default function ProductItem({ item, type }) {
               paddingTop: "1rem",
             }}
           >
-            <Box component="p">
+            <Typography variant="caption" component="p">
               {category.replace("-", " ").toUpperCase()} |{" "}
               {tags[0].toUpperCase()}
-            </Box>
-            <Box component="p">Price: {price} $</Box>
-            <Rating name="read-only" value={rating} readOnly />
+            </Typography>
+            <Typography variant="caption" component="p">
+              Price: {price} $
+            </Typography>
+            <Rating name="read-only" value={rating} readOnly size="small" />
           </Typography>
         </CardContent>
       </CardActionArea>

@@ -38,7 +38,7 @@ export default function Products() {
         container
         spacing={2}
         columns={3}
-        sx={{ margin: "4rem" }}
+        sx={{ margin: "2rem" }}
         ref={HeadRef}
       >
         {allSrc.map((src) => (
@@ -82,7 +82,7 @@ export default function Products() {
           onClick={handleGoTop}
           sx={{
             position: "fixed",
-            top: "45rem",
+            top: "80%",
             right: "1rem",
             zIndex: "100",
             backgroundColor: "red",

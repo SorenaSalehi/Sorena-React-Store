@@ -9,7 +9,7 @@ export default function Wishlist() {
 
   if (wishlist?.length < 1)
     return (
-      <Typography component="h2" variant="h2">
+      <Typography component="h2" variant="h2" sx={{ textAlign: "center" }}>
         Your Wishlist is Empty
       </Typography>
     );

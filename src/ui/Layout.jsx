@@ -24,7 +24,7 @@ export default function Layout() {
           flexDirection: "column",
           height: "80vh",
           overflow: "auto",
-          padding: " 2rem 0 4rem",
+          padding: " 2rem 0 2rem",
         }}
       >
         <Outlet />

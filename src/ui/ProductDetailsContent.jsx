@@ -29,6 +29,7 @@ export default function ProductDetailsContent({
         padding: "2rem",
         backgroundColor: "white",
         position: "relative",
+        bgcolor: "lightgray",
       }}
     >
       <CardContent>

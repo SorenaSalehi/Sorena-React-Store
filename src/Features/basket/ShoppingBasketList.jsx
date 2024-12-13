@@ -8,7 +8,12 @@ export default function ShoppingBasketList() {
   const { basket } = useShopContext();
   const isEmpty = basket.length === 0 && true;
 
-  if (isEmpty) return <div>basket is empty</div>;
+  if (isEmpty)
+    return (
+      <Typography variant="h4" component="h4" sx={{ textAlign: "center" }}>
+        Shopping basket is empty 🥲
+      </Typography>
+    );
 
   const itemMoreThenOne = basket?.filter((item) => item.quantity > 1);
   const itemsQuantities = itemMoreThenOne?.reduce(

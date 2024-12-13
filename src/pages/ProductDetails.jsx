@@ -49,13 +49,13 @@ export default function ProductDetails() {
   }
 
   return (
-    <Box component="div" style={{ position: "relative" }}>
+    <Box component="div" style={{ position: "relative", margin: "1rem 1rem" }}>
       {/* Fixed Image */}
       <Typography
         component="div"
         style={{
           position: "fixed",
-          top: 45,
+          top: "20%",
           left: "50%",
           right: "50%",
           transform: "translateX(-50%)",
