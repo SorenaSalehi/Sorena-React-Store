@@ -9,10 +9,21 @@ import { useNavigate, useSearchParams } from "react-router";
 import { Favorite, Remove, ShoppingBasket } from "@mui/icons-material";
 import { useShopContext } from "../../context/ShopContext";
 import toast from "react-hot-toast";
+import { useAddToBasket } from "../basket/useAddTobasket";
+import { useRemoveFromBasket } from "../basket/useRemoveFromBasket";
+import { useUser } from "../authentication/useUser";
+import { useAuthContext } from "../../context/AuthProvider";
+import { useRemoveFromWishlist } from "../wishlist/useRemoveFromWishlist";
+import { useAddToWishlist } from "../wishlist/useAddToWishlist";
 
 export default function ProductItem({ item, type }) {
   const navigate = useNavigate();
-  const { addToBasket, addToWishlist, removeFromWishlist } = useShopContext();
+  // const { addToBasket, addToWishlist, removeFromWishlist } = useShopContext();
+  const { user } = useAuthContext();
+  const { addToBasket, isLoadingAddToBasket } = useAddToBasket();
+  const { removeFromBasket, isLoadingRemove } = useRemoveFromBasket();
+  const { addToWishlist, isAdding } = useAddToWishlist();
+  const { removeFromWishlist, isRemoving } = useRemoveFromWishlist();
 
   const {
     id,
@@ -29,26 +40,45 @@ export default function ProductItem({ item, type }) {
     navigate(`/product/${id}`);
   }
 
-  function handleAddItem(item, value) {
-    if (value === "wishlist") {
-      console.log(item);
-      addToWishlist(item);
-      toast.success(`${item.title} Added to Your Wishlist`, {
-        duration: 2000,
-      });
-      console.log("afhbajf");
-    } else {
-      addToBasket(item);
-      toast.success(`${item.title} Added to Your Shopping Basket`, {
-        duration: 2000,
-      });
-    }
+  function handleAddTo({ user_id, productId, from }) {
+    if (!user_id || !productId || !from) return;
+
+    from === "basket"
+      ? addToBasket
+      : addToWishlist(
+          { user_id, productId, from },
+
+          {
+            onSuccess: () => {
+              toast.success(
+                `${title} Was Successfully  Added to your ${from}`,
+                {
+                  duration: 4000,
+                }
+              );
+            },
+
+            onError: () => {
+              toast.error("Something Went Wrong!!");
+            },
+          }
+        );
   }
-  function handleRemove(title, id) {
-    removeFromWishlist(id);
-    toast.success(`${title} remove from Wishlist!!`, {
-      duration: 2000,
-    });
+
+  function handleRemoveFrom({ user_id, productId, from }) {
+    if ((!user_id, !productId, !from)) return;
+
+    removeFromBasket(
+      { user_id, productId, from },
+      {
+        onSuccess: () => {
+          toast.success(`${title} Was Successfully Remove from your ${from}`, {
+            duration: 4000,
+          });
+        },
+        onError: () => toast.error("Something Went Wrong!!"),
+      }
+    );
   }
 
   return (
@@ -76,7 +106,10 @@ export default function ProductItem({ item, type }) {
       {/* //*wishlist and shopping basket btn*/}
       <Box component="div" sx={{ margin: "1rem", padding: "1rem" }}>
         <Fab
-          onClick={() => handleAddItem(item, "shopping")}
+          onClick={() =>
+            handleAddTo({ user_id: user?.id, productId: id, from: "basket" })
+          }
+          disabled={isLoadingAddToBasket}
           sx={{
             margin: " 0 0.5rem",
             padding: "0.5rem",
@@ -86,9 +119,17 @@ export default function ProductItem({ item, type }) {
         >
           <ShoppingBasket fontSize="small" />
         </Fab>
+
+        {/* //*these used also in wishlist  */}
         {type === "wishlist" ? (
           <Fab
-            onClick={() => handleRemove(title, id)}
+            onClick={() =>
+              handleRemoveFrom({
+                user_id: user?.id,
+                productId: id,
+                from: "wishlist",
+              })
+            }
             sx={{
               margin: " 0 0.5rem",
               padding: "0.5rem",
@@ -100,7 +141,13 @@ export default function ProductItem({ item, type }) {
           </Fab>
         ) : (
           <Fab
-            onClick={() => handleAddItem(item, "wishlist")}
+            onClick={() =>
+              handleAddTo({
+                user_id: user?.id,
+                productId: id,
+                from: "wishlist",
+              })
+            }
             sx={{
               margin: " 0 0.5rem",
               padding: "0.5rem",
@@ -144,8 +191,8 @@ export default function ProductItem({ item, type }) {
             }}
           >
             <Typography variant="caption" component="p">
-              {category.replace("-", " ").toUpperCase()} |{" "}
-              {tags[0].toUpperCase()}
+              {category?.replace("-", " ").toUpperCase()} |{" "}
+              {tags?.[0]?.toUpperCase()}
             </Typography>
             <Typography variant="caption" component="p">
               Price: {price} $

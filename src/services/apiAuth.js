@@ -1,3 +1,4 @@
+import { data } from "react-router";
 import supabase from "./supabase";
 
 export async function signup({ email, password }) {
@@ -12,20 +13,36 @@ export async function signup({ email, password }) {
   return data;
 }
 
-async function login(email, password) {
+export async function login({ email, password }) {
   const { data, error } = await supabase.auth.signInWithPassword({
     email,
     password,
   });
-  if (error) console.error("Login Error:", error.message);
-  else console.log("Login Successful:", data);
+  if (error) throw new Error(error.message);
+  console.log(data);
+  return data;
 }
 
-async function logout() {
+export async function getCurrentUser() {
+  // //*get this from local
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+  console.log(session);
+  if (!session) return null;
+
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
+  console.log(user);
+  if (error) throw new Error(error.message);
+
+  return user;
+}
+
+export async function logout() {
   const { error } = await supabase.auth.signOut();
   if (error) console.error("Logout Error:", error.message);
   else console.log("Logged out successfully");
 }
-
-const user = supabase.auth.getUser();
-console.log(user);

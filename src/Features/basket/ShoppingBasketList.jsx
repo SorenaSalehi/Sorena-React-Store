@@ -3,52 +3,55 @@ import { useShopContext } from "../../context/ShopContext";
 import ShoppingBasketItem from "./ShoppingBasketItem";
 import { Box, Button, Typography } from "@mui/material";
 import { calcDiscount } from "../../utils/helpers";
+import { useBasket } from "./useBasket";
+import { useAuthContext } from "../../context/AuthProvider";
+import { useBasketDetails } from "./useBasketDetails";
 
 export default function ShoppingBasketList() {
-  const { basket } = useShopContext();
-  const isEmpty = basket.length === 0 && true;
+  const { user } = useAuthContext();
+  const { basket } = useBasket({ userId: user?.id, from: "basket" });
+  const { basketDetails, isDetailsLoading } = useBasketDetails(basket);
 
-  if (isEmpty)
+  if (isDetailsLoading) return <div>loadibng ...</div>;
+  console.log("loading", isDetailsLoading);
+  console.log(basketDetails);
+
+  if (!isDetailsLoading && basketDetails?.length === 0) {
     return (
-      <Typography variant="h4" component="h4" sx={{ textAlign: "center" }}>
-        Shopping basket is empty 🥲
+      <Typography component="h2" variant="h2" sx={{ textAlign: "center" }}>
+        Your Shopping Basket is Empty
       </Typography>
     );
+  }
 
-  const itemMoreThenOne = basket?.filter((item) => item.quantity > 1);
-  const itemsQuantities = itemMoreThenOne?.reduce(
-    (acc, item) => acc + (item.quantity || 1),
-    0
-  );
-  // console.log("quantity", itemsQuantities);
-  // console.log("lengt", basket?.length);
-  const itemCount =
-    basket?.filter((item) => item.quantity === 1).length +
-    (itemsQuantities || 0);
-  // console.log("count", itemCount);
-  // const totalPrice = basket?.reduce((acc, item) => acc + item.price, 0);
-
-  const totalPrice = basket
-    ?.reduce((acc, item) => {
-      return (
-        acc +
-        Number(calcDiscount(item.price, item.discountPercentage)) *
-          (item.quantity || 0)
+  const result = basketDetails?.reduce(
+    (acc, item) => {
+      const quantity = item.quantity || 1;
+      const discountedPrice = Number(
+        calcDiscount(item.price, item.discountPercentage)
       );
-    }, 0)
-    .toFixed(2);
+
+      acc.itemCount += quantity;
+      acc.totalPrice += discountedPrice * quantity;
+
+      return acc;
+    },
+    { itemCount: 0, totalPrice: 0 }
+  ) || { itemCount: 0, totalPrice: 0 }; // Fallback if basketDetails is undefined
+
+  const { itemCount, totalPrice } = result;
 
   return (
     <Box sx={{ textAlign: "center" }}>
       <Typography variant="h4" gutterBottom>
         Your Basket
       </Typography>
-      {basket?.map((item) => (
-        <ShoppingBasketItem item={item} />
+      {basketDetails?.map((item) => (
+        <ShoppingBasketItem item={item} key={item.id} />
       ))}
       <Typography variant="h6">{itemCount} Item</Typography>
       <Typography variant="h6" color="primary">
-        Total: ${totalPrice}
+        Total: ${totalPrice.toFixed(2)}
       </Typography>
       <Button
         variant="contained"

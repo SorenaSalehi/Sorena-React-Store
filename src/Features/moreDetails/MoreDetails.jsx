@@ -30,7 +30,7 @@ export default function MoreDetails({ detailOf }) {
     tags,
     title,
     warrantyInformation,
-    dimensions: { width, height, depth },
+    dimensions: { width, height, depth } = {},
     stock,
     weight,
   } = currentProduct || {};
@@ -148,7 +148,8 @@ export default function MoreDetails({ detailOf }) {
           <Typography variant="h6">Categories</Typography>
           <Typography variant="body2" color="text.secondary">
             <Category color="primary" />{" "}
-            {category.replace("-", " ").toUpperCase()}, {tags[0].toUpperCase()}
+            {category?.replace("-", " ").toUpperCase()},{" "}
+            {tags?.[0]?.toUpperCase()}
           </Typography>
         </CardContent>
       </Card>

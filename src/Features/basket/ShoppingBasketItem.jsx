@@ -39,6 +39,20 @@ export default function ShoppingBasketItem({ item }) {
     updateBasketQuantity(id, number);
   }
 
+  // function handleRemoveFromBasket({ productId }) {
+  //   removeFromBasket(
+  //     { productId },
+  //     {
+  //       onSuccess: () =>
+  //         toast.success(
+  //           `${title} Was Successfully  Remove from your Shopping basket`
+  //         ),
+
+  //       onError: () => toast.error("Something Went Wrong!!"),
+  //     }
+  //   );
+  // }
+
   function handleRemove(id) {
     removeFromBasket(id);
     toast.success("One item has ben deleted!");
@@ -119,14 +133,14 @@ export default function ShoppingBasketItem({ item }) {
                   <IconButton
                     disabled={quantity === 1}
                     color="primary"
-                    onClick={() => handleDecQuantity(id)}
+                    // onClick={() => handleDecQuantity(id)}
                   >
                     <Remove />
                   </IconButton>
                   <Typography>{quantity}</Typography>
                   <IconButton
                     color="primary"
-                    onClick={() => handleAddQuantity(id)}
+                    // onClick={() => handleAddQuantity(id)}
                   >
                     <Add />
                   </IconButton>
@@ -134,7 +148,10 @@ export default function ShoppingBasketItem({ item }) {
                 <Typography variant="h6" mt={1}>
                   {calcDiscount(price, discountPercentage)}
                 </Typography>
-                <IconButton color="error" onClick={() => handleRemove(id)}>
+                <IconButton
+                  color="error"
+                  //  onClick={() => handleRemove(id)}
+                >
                   <Delete />
                 </IconButton>
               </Box>

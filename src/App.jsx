@@ -8,26 +8,33 @@ import Dashboard from "./pages/Dashboard";
 import ProductDetails from "./pages/ProductDetails";
 import ShoppingBasket from "./pages/ShoppingBasket";
 import UserProfile from "./pages/UserProfile";
-import CurrentOrders from "./pages/CurrentOrders";
-import Delivered from "./pages/Delivered";
 import Wishlist from "./pages/Wishlist";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ShopProvider } from "./context/ShopContext";
 import { Toaster } from "react-hot-toast";
 import SignupForm from "./ui/SignupForm";
+import { ErrorBoundary } from "react-error-boundary";
+import ErrorFallback from "./ui/ErrorFallback";
+import { AuthProvider } from "./context/AuthProvider";
+import ProtectedPage from "./pages/ProtectedPage";
+import QuestPage from "./pages/GuestPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 5 * 60 * 1000,
+      staleTime: 0,
     },
   },
 });
 
 const routes = [
   {
-    element: <Layout />,
+    element: (
+      <ProtectedPage>
+        <Layout />
+      </ProtectedPage>
+    ),
     children: [
       {
         index: true,
@@ -53,9 +60,8 @@ const routes = [
         path: "/wishlist",
         element: <Wishlist />,
       },
-      { path: "/currentOrders", element: <CurrentOrders /> },
-      { path: "/delivered", element: <Delivered /> },
-      { path: "/signup", element: <SignupForm /> },
+      { path: "/login", element: <Login /> },
+      { path: "/guest", element: <QuestPage /> },
     ],
   },
 ];
@@ -68,12 +74,19 @@ const router = createBrowserRouter(routes, {
 
 export default function App() {
   return (
-    <ShopProvider>
+    <ErrorBoundary
+      FallbackComponent={ErrorFallback}
+      onReset={() => window.location.replace("/")}
+    >
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools initialIsOpen={false} />
-        <Toaster />
-        <RouterProvider router={router} />;
+        <AuthProvider>
+          <ShopProvider>
+            <Toaster />
+            <RouterProvider router={router} />;
+          </ShopProvider>
+        </AuthProvider>
       </QueryClientProvider>
-    </ShopProvider>
+    </ErrorBoundary>
   );
 }

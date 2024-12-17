@@ -6,6 +6,7 @@ import {
   ListItem,
   ListItemText,
   IconButton,
+  Grid2,
 } from "@mui/material";
 import {
   ContactSupport,
@@ -41,89 +42,112 @@ export default function Dashboard() {
           mb: 4,
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            gap: 2,
-          }}
+        <Grid2
+          container
+          spacing={2}
+          justifyContent="center"
+          alignItems="center"
+          sx={{ maxWidth: 600, margin: "0 auto" }}
         >
-          <NavLink to="/wishlist" style={{ textDecoration: "none" }}>
-            <Typography
-              variant="button"
-              sx={{
-                backgroundColor: "primary.main",
-                color: "white",
-                px: 2,
-                py: 1,
-                borderRadius: "16px",
-                cursor: "pointer",
-                "&:hover": {
-                  backgroundColor: "primary.dark",
-                },
-              }}
+          <Grid2 item xs={6}>
+            <NavLink to="/shoppingBasket" style={{ textDecoration: "none" }}>
+              <Typography
+                variant="button"
+                sx={{
+                  backgroundColor: "primary.main",
+                  color: "white",
+                  px: 2,
+                  py: 1,
+                  borderRadius: "16px",
+                  cursor: "pointer",
+                  "&:hover": {
+                    backgroundColor: "primary.dark",
+                  },
+                }}
+              >
+                Shopping Basket
+              </Typography>
+            </NavLink>
+          </Grid2>
+          <Grid2 item xs={6}>
+            <NavLink to="/wishlist" style={{ textDecoration: "none" }}>
+              <Typography
+                variant="button"
+                sx={{
+                  backgroundColor: "primary.main",
+                  color: "white",
+                  px: 2,
+                  py: 1,
+                  borderRadius: "16px",
+                  cursor: "pointer",
+                  "&:hover": {
+                    backgroundColor: "primary.dark",
+                  },
+                }}
+              >
+                Wishlist
+              </Typography>
+            </NavLink>
+          </Grid2>
+          <Grid2 item xs={6}>
+            <NavLink
+              style={{ textDecoration: "none" }}
+              onClick={() =>
+                toast.error("You have not Any order", {
+                  duration: 2000,
+                })
+              }
             >
-              Wishlist
-            </Typography>
-          </NavLink>
-
-          <NavLink
-            style={{ textDecoration: "none" }}
-            onClick={() =>
-              toast.error("You have not Any order", {
-                duration: 2000,
-              })
-            }
-          >
-            <Typography
-              variant="button"
-              sx={{
-                backgroundColor: "secondary.main",
-                color: "white",
-                px: 2,
-                py: 1,
-                borderRadius: "16px",
-                cursor: "pointer",
-                "&:hover": {
-                  backgroundColor: "secondary.dark",
-                },
-              }}
-              value="currentOrders"
+              <Typography
+                variant="button"
+                sx={{
+                  backgroundColor: "secondary.main",
+                  color: "white",
+                  px: 2,
+                  py: 1,
+                  borderRadius: "16px",
+                  cursor: "pointer",
+                  "&:hover": {
+                    backgroundColor: "secondary.dark",
+                  },
+                }}
+                value="currentOrders"
+              >
+                Current Orders
+              </Typography>
+            </NavLink>
+          </Grid2>
+          <Grid2 item xs={6}>
+            <NavLink
+              style={{ textDecoration: "none" }}
+              onClick={() =>
+                toast.error("You have not Any order", {
+                  duration: 2000,
+                })
+              }
             >
-              Current Orders
-            </Typography>
-          </NavLink>
-
-          <NavLink
-            style={{ textDecoration: "none" }}
-            onClick={() =>
-              toast.error("You have not Any order", {
-                duration: 2000,
-              })
-            }
-          >
-            <Typography
-              variant="button"
-              sx={{
-                backgroundColor: "success.main",
-                color: "white",
-                px: 2,
-                py: 1,
-                borderRadius: "16px",
-                cursor: "pointer",
-                "&:hover": {
-                  backgroundColor: "success.dark",
-                },
-              }}
-              value="delivered"
-            >
-              Delivered
-            </Typography>
-          </NavLink>
-        </Box>
+              <Typography
+                variant="button"
+                sx={{
+                  backgroundColor: "success.main",
+                  color: "white",
+                  px: 2,
+                  py: 1,
+                  borderRadius: "16px",
+                  cursor: "pointer",
+                  "&:hover": {
+                    backgroundColor: "success.dark",
+                  },
+                }}
+                value="delivered"
+              >
+                Delivered
+              </Typography>
+            </NavLink>
+          </Grid2>
+        </Grid2>
       </Box>
-
-      {/* Profile Settings Section */}
+      ;{/* Profile Settings Section */}
       <List
         sx={{
           width: "100%",
@@ -132,7 +156,7 @@ export default function Dashboard() {
           boxShadow: 1,
         }}
       >
-        <ListItem divider onClick={() => navigate("/signup")}>
+        <ListItem divider onClick={() => navigate("/login")}>
           <ListItemText primary="Profile" />
           <IconButton color="primary" aria-label="edit profile">
             <Edit />

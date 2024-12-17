@@ -15,8 +15,9 @@ import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import SideMenu from "./SideMenu";
-import { DarkMode, ShoppingBasket } from "@mui/icons-material";
+import { DarkMode, LogoutOutlined, ShoppingBasket } from "@mui/icons-material";
 import DarkModeToggle from "./DarkModeToggle";
+import { useLogout } from "../Features/authentication/useLogout";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -59,6 +60,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
+  const { logout, isLoading } = useLogout();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -213,7 +215,7 @@ export default function PrimarySearchAppBar() {
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+          {/* <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton
               size="large"
               aria-label="show 17 new notifications"
@@ -256,10 +258,14 @@ export default function PrimarySearchAppBar() {
               onClick={handleMobileMenuOpen}
               color="inherit"
             >
-              {/* <MoreIcon /> */}
+              <MoreIcon />
             </IconButton>
-            <DarkModeToggle />
-          </Box>
+          </Box> */}
+          <LogoutOutlined
+            onClick={() => logout()}
+            sx={{ marginRight: "2rem" }}
+          />
+          <DarkModeToggle />
         </Toolbar>
       </AppBar>
       {renderMobileMenu}

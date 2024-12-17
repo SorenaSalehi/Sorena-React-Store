@@ -19,7 +19,7 @@ export default function ReviewsItem() {
         mx: "auto",
       }}
     >
-      {reviews.map((review, index) => (
+      {reviews?.map((review, index) => (
         <Box
           key={review.reviewerEmail}
           sx={{ mb: index < reviews.length - 1 ? 2 : 0 }}

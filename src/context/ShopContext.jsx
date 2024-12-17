@@ -1,16 +1,32 @@
-import React, { createContext, useContext, useState, useCallback } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useEffect,
+} from "react";
+import { useAuthContext } from "./AuthProvider";
+import { useBasket } from "../Features/basket/useBasket";
 
 const ShopContext = createContext();
 
 export const ShopProvider = ({ children }) => {
+  const { user } = useAuthContext();
+
   // Wishlist state
   const [wishlist, setWishlist] = useState([]);
 
   // Shopping Basket state
   const [basket, setBasket] = useState([]);
-
+  // const { basket: basketData, isBasketLoading, basketError } = useBasket();
   // Current viewed product
   const [currentProduct, setCurrentProduct] = useState(null);
+
+  // useEffect(() => {
+  //   if (user?.role !== "authenticated") return;
+
+  //   if (!isBasketLoading) setBasket(basketData);
+  // }, [isBasketLoading, basketData]);
 
   // Wishlist actions
   const addToWishlist = useCallback((product) => {

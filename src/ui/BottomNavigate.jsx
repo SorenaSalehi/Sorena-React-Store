@@ -30,6 +30,11 @@ export default function BottomNavigate() {
       onChange={handleChange}
     >
       <BottomNavigationAction
+        label="wishlist"
+        value="/wishlist"
+        icon={<FavoriteIcon />}
+      />
+      <BottomNavigationAction
         label="Shopping Basket"
         value="/shoppingBasket"
         icon={<ShoppingBasket />}

@@ -1,9 +1,14 @@
 import { Avatar, Box, Fab, Grid2, Paper, Typography } from "@mui/material";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ProductsList from "../Features/products/ProductsList";
 import { useProducts } from "../Features/products/useProducts";
 import { useOneProduct } from "../Features/products/useOneProduct";
 import { ArrowUpward, Upcoming } from "@mui/icons-material";
+import supabase from "../services/supabase";
+import { data } from "react-router";
+import { useUser } from "../Features/authentication/useUser";
+import { useAddToBasket } from "../Features/basket/useAddTobasket";
+import { useBasket } from "../Features/basket/useBasket";
 
 const allSrc = [
   { src: "men-shirt.webp", value: "mens-shirts" },
@@ -16,6 +21,8 @@ const allSrc = [
 
 export default function Products() {
   const [category, setCategory] = useState(null);
+  const { addToBasket, isLoading } = useAddToBasket();
+
   const HeadRef = useRef(null);
   const ProductsRef = useRef(null);
 

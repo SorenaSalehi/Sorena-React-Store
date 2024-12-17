@@ -50,3 +50,24 @@ export async function getProductById(id) {
   const data = await res.json();
   return data;
 }
+
+export async function getAllProductsById(ids) {
+  if (!ids) return;
+
+  try {
+    const res = ids?.map((id) =>
+      fetch(`https://dummyjson.com/products/${id}`).then((res) => {
+        if (!res.ok) {
+          throw new Error("failed to fetch Products!!");
+        }
+        return res.json();
+      })
+    );
+
+    const results = await Promise.all(res);
+
+    return results;
+  } catch (err) {
+    throw new Error(err.messages);
+  }
+}
