@@ -9,7 +9,7 @@ export function useRemoveFromBasket() {
   const {
     mutate: removeFromBasket,
     isLoading: isLoadingRemove,
-    error,
+   
   } = useMutation({
     mutationFn: removeFrom,
 

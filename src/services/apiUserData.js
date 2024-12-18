@@ -26,8 +26,31 @@ export async function addTo({ user_id, productId, quantity = 1, from }) {
 
 export async function removeFrom({ productId, from }) {
   if (!productId || !from) return;
-
   const { error } = await supabase.from(from).delete().match({ productId });
 
   if (error) throw new Error("something wrong to remove item");
+}
+
+export async function changeQuantity({ productId, quantity, type }) {
+  if (!productId || !quantity || !type) return;
+
+  if (quantity === 1 && type === "decr") return;
+
+  let value;
+  if (type === "inc") {
+    value = quantity + 1;
+  }
+  if (type === "decr") {
+    value = quantity - 1;
+  }
+
+  const { data, error } = await supabase
+    .from("basket")
+    .update({ quantity: value })
+    .eq("productId", productId)
+    .select();
+
+  if (error) throw new Error("something wrong to remove item");
+
+  return data;
 }

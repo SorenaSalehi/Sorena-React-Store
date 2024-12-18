@@ -1,53 +1,24 @@
 import React from "react";
-import { useShopContext } from "../../context/ShopContext";
 import ShoppingBasketItem from "./ShoppingBasketItem";
 import { Box, Button, Typography } from "@mui/material";
-import { calcDiscount } from "../../utils/helpers";
-import { useBasket } from "./useBasket";
-import { useAuthContext } from "../../context/AuthProvider";
-import { useBasketDetails } from "./useBasketDetails";
+import { calcCountPrice, calcDiscount } from "../../utils/helpers";
 
-export default function ShoppingBasketList() {
-  const { user } = useAuthContext();
-  const { basket } = useBasket({ userId: user?.id, from: "basket" });
-  const { basketDetails, isDetailsLoading } = useBasketDetails(basket);
-
-  if (isDetailsLoading) return <div>loadibng ...</div>;
-  console.log("loading", isDetailsLoading);
-  console.log(basketDetails);
-
-  if (!isDetailsLoading && basketDetails?.length === 0) {
-    return (
-      <Typography component="h2" variant="h2" sx={{ textAlign: "center" }}>
-        Your Shopping Basket is Empty
-      </Typography>
-    );
-  }
-
-  const result = basketDetails?.reduce(
-    (acc, item) => {
-      const quantity = item.quantity || 1;
-      const discountedPrice = Number(
-        calcDiscount(item.price, item.discountPercentage)
-      );
-
-      acc.itemCount += quantity;
-      acc.totalPrice += discountedPrice * quantity;
-
-      return acc;
-    },
-    { itemCount: 0, totalPrice: 0 }
-  ) || { itemCount: 0, totalPrice: 0 }; // Fallback if basketDetails is undefined
-
-  const { itemCount, totalPrice } = result;
+export default function ShoppingBasketList({ basketDetails, basket }) {
+  if (!basketDetails) return null;
+  //*calc items count and total price (some item has quantity and must also calc them)
+  const { itemCount, totalPrice } = calcCountPrice({
+    basketDetails,
+    basket,
+  });
 
   return (
     <Box sx={{ textAlign: "center" }}>
       <Typography variant="h4" gutterBottom>
         Your Basket
       </Typography>
+      //!must reuse product Item
       {basketDetails?.map((item) => (
-        <ShoppingBasketItem item={item} key={item.id} />
+        <ShoppingBasketItem item={item} key={item.id} itemQuantity={basket}/>
       ))}
       <Typography variant="h6">{itemCount} Item</Typography>
       <Typography variant="h6" color="primary">
