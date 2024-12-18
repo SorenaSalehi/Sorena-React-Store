@@ -10,7 +10,9 @@ export async function fetchUserItems({ userId, from }) {
   return data;
 }
 
+//*add to basket or wishlist
 export async function addTo({ user_id, productId, quantity = 1, from }) {
+  console.log(user_id, productId, (quantity = 1), from);
   if (!user_id || !productId || !from) return;
 
   let insert;
@@ -19,11 +21,11 @@ export async function addTo({ user_id, productId, quantity = 1, from }) {
 
   if (from === "wishlist") insert = [{ user_id, productId }];
 
-  const { data, error } = await supabase.from(from).insert(insert).select();
+  const {  error } = await supabase.from(from).insert(insert).select();
   if (error) console.error("Add to Basket Error:", error.message);
-  else console.log("Item added to basket:", data);
 }
 
+//*remove from basket or wishlist
 export async function removeFrom({ productId, from }) {
   if (!productId || !from) return;
   const { error } = await supabase.from(from).delete().match({ productId });
@@ -34,20 +36,12 @@ export async function removeFrom({ productId, from }) {
 export async function changeQuantity({ productId, quantity, type }) {
   if (!productId || !quantity || !type) return;
 
-  if (quantity === 1 && type === "decr") return;
-
-  let value;
-  if (type === "inc") {
-    value = quantity + 1;
-  }
-  if (type === "decr") {
-    value = quantity - 1;
-  }
+  const value = type === "increase" ? quantity + 1 : quantity - 1;
 
   const { data, error } = await supabase
     .from("basket")
     .update({ quantity: value })
-    .eq("productId", productId)
+    .eq("productId", productId + "")
     .select();
 
   if (error) throw new Error("something wrong to remove item");

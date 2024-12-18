@@ -78,15 +78,15 @@ export default function App() {
       FallbackComponent={ErrorFallback}
       onReset={() => window.location.replace("/")}
     >
-      <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools initialIsOpen={false} />
-        <AuthProvider>
+      <AuthProvider>
+        <QueryClientProvider client={queryClient}>
+          <ReactQueryDevtools initialIsOpen={false} />
           <ShopProvider>
             <Toaster />
             <RouterProvider router={router} />;
           </ShopProvider>
-        </AuthProvider>
-      </QueryClientProvider>
+        </QueryClientProvider>
+      </AuthProvider>
     </ErrorBoundary>
   );
 }

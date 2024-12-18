@@ -19,7 +19,7 @@ export default function ShoppingBasket() {
   // console.log("loading", isDetailsLoading);
   // console.log(basketDetails);
 
-  if (!basketDetails?.length) {
+  if (basketDetails?.length === 0) {
     return (
       <Typography component="h2" variant="h2" sx={{ textAlign: "center" }}>
         Your Shopping Basket is Empty

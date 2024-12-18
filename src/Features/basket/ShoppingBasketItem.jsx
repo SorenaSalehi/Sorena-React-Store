@@ -6,9 +6,16 @@ import { useRemoveFromBasket } from "./useRemoveFromBasket";
 import ProductImageSwiper from "../../ui/ProductImgSwiper";
 import { calcDiscount } from "../../utils/helpers";
 import toast from "react-hot-toast";
+import { useAddToBasket } from "./useAddTobasket";
+import { useUpdateQuantity } from "./useUpdateQuantity";
+import { useAddToWishlist } from "../wishlist/useAddToWishlist";
+import { useAuthContext } from "../../context/AuthProvider";
 
 export default function ShoppingBasketItem({ item, itemQuantity }) {
+  const { user } = useAuthContext();
+  const { updateQuantity, isUpdatingQuantity } = useUpdateQuantity();
   const { removeFromBasket, isLoadingRemove } = useRemoveFromBasket();
+  const { addToWishlist, isAdding } = useAddToWishlist();
   const {
     id,
     images,
@@ -20,12 +27,34 @@ export default function ShoppingBasketItem({ item, itemQuantity }) {
     price,
     discountPercentage,
   } = item;
-  console.log(itemQuantity);
+  // console.log(itemQuantity);
   const quantity = itemQuantity?.find(
     (q) => Number(q.productId) === id
   )?.quantity;
-  console.log(quantity);
 
+  function handleAddToWishlist({ user_id, productId, from }) {
+    addToWishlist(
+      { user_id, productId, from },
+      {
+        onSuccess: () => {
+          toast.success(`(${title}) Was successfully Add to Wishlist`);
+        },
+      }
+    );
+  }
+
+  //*update quantity from user data
+  function handleUpdateQuantity({ productId, quantity, type }) {
+    updateQuantity(
+      { productId, quantity, type },
+      {
+        onError: () => {
+          toast.error("Something Went Wrong ,Try Again");
+        },
+      }
+    );
+  }
+  //*delete from basket
   function handleDelete({ productId, from }) {
     removeFromBasket(
       { productId, from },
@@ -65,13 +94,19 @@ export default function ShoppingBasketItem({ item, itemQuantity }) {
               }}
             >
               <Fab
-                // onClick={() => handleAddToWishlist(item)}
                 sx={{
                   margin: " 0 0.5rem",
                   padding: "0.5rem",
                   width: "max-Content",
                   height: "max-content",
                 }}
+                onClick={() =>
+                  handleAddToWishlist({
+                    user_id: user?.id,
+                    productId: id,
+                    from: "wishlist",
+                  })
+                }
               >
                 <Favorite fontSize="small" />
               </Fab>
@@ -107,14 +142,26 @@ export default function ShoppingBasketItem({ item, itemQuantity }) {
                   <IconButton
                     disabled={quantity === 1}
                     color="primary"
-                    // onClick={() => handleDecQuantity(id)}
+                    onClick={() =>
+                      handleUpdateQuantity({
+                        productId: id,
+                        quantity,
+                        type: "decrease",
+                      })
+                    }
                   >
                     <Remove />
                   </IconButton>
                   <Typography>{quantity}</Typography>
                   <IconButton
                     color="primary"
-                    // onClick={() => handleAddQuantity(id)}
+                    onClick={() =>
+                      handleUpdateQuantity({
+                        productId: id,
+                        quantity,
+                        type: "increase",
+                      })
+                    }
                   >
                     <Add />
                   </IconButton>
@@ -127,6 +174,7 @@ export default function ShoppingBasketItem({ item, itemQuantity }) {
                   onClick={() =>
                     handleDelete({ productId: id, from: "basket" })
                   }
+                  disabled={isLoadingRemove}
                 >
                   <Delete />
                 </IconButton>

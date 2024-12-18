@@ -2,7 +2,7 @@ import * as React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardActionArea from "@mui/material/CardActionArea";
-import { Box, Typography, Rating, Divider, Fab } from "@mui/material";
+import { Box, Typography, Rating, Divider, Fab, duration } from "@mui/material";
 import "swiper/css";
 import ProductImageSwiper from "../../ui/ProductImgSwiper";
 import { useNavigate, useSearchParams } from "react-router";
@@ -15,15 +15,18 @@ import { useUser } from "../authentication/useUser";
 import { useAuthContext } from "../../context/AuthProvider";
 import { useRemoveFromWishlist } from "../wishlist/useRemoveFromWishlist";
 import { useAddToWishlist } from "../wishlist/useAddToWishlist";
+import { useBasket } from "../basket/useBasket";
+import { useUpdateQuantity } from "../basket/useUpdateQuantity";
 
 export default function ProductItem({ item, type }) {
   const navigate = useNavigate();
-  // const { addToBasket, addToWishlist, removeFromWishlist } = useShopContext();
   const { user } = useAuthContext();
+  const { basket } = useBasket({ userId: user?.id, from: "basket" });
   const { addToBasket, isLoadingAddToBasket } = useAddToBasket();
   const { removeFromBasket, isLoadingRemove } = useRemoveFromBasket();
   const { addToWishlist, isAdding } = useAddToWishlist();
   const { removeFromWishlist, isRemoving } = useRemoveFromWishlist();
+  const { updateQuantity, isUpdatingQuantity } = useUpdateQuantity();
 
   const {
     id,
@@ -43,26 +46,66 @@ export default function ProductItem({ item, type }) {
   function handleAddTo({ user_id, productId, from }) {
     if (!user_id || !productId || !from) return;
 
-    from === "basket"
-      ? addToBasket
-      : addToWishlist(
-          { user_id, productId, from },
+    const isAlreadyExist = basket
+      ?.map((item) => {
+        return Number(item.productId);
+      })
+      .includes(productId);
 
-          {
-            onSuccess: () => {
-              toast.success(
-                `${title} Was Successfully  Added to your ${from}`,
-                {
-                  duration: 4000,
-                }
-              );
-            },
+    if (isAlreadyExist) {
+      const quantity = basket?.find(
+        (q) => Number(q.productId) === productId
+      )?.quantity;
+      updateQuantity(
+        { productId, quantity, type: "increase" },
+        {
+          onSuccess: () => {
+            toast.success(
+              `You have *(${title})* Already In Your Shopping Basket`,
+              {
+                duration: 6000,
+              }
+            );
+          },
+        }
+      );
+      return;
+    }
 
-            onError: () => {
-              toast.error("Something Went Wrong!!");
-            },
-          }
-        );
+    if (from === "basket") {
+      addToBasket(
+        { user_id, productId, from },
+
+        {
+          onSuccess: () => {
+            toast.success(`${title} Was Successfully  Added to your ${from}`, {
+              duration: 4000,
+            });
+          },
+
+          onError: () => {
+            toast.error("Something Went Wrong!!");
+          },
+        }
+      );
+    }
+    if (from === "wishlist") {
+      addToWishlist(
+        { user_id, productId, from },
+
+        {
+          onSuccess: () => {
+            toast.success(`${title} Was Successfully  Added to your ${from}`, {
+              duration: 4000,
+            });
+          },
+
+          onError: () => {
+            toast.error("Something Went Wrong!!");
+          },
+        }
+      );
+    }
   }
 
   function handleRemoveFrom({ user_id, productId, from }) {

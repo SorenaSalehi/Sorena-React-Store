@@ -10,54 +10,98 @@ import ProductDetailsContent from "../ui/ProductDetailsContent";
 import { useParams } from "react-router";
 import { useProductById } from "../Features/products/useProductById";
 import { useShopContext } from "../context/ShopContext";
-import toast from "react-hot-toast";
 import { useAddToBasket } from "../Features/basket/useAddTobasket";
 import { useBasket } from "../Features/basket/useBasket";
 import { useRemoveFromBasket } from "../Features/basket/useRemoveFromBasket";
+import { useAuthContext } from "../context/AuthProvider";
+import { useUpdateQuantity } from "../Features/basket/useUpdateQuantity";
+import toast from "react-hot-toast";
 
 export default function ProductDetails() {
   const params = useParams();
   const { productById, isLoading } = useProductById(params.productId);
-  const { addToBasket: test } = useAddToBasket();
-  const { basket, isBasketLoading, basketError } = useBasket();
-  const { removeFromBasket: remove } = useRemoveFromBasket();
+  const { user } = useAuthContext();
+  const { basket } = useBasket({ userId: user?.id, from: "basket" });
 
-  const {
-    currentProduct,
-    setCurrentProduct,
-    wishlist,
-    addToWishlist,
-    addToBasket,
-  } = useShopContext();
+  const { addToBasket, isLoadingAddToBasket } = useAddToBasket();
+  const { removeFromBasket, isLoadingRemove } = useRemoveFromBasket();
+  const { updateQuantity, isUpdatingQuantity } = useUpdateQuantity();
+
+  const { currentProduct, setCurrentProduct, wishlist } = useShopContext();
 
   useEffect(() => {
     if (productById) {
       setCurrentProduct(productById);
     }
   }, [productById]);
-
+  console.log(productById);
   if (isLoading) return <div>is loading</div>;
 
   const isWishlistItem = wishlist?.some((item) => item.id === productById?.id);
 
-  // function handleAddItem(currentProduct, value) {
-  //   if (value === "wishlist") {
-  //     addToWishlist(currentProduct);
-  //     toast.success(`${currentProduct.title} Added to Your Wishlist`, {
-  //       duration: 2000,
-  //     });
-  //   } else {
-  //     addToBasket(currentProduct);
-  //     toast.success(`${currentProduct.title}  Added to Your Shopping Basket`, {
-  //       duration: 2000,
-  //     });
-  //   }
-  // }
-  function handleAddItem({ user_id, productId, quantity }) {
-    test({ user_id, productId, quantity });
-  }
-  function handleRemoveFromBasket({ productId }) {
-    remove({ productId });
+  function handleAddTo({ user_id, productId, from }) {
+    if (!user_id || !productId || !from) return;
+
+    const isAlreadyExist = basket
+      ?.map((item) => {
+        return Number(item.productId);
+      })
+      .includes(productId);
+
+    if (isAlreadyExist) {
+      const quantity = basket?.find(
+        (q) => Number(q.productId) === productId
+      )?.quantity;
+      updateQuantity(
+        { productId, quantity, type: "increase" },
+        {
+          onSuccess: () => {
+            toast.success(
+              `You have *(${productById?.title})* Already In Your Shopping Basket`,
+              {
+                duration: 6000,
+              }
+            );
+          },
+        }
+      );
+      return;
+    }
+
+    if (from === "basket") {
+      addToBasket(
+        { user_id, productId, from },
+
+        {
+          onSuccess: () => {
+            toast.success(`${title} Was Successfully  Added to your ${from}`, {
+              duration: 4000,
+            });
+          },
+
+          onError: () => {
+            toast.error("Something Went Wrong!!");
+          },
+        }
+      );
+    }
+    if (from === "wishlist") {
+      addToWishlist(
+        { user_id, productId, from },
+
+        {
+          onSuccess: () => {
+            toast.success(`${title} Was Successfully  Added to your ${from}`, {
+              duration: 4000,
+            });
+          },
+
+          onError: () => {
+            toast.error("Something Went Wrong!!");
+          },
+        }
+      );
+    }
   }
 
   return (
@@ -88,12 +132,11 @@ export default function ProductDetails() {
             width: "max-Content",
             height: "max-content",
           }}
-          // onClick={() => handleAddItem(currentProduct, "shopping")}
           onClick={() =>
-            handleAddItem({
-              user_id: "c6a297fe-158f-4c72-a921-2d45131b7b55",
-              productId: 216155,
-              quantity: 2,
+            handleAddTo({
+              productId: productById?.id,
+              user_id: user?.id,
+              from: "basket",
             })
           }
         >
@@ -107,8 +150,13 @@ export default function ProductDetails() {
               width: "max-Content",
               height: "max-content",
             }}
-            // onClick={() => handleAddItem(currentProduct, "wishlist")}
-            onClick={() => handleRemoveFromBasket({ productId: 216155 })}
+            onClick={() =>
+              handleAddTo({
+                productId: productById?.id,
+                user_id: user?.id,
+                from: "wishlist",
+              })
+            }
           >
             <Favorite fontSize="small" />
           </Fab>

@@ -16,9 +16,9 @@ export default function ShoppingBasketList({ basketDetails, basket }) {
       <Typography variant="h4" gutterBottom>
         Your Basket
       </Typography>
-      //!must reuse product Item
+      {/* //!must reuse product Item */}
       {basketDetails?.map((item) => (
-        <ShoppingBasketItem item={item} key={item.id} itemQuantity={basket}/>
+        <ShoppingBasketItem item={item} key={item.id} itemQuantity={basket} />
       ))}
       <Typography variant="h6">{itemCount} Item</Typography>
       <Typography variant="h6" color="primary">
