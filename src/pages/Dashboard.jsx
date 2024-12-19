@@ -14,12 +14,23 @@ import {
   EditLocation,
   LocationCity,
 } from "@mui/icons-material";
-import { NavLink, useNavigate } from "react-router";
-import Login from "./Login";
+import { Navigate, NavLink, useNavigate } from "react-router";
 import toast from "react-hot-toast";
+import { useUser } from "../Features/authentication/useUser";
+import { useAuthContext } from "../context/AuthProvider";
 
 export default function Dashboard() {
+  const { user } = useAuthContext();
   const navigate = useNavigate();
+
+  function handleProfile(user) {
+    console.log(user);
+    if (!user) {
+      navigate("/login"); 
+    } else if (user?.id) {
+      navigate("/profile"); 
+    }
+  }
 
   return (
     <Box
@@ -49,46 +60,6 @@ export default function Dashboard() {
           alignItems="center"
           sx={{ maxWidth: 600, margin: "0 auto" }}
         >
-          <Grid2 item xs={6}>
-            <NavLink to="/shoppingBasket" style={{ textDecoration: "none" }}>
-              <Typography
-                variant="button"
-                sx={{
-                  backgroundColor: "primary.main",
-                  color: "white",
-                  px: 2,
-                  py: 1,
-                  borderRadius: "16px",
-                  cursor: "pointer",
-                  "&:hover": {
-                    backgroundColor: "primary.dark",
-                  },
-                }}
-              >
-                Shopping Basket
-              </Typography>
-            </NavLink>
-          </Grid2>
-          <Grid2 item xs={6}>
-            <NavLink to="/wishlist" style={{ textDecoration: "none" }}>
-              <Typography
-                variant="button"
-                sx={{
-                  backgroundColor: "primary.main",
-                  color: "white",
-                  px: 2,
-                  py: 1,
-                  borderRadius: "16px",
-                  cursor: "pointer",
-                  "&:hover": {
-                    backgroundColor: "primary.dark",
-                  },
-                }}
-              >
-                Wishlist
-              </Typography>
-            </NavLink>
-          </Grid2>
           <Grid2 item xs={6}>
             <NavLink
               style={{ textDecoration: "none" }}
@@ -147,7 +118,8 @@ export default function Dashboard() {
           </Grid2>
         </Grid2>
       </Box>
-      ;{/* Profile Settings Section */}
+
+      {/* //*Profile Settings Section */}
       <List
         sx={{
           width: "100%",
@@ -156,9 +128,21 @@ export default function Dashboard() {
           boxShadow: 1,
         }}
       >
-        <ListItem divider onClick={() => navigate("/login")}>
+        <ListItem divider onClick={() => handleProfile(user)}>
           <ListItemText primary="Profile" />
           <IconButton color="primary" aria-label="edit profile">
+            <Edit />
+          </IconButton>
+        </ListItem>
+        <ListItem divider onClick={() => navigate("/shoppingBasket")}>
+          <ListItemText primary="Shopping basket" />
+          <IconButton color="secondary" aria-label="Shopping basket">
+            <Edit />
+          </IconButton>
+        </ListItem>
+        <ListItem divider onClick={() => navigate("/wishlist")}>
+          <ListItemText primary="Wishlist" />
+          <IconButton color="primary" aria-label="Wishlist">
             <Edit />
           </IconButton>
         </ListItem>

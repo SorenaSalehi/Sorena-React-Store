@@ -3,6 +3,7 @@ import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { useSignup } from "../Features/authentication/useSignup";
 import { useNavigate } from "react-router";
+import toast from "react-hot-toast";
 
 export default function SignupForm() {
   const { register, formState, handleSubmit, reset } = useForm();
@@ -10,15 +11,16 @@ export default function SignupForm() {
   const { signup, isLoading } = useSignup();
   const navigate = useNavigate();
 
-  async function onSubmit({ name, lastName, email, password }) {
-    const success = await signup({ name, lastName, email, password });
-
-    if (success) {
-      reset(); // Reset form fields
-      navigate("/"); // Navigate to the home page
-    } else {
-      console.error("Signup failed!"); // Handle errors if needed
-    }
+  function onSubmit({ name, email, password }) {
+    signup(
+      { name, email, password },
+      {
+        onSuccess: () => {
+          toast.success(`You Have Been Successfully Signup ,Dear ${name} 🎉`);
+          navigate("/");
+        },
+      }
+    );
   }
 
   return (
@@ -46,23 +48,6 @@ export default function SignupForm() {
             {...register("name", { required: "This field is required!" })}
             error={!!errors.name} // Highlight error in the TextField
             helperText={errors.name?.message} // Show error message
-            disabled={isLoading}
-          />
-        </Box>
-
-        {/* Last Name Field */}
-        <Box
-          component="div"
-          sx={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}
-        >
-          <label htmlFor="lastName">Last Name: *</label>
-          <TextField
-            id="lastName"
-            variant="outlined"
-            label="Last Name"
-            {...register("lastName", { required: "This field is required!" })}
-            error={!!errors.lastName}
-            helperText={errors.lastName?.message}
             disabled={isLoading}
           />
         </Box>

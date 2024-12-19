@@ -1,11 +1,10 @@
 import { data } from "react-router";
 import supabase from "./supabase";
 
-export async function signup({ email, password }) {
-  if (!email || !password) return;
+export async function signup({ name, lastName, email, password }) {
+  if ( !name || !lastName|| !email || !password) return;
   let { data, error } = await supabase.auth.signUp({
-    email,
-    password,
+    email, password
   });
 
   if (error) throw new Error("something wrong in signup");

@@ -61,6 +61,8 @@ const routes = [
         element: <Wishlist />,
       },
       { path: "/login", element: <Login /> },
+      { path: "/signup", element: <SignupForm /> },
+      { path: "/profile", element: <UserProfile /> },
       { path: "/guest", element: <QuestPage /> },
     ],
   },

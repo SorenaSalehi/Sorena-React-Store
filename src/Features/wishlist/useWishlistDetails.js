@@ -3,12 +3,14 @@ import { getAllProductsById } from "../../services/apiProducts";
 
 export function useWishlistDetails(wishlist) {
   const ids =
-    wishlist?.length > 1 ? wishlist?.map((item) => item.productId) : null;
+    wishlist?.length > 0 ? wishlist?.map((item) => item.productId) : null;
 
-  const { data: wishlistDetails, isLoading: isWishlistLoading } = useQuery({
-    queryKey: ["wishlistDetails"],
+  const { data: wishlistDetails = [], isLoading: isDetailsLoading } = useQuery({
+    queryKey: ["wishlistDetails", , wishlist],
     queryFn: () => getAllProductsById(ids),
+
+    enabled: !!wishlist,
   });
 
-  return { wishlistDetails, isWishlistLoading };
+  return { wishlistDetails, isDetailsLoading };
 }

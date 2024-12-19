@@ -8,7 +8,6 @@ export function calcCountPrice({ basketDetails, basket }) {
 
   return basketDetails?.reduce(
     (acc, item) => {
-      console.log(item);
       //*math the basket items to data
       const usersQuantities = basket?.find(
         (q) => Number(q.productId) === item.id
@@ -19,7 +18,6 @@ export function calcCountPrice({ basketDetails, basket }) {
       const discountedPrice = Number(
         calcDiscount(item.price, item.discountPercentage)
       );
-      console.log(discountedPrice);
 
       acc.itemCount += quantity; // Total items count
       acc.totalPrice += discountedPrice * quantity; // Total price

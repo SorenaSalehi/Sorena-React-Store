@@ -12,6 +12,7 @@ export default function ShoppingBasket() {
     userId: user?.id,
     from: "basket",
   });
+  
   // console.log("basket", basket);
   const { basketDetails, isDetailsLoading } = useBasketDetails(basket);
 

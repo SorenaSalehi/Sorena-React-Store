@@ -38,15 +38,14 @@ export default function ProductDetails() {
   if (isLoading) return <div>is loading</div>;
 
   const isWishlistItem = wishlist?.some((item) => item.id === productById?.id);
+  const isAlreadyExist = basket
+    ?.map((item) => {
+      return Number(item.productId);
+    })
+    .includes(productById?.id);
 
   function handleAddTo({ user_id, productId, from }) {
     if (!user_id || !productId || !from) return;
-
-    const isAlreadyExist = basket
-      ?.map((item) => {
-        return Number(item.productId);
-      })
-      .includes(productId);
 
     if (isAlreadyExist) {
       const quantity = basket?.find(
@@ -57,9 +56,9 @@ export default function ProductDetails() {
         {
           onSuccess: () => {
             toast.success(
-              `You have *(${productById?.title})* Already In Your Shopping Basket`,
+              `You Added one More *(${productById?.title})* in Your ${from}`,
               {
-                duration: 6000,
+                duration: 8000,
               }
             );
           },
@@ -75,7 +74,7 @@ export default function ProductDetails() {
         {
           onSuccess: () => {
             toast.success(`${title} Was Successfully  Added to your ${from}`, {
-              duration: 4000,
+              duration: 8000,
             });
           },
 
@@ -92,7 +91,7 @@ export default function ProductDetails() {
         {
           onSuccess: () => {
             toast.success(`${title} Was Successfully  Added to your ${from}`, {
-              duration: 4000,
+              duration: 8000,
             });
           },
 
