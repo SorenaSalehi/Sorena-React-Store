@@ -1,17 +1,17 @@
 import { Box, Container, Grid2, Typography } from "@mui/material";
 import React from "react";
-import { useNavigate } from "react-router";
 
 import ProductItem from "./ProductItem";
 import { useProducts } from "./useProducts";
 import { useOneProduct } from "./useOneProduct";
+import { Home } from "@mui/icons-material";
+import HomeSkeleton from "../../ui/HomeSkeleton";
 
 export default function ProductsList({ category }) {
-  const navigate = useNavigate();
   const { allProducts, isLoading: isAllProdLoading } = useProducts();
   const { oneProduct, isLoading: isOneProdLoading } = useOneProduct(category);
 
-  if (isAllProdLoading || isOneProdLoading) return <div>is Loading</div>;
+  if (isAllProdLoading || isOneProdLoading) return <HomeSkeleton />;
 
   //*flatMap for get the arrays of object and then making it shuffle
   const allResults = allProducts

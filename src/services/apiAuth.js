@@ -2,9 +2,10 @@ import { data } from "react-router";
 import supabase from "./supabase";
 
 export async function signup({ name, lastName, email, password }) {
-  if ( !name || !lastName|| !email || !password) return;
+  if (!name || !lastName || !email || !password) return;
   let { data, error } = await supabase.auth.signUp({
-    email, password
+    email,
+    password,
   });
 
   if (error) throw new Error("something wrong in signup");
@@ -18,7 +19,6 @@ export async function login({ email, password }) {
     password,
   });
   if (error) throw new Error(error.message);
-  console.log(data);
   return data;
 }
 
@@ -40,6 +40,5 @@ export async function getCurrentUser() {
 
 export async function logout() {
   const { error } = await supabase.auth.signOut();
-  if (error) console.error("Logout Error:", error.message);
-  else console.log("Logged out successfully");
+  if (error) throw new Error(error.message);
 }

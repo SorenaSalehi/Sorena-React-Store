@@ -11,7 +11,6 @@ import { useShopContext } from "../../context/ShopContext";
 import toast from "react-hot-toast";
 import { useAddToBasket } from "../basket/useAddTobasket";
 import { useRemoveFromBasket } from "../basket/useRemoveFromBasket";
-import { useUser } from "../authentication/useUser";
 import { useAuthContext } from "../../context/AuthProvider";
 import { useRemoveFromWishlist } from "../wishlist/useRemoveFromWishlist";
 import { useAddToWishlist } from "../wishlist/useAddToWishlist";

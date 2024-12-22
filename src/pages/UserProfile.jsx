@@ -1,63 +1,77 @@
-import React, { useState } from "react";
+import { ArrowBack, Login } from "@mui/icons-material";
 import {
   Box,
-  IconButton,
-  List,
-  ListItem,
-  Typography,
-  Divider,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  TextField,
-  DialogActions,
+  Paper,
   Button,
+  IconButton,
+  TextField,
+  Typography,
+  CircularProgress,
 } from "@mui/material";
-import { ArrowForwardIosOutlined, ArrowBack } from "@mui/icons-material";
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { Form } from "react-router";
 import { useNavigate } from "react-router";
+import { useUserDetails } from "../Features/user/useUserDetails";
+import { useUser } from "../Features/user/useUser";
+import toast from "react-hot-toast";
+import { useUpdateUser } from "../Features/user/useUpdateUser";
+import ProfileSkeleton from "../ui/ProfileSkeleton";
 
 export default function UserProfile() {
-  const [open, setOpen] = useState(false);
-  const [selectedField, setSelectedField] = useState(null);
-  const [formValue, setFormValue] = useState("");
+  const { register, formState, handleSubmit, reset } = useForm();
+  const { errors } = formState;
+  const { user } = useUser();
+  const { userDetails, isLoading } = useUserDetails(user?.id);
+  const { updateUser, isUpdating } = useUpdateUser();
   const navigate = useNavigate();
 
-  const fields = [
-    { label: "Name | Last Name", value: "Sorena Salehi" },
-    {
-      label: "Address",
-      value: "bahçelievler 1849/1 sk,no,6, 35600 karşiyaka, izmir,türkey",
-    },
-    { label: "Phone Number", value: "0539 697 6995" },
-    { label: "National ID", value: "55 55 515 115" },
-    { label: "Birthday", value: "1997/08/18" },
-    { label: "Email", value: "Sorena@Sorena.com" },
-    { label: "Your Password", value: "****************" },
-  ];
-
-  const handleClickOpen = (field) => {
-    setSelectedField(field);
-    setFormValue(field.value);
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-    setSelectedField(null);
-  };
-
-  const handleSave = () => {
-    // Save logic here, for now we just close the dialog
-    handleClose();
-  };
+  if (isLoading) return <ProfileSkeleton />;
 
   function handleBackBtn() {
     navigate(-1);
   }
 
+  function onSubmit({
+    name,
+    lastName,
+    address,
+    phoneNumber,
+    nationalID,
+    birthday,
+  }) {
+    updateUser(
+      {
+        user_id: user?.id,
+
+        name,
+        lastName,
+        address,
+        phoneNumber,
+        nationalID,
+        birthday,
+      },
+      {
+        onSuccess: () => {
+          toast.success("Your Details Updated Successfully 😉", {
+            duration: 4000,
+          });
+          reset();
+          navigate(-1);
+        },
+
+        onError: (error) => {
+          toast.error(error.message);
+        },
+      }
+    );
+  }
+
+  const { name, lastName, address, phoneNumber, nationalID, birthday } =
+    userDetails || {};
+
   return (
-    <Box sx={{ padding: "1rem" }}>
-      {/* Header Section */}
+    <Paper elevation={5} sx={{ width: "80%", margin: "auto", padding: "1rem" }}>
       <Box
         sx={{
           display: "flex",
@@ -73,62 +87,80 @@ export default function UserProfile() {
         >
           <ArrowBack />
         </IconButton>
+
         <Typography variant="h5" fontWeight="bold">
           Your Details
         </Typography>
       </Box>
-
-      <List
-        sx={{ width: "100%", bgcolor: "background.paper", borderRadius: "8px" }}
+      <Box
+        sx={{
+          padding: "2rem",
+          display: "flex",
+          flexDirection: "column",
+          gap: "1rem",
+        }}
+        component="form"
+        onSubmit={handleSubmit(onSubmit)}
       >
-        {fields.map((item, index) => (
-          <React.Fragment key={index}>
-            <ListItem
-              onClick={() => handleClickOpen(item)}
-              secondaryAction={<ArrowForwardIosOutlined color="action" />}
-              sx={{
-                paddingY: "0.75rem",
-                "&:hover": { bgcolor: "action.hover" },
-              }}
-            >
-              <Box sx={{ display: "flex", flexDirection: "column" }}>
-                <Typography variant="body2" color="text.secondary">
-                  {item.label}
-                </Typography>
-                <Typography variant="body1">{item.value}</Typography>
-              </Box>
-            </ListItem>
-            {index < fields.length - 1 && (
-              <Divider variant="fullWidth" component="li" />
-            )}
-          </React.Fragment>
-        ))}
-      </List>
-
-      {/* Edit Dialog */}
-      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
-        <DialogTitle>Edit {selectedField?.label}</DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            label={selectedField?.label}
-            type="text"
-            fullWidth
-            variant="outlined"
-            value={formValue}
-            onChange={(e) => setFormValue(e.target.value)}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="secondary">
-            Cancel
-          </Button>
-          <Button onClick={handleSave} color="primary">
-            Save
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </Box>
+        <TextField
+          id="name"
+          variant="outlined"
+          label={name || "Name"}
+          type="text"
+          {...register("name", { required: "Name is Required" })}
+          error={!!errors.name}
+          helperText={errors?.name?.message}
+          disabled={isLoading}
+        />
+        <TextField
+          id="lastName"
+          variant="outlined"
+          label={lastName || "Last Name"}
+          type="text"
+          {...register("lastName", { required: "Last Name is Required" })}
+          error={!!errors.lastName}
+          helperText={errors?.lastName?.message}
+        />
+        <TextField
+          id="address"
+          variant="outlined"
+          label={address || "Address"}
+          type="text"
+          {...register("address", { required: "Address is Required" })}
+          error={!!errors.address}
+          helperText={errors?.address?.message}
+        />
+        <TextField
+          id="phoneNumber"
+          variant="outlined"
+          label={phoneNumber || "Phone Number"}
+          type="tel"
+          {...register("phoneNumber", { required: "Phone Number is Required" })}
+          error={!!errors?.phoneNumber}
+          helperText={errors?.phoneNumber?.message}
+        />
+        <TextField
+          id="nationalID"
+          variant="outlined"
+          label={nationalID || "National ID"}
+          {...register("nationalID")}
+          error={!!errors?.nationalID}
+          helperText={errors?.nationalID?.message}
+        />
+        <TextField
+          id="birthday"
+          variant="outlined"
+          type="date"
+          placeholder="Birthday"
+          {...register("birthday")}
+          error={!!errors?.birthday}
+          helperText={errors?.birthday?.message}
+          defaultValue={birthday}
+        />
+        <Button type="submit" variant="contained" disabled={isUpdating}>
+          {isUpdating ? <CircularProgress /> : "Submit"}
+        </Button>
+      </Box>
+    </Paper>
   );
 }

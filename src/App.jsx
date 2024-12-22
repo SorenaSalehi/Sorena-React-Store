@@ -17,8 +17,10 @@ import SignupForm from "./ui/SignupForm";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "./ui/ErrorFallback";
 import { AuthProvider } from "./context/AuthProvider";
-import ProtectedPage from "./pages/ProtectedPage";
 import QuestPage from "./pages/GuestPage";
+import AccountSetting from "./pages/AccountSetting";
+import HomeSkeleton from "./ui/HomeSkeleton";
+import ProfileSkeleton from "./ui/ProfileSkeleton";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -30,11 +32,7 @@ const queryClient = new QueryClient({
 
 const routes = [
   {
-    element: (
-      <ProtectedPage>
-        <Layout />
-      </ProtectedPage>
-    ),
+    element: <Layout />,
     children: [
       {
         index: true,
@@ -44,10 +42,15 @@ const routes = [
         path: "/dashboard",
         element: <Dashboard />,
       },
+      { path: "/login", element: <Login /> },
+      { path: "/signup", element: <SignupForm /> },
+
       {
-        path: "/dashboard/:profile",
+        path: "/profile",
         element: <UserProfile />,
       },
+
+      { path: "/account", element: <AccountSetting /> },
       {
         path: "/product/:productId",
         element: <ProductDetails />,
@@ -60,9 +63,7 @@ const routes = [
         path: "/wishlist",
         element: <Wishlist />,
       },
-      { path: "/login", element: <Login /> },
-      { path: "/signup", element: <SignupForm /> },
-      { path: "/profile", element: <UserProfile /> },
+
       { path: "/guest", element: <QuestPage /> },
     ],
   },

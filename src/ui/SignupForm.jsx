@@ -6,10 +6,12 @@ import { useNavigate } from "react-router";
 import toast from "react-hot-toast";
 
 export default function SignupForm() {
-  const { register, formState, handleSubmit, reset } = useForm();
+  const { register, formState, handleSubmit, reset, watch } = useForm();
   const { errors } = formState;
   const { signup, isLoading } = useSignup();
   const navigate = useNavigate();
+
+  const password = watch("password", "");
 
   function onSubmit({ name, email, password }) {
     signup(
@@ -40,7 +42,6 @@ export default function SignupForm() {
           component="div"
           sx={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}
         >
-          <label htmlFor="name">Name: *</label>
           <TextField
             id="name"
             variant="outlined"
@@ -57,7 +58,6 @@ export default function SignupForm() {
           component="div"
           sx={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}
         >
-          <label htmlFor="email">Email: *</label>
           <TextField
             id="email"
             variant="outlined"
@@ -80,7 +80,6 @@ export default function SignupForm() {
           component="div"
           sx={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}
         >
-          <label htmlFor="password">Password: *</label>
           <TextField
             id="password"
             variant="outlined"
@@ -95,6 +94,20 @@ export default function SignupForm() {
             })}
             error={!!errors.password}
             helperText={errors.password?.message}
+            disabled={isLoading}
+          />
+          <TextField
+            id="confirmPassword"
+            variant="outlined"
+            label="Confirm Password"
+            type="password"
+            {...register("confirmPassword", {
+              required: "This field is required!",
+              validate: (value) =>
+                value === password || "The passwords do not match",
+            })}
+            error={!!errors.confirmPassword}
+            helperText={errors?.confirmPassword?.message}
             disabled={isLoading}
           />
         </Box>

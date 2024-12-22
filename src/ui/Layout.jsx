@@ -29,6 +29,7 @@ export default function Layout() {
       >
         <Outlet />
       </Box>
+
       <BottomNavigate />
     </Box>
   );

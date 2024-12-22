@@ -1,16 +1,13 @@
 import { createContext, useContext, useState } from "react";
 
-import { useUser } from "../Features/authentication/useUser";
-import { useBasket } from "../Features/basket/useBasket";
 
 const AuthContext = createContext();
 
 function AuthProvider({ children }) {
-  const [session, setSession] = useState(null);
   const [user, setUser] = useState(null);
 
   return (
-    <AuthContext.Provider value={{ setSession, setUser, session, user }}>
+    <AuthContext.Provider value={{  setUser, user }}>
       {children}
     </AuthContext.Provider>
   );

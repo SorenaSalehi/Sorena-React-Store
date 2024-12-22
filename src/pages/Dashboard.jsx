@@ -9,14 +9,15 @@ import {
   Grid2,
 } from "@mui/material";
 import {
+  AccountBalance,
   ContactSupport,
   Edit,
   EditLocation,
   LocationCity,
+  NoAccountsOutlined,
 } from "@mui/icons-material";
-import { Navigate, NavLink, useNavigate } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import toast from "react-hot-toast";
-import { useUser } from "../Features/authentication/useUser";
 import { useAuthContext } from "../context/AuthProvider";
 
 export default function Dashboard() {
@@ -24,11 +25,17 @@ export default function Dashboard() {
   const navigate = useNavigate();
 
   function handleProfile(user) {
-    console.log(user);
     if (!user) {
-      navigate("/login"); 
-    } else if (user?.id) {
-      navigate("/profile"); 
+      navigate("/login");
+    } else {
+      navigate("/profile");
+    }
+  }
+  function handleAccount(user) {
+    if (!user) {
+      navigate("/login");
+    } else {
+      navigate("/account");
     }
   }
 
@@ -132,6 +139,12 @@ export default function Dashboard() {
           <ListItemText primary="Profile" />
           <IconButton color="primary" aria-label="edit profile">
             <Edit />
+          </IconButton>
+        </ListItem>
+        <ListItem divider onClick={() => handleAccount(user)}>
+          <ListItemText primary="Account" />
+          <IconButton color="primary" aria-label="edit profile">
+            <AccountBalance />
           </IconButton>
         </ListItem>
         <ListItem divider onClick={() => navigate("/shoppingBasket")}>

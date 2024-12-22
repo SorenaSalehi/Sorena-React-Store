@@ -1,4 +1,11 @@
-import { Box, Button, Paper, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Paper,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useLogin } from "../Features/authentication/useLogin";
@@ -9,15 +16,13 @@ export default function LoginForm() {
   const { register, formState, reset, handleSubmit } = useForm();
   const { errors } = formState;
   const { login, isLoading } = useLogin();
-  const { setSession, setUser } = useAuthContext();
+  const { setUser } = useAuthContext();
 
   function onSubmit({ email, password }) {
     login(
       { email, password },
       {
-        onSuccess: ({ session, user }) => {
-          console.log(session, user);
-          setSession(session);
+        onSuccess: ({ user }) => {
           setUser(user);
         },
       }
@@ -79,8 +84,8 @@ export default function LoginForm() {
             helperText={errors.password?.message}
           />
         </Box>{" "}
-        <Button variant="contained" type="submit">
-          Submit
+        <Button variant="contained" type="submit" disabled={isLoading}>
+          {isLoading ? <CircularProgress /> : "Login"}
         </Button>
         <NavLink to="/guest">Be My Quest</NavLink>
       </Box>
