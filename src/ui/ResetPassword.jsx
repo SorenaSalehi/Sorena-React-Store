@@ -1,41 +1,92 @@
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router";
-import { useUpdatePassword } from "../Features/authentication/useUpdatePassword";
-import { useEffect } from "react";
-import { Box, Button, Paper, TextField, Typography } from "@mui/material";
+// src/features/authentication/UpdatePasswordForm.jsx
+import { useEffect, useState } from "react";
 
-export default function UpdatePasswordForm() {
+import {
+  Box,
+  TextField,
+  Button,
+  Typography,
+  Alert,
+  Paper,
+  IconButton,
+} from "@mui/material";
+import { useNavigate } from "react-router";
+import { useForm } from "react-hook-form";
+import { useUpdatePassword } from "../Features/authentication/useUpdatePassword";
+import toast from "react-hot-toast";
+import supabase from "../services/supabase";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+
+export default function ResetPassword() {
   const navigate = useNavigate();
+  const [tokenError, setTokenError] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
   } = useForm();
-  const updatePassword = useUpdatePassword();
+  const { updatePassword, isPending } = useUpdatePassword();
 
-  // Check for valid access token on component mount
   useEffect(() => {
-    const hashParams = new URLSearchParams(window.location.hash.substring(1));
-    const accessToken = hashParams.get("access_token");
+    const hashFragment = window.location.hash;
+    if (!hashFragment) {
+      setTokenError(true);
+      return;
+    }
+
+    const params = new URLSearchParams(hashFragment.substring(1));
+    const accessToken = params.get("access_token");
 
     if (!accessToken) {
-      navigate("/forgotPassword");
+      setTokenError(true);
+      setTimeout(() => navigate("/forgotPassword"), 3000);
+      return;
     }
+
+    // Set the session in Supabase
+    supabase.auth
+      .setSession({
+        access_token: accessToken,
+        refresh_token: params.get("refresh_token"),
+      })
+      .then(({ error }) => {
+        if (error) {
+          setTokenError(true);
+          toast.error("Failed to set session");
+          setTimeout(() => navigate("/forgotPassword"), 3000);
+        }
+      });
   }, [navigate]);
 
-  const onSubmit = async (data) => {
-    try {
-      await updatePassword.mutateAsync(data.password);
-      // Redirect to login on success
-      navigate("/login");
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
+  function onSubmit(data) {
+    updatePassword(data.password, {
+      onSuccess: () => {
+        toast.success("Password updated successfully");
+        navigate("/login");
+      },
+      onError: (error) => {
+        toast.error(error?.message || "Failed to update password");
+      },
+    });
+  }
 
-  // Watch password field for confirmation validation
-  const password = watch("password");
+  const password = watch("password" || "");
+  function togglePassword() {
+    setShowPassword((prev) => !prev);
+  }
+
+  if (tokenError) {
+    return (
+      <Paper elevation={3} sx={{ p: 4, maxWidth: 400, mx: "auto", mt: 8 }}>
+        <Alert severity="error">
+          Invalid or expired reset link. Redirecting to password reset page...
+        </Alert>
+      </Paper>
+    );
+  }
 
   return (
     <Paper elevation={3} sx={{ p: 4, maxWidth: 400, mx: "auto", mt: 8 }}>
@@ -43,18 +94,12 @@ export default function UpdatePasswordForm() {
         Update Password
       </Typography>
 
-      {updatePassword.isError && (
-        <Alert severity="error" sx={{ mb: 2 }}>
-          Failed to update password
-        </Alert>
-      )}
-
       <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
         <TextField
           fullWidth
           margin="normal"
           label="New Password"
-          type="password"
+          type={showPassword ? "text" : "password"}
           error={!!errors.password}
           helperText={errors.password?.message}
           {...register("password", {
@@ -64,13 +109,20 @@ export default function UpdatePasswordForm() {
               message: "Password must be at least 8 characters",
             },
           })}
+          InputProps={{
+            endAdornment: (
+              <IconButton onClick={togglePassword}>
+                {showPassword ? <Visibility /> : <VisibilityOff />}
+              </IconButton>
+            ),
+          }}
         />
 
         <TextField
           fullWidth
           margin="normal"
           label="Confirm Password"
-          type="password"
+          type={showPassword ? "text" : "password"}
           error={!!errors.confirmPassword}
           helperText={errors.confirmPassword?.message}
           {...register("confirmPassword", {
@@ -78,6 +130,13 @@ export default function UpdatePasswordForm() {
             validate: (value) =>
               value === password || "The passwords do not match",
           })}
+          InputProps={{
+            endAdornment: (
+              <IconButton onClick={togglePassword}>
+                {showPassword ? <Visibility /> : <VisibilityOff />}
+              </IconButton>
+            ),
+          }}
         />
 
         <Button
@@ -85,9 +144,9 @@ export default function UpdatePasswordForm() {
           fullWidth
           variant="contained"
           sx={{ mt: 3 }}
-          disabled={updatePassword.isPending}
+          disabled={isPending}
         >
-          {updatePassword.isPending ? "Updating..." : "Update Password"}
+          {isPending ? "Updating Password..." : "Update Password"}
         </Button>
       </Box>
     </Paper>

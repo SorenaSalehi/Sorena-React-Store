@@ -31,7 +31,7 @@ export default function LoginForm() {
           setUser(user);
           toast.success("Welcome back", { duration: 4000 });
 
-          navigate(-1);
+          navigate("/dashboard");
         },
 
         onError: () => {

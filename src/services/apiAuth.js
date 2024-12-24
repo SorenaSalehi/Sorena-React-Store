@@ -39,6 +39,19 @@ export async function resetPassword({ email }) {
   if (error) throw new Error(error.message);
 }
 
+//*update password
+export async function updatePassword(newPassword) {
+  console.log(newPassword);
+  const { data, error } = await supabase.auth.updateUser({
+    password: newPassword,
+  });
+
+  if (error)
+    throw new Error(error.message || "something wrong to update user account");
+
+  return data;
+}
+
 //*get current user
 export async function getCurrentUser() {
   // //*get this from local
@@ -51,7 +64,7 @@ export async function getCurrentUser() {
     data: { user },
     error,
   } = await supabase.auth.getUser();
-  if (error) throw new Error(error.message);
+  if (error) throw new Error(error.message || "something wrong to get user");
 
   return user;
 }
@@ -63,14 +76,7 @@ export async function updateUserAccount({ email, password }) {
 
   const { error } = await supabase.auth.updateUser({ email, password });
   if (error)
-    throw new Error("something wrong to update user account", error.message);
-}
-
-export async function updatePassword(newPassword) {
-  const { error } = await supabase.auth.updateUser({ password: newPassword });
-
-  if (error)
-    throw new Error("something wrong to update user account", error.message);
+    throw new Error(error.message || "something wrong to update user account");
 }
 
 //*fetch user details
@@ -83,7 +89,8 @@ export async function fetchUserDetails() {
   const { data: userDetails, error } = await supabase
     .from("userDetails")
     .select("*");
-  if (error) throw new Error("something wrong to remove item");
+  if (error)
+    throw new Error(error.message || "something wrong to get user details");
 
   return userDetails.at(0);
 }
@@ -98,12 +105,12 @@ export async function updateUserDetails({
   nationalID = "",
   birthday = "",
 }) {
-  const { data: user } = await supabase
+  const { data: user, error } = await supabase
     .from("userDetails")
     .update({ name, lastName, address, phoneNumber, nationalID, birthday })
     .eq("user_id", user_id)
     .select("*");
 
-  if (!user) throw new Error("something wrong to update user");
+  if (error) throw new Error(error.message || "something wrong to update user");
   return user;
 }
