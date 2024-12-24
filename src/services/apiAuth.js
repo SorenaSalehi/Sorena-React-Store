@@ -34,7 +34,7 @@ export async function logout() {
 export async function resetPassword({ email }) {
   if (!email) return;
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: "https://sorena-react-store.netlify.app/resetPassword",
+    redirectTo: `${window.location.origin}/resetPassword`,
   });
   if (error) throw new Error(error.message);
 }
@@ -62,6 +62,13 @@ export async function updateUserAccount({ email, password }) {
   console.log(email, password);
 
   const { error } = await supabase.auth.updateUser({ email, password });
+  if (error)
+    throw new Error("something wrong to update user account", error.message);
+}
+
+export async function updatePassword(newPassword) {
+  const { error } = await supabase.auth.updateUser({ password: newPassword });
+
   if (error)
     throw new Error("something wrong to update user account", error.message);
 }

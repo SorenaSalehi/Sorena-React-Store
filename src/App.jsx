@@ -43,7 +43,7 @@ const routes = [
       },
       { path: "/login", element: <Login /> },
       { path: "/signup", element: <SignupForm /> },
-      { path: "/ForgotPassword", element: <ForgotPassword /> },
+      { path: "/forgotPassword", element: <ForgotPassword /> },
       { path: "/resetPassword", element: <ResetPassword /> },
 
       {
@@ -64,7 +64,6 @@ const routes = [
         path: "/wishlist",
         element: <Wishlist />,
       },
-
     ],
   },
 ];

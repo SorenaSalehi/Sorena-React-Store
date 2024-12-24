@@ -44,7 +44,7 @@ export default function ForgotPassword() {
       }}
     >
       <Typography component="h4" variant="h4">
-        Reset Password
+        Send Reset Password Link to Your Email:
       </Typography>
       <Box
         component="form"
