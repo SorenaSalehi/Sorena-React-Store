@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchUserDetails } from "../../services/apiUserData";
+import { fetchUserDetails } from "../../services/apiAuth";
 
 export function useUserDetails(id) {
   console.log(id);

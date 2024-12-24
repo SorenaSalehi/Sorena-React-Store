@@ -21,6 +21,8 @@ import QuestPage from "./pages/GuestPage";
 import AccountSetting from "./pages/AccountSetting";
 import HomeSkeleton from "./ui/HomeSkeleton";
 import ProfileSkeleton from "./ui/ProfileSkeleton";
+import ForgotPassword from "./ui/ForgotPassword";
+import ResetPassword from "./ui/ResetPassword";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -44,6 +46,8 @@ const routes = [
       },
       { path: "/login", element: <Login /> },
       { path: "/signup", element: <SignupForm /> },
+      { path: "/ForgotPassword", element: <ForgotPassword /> },
+      { path: "/resetPassword", element: <ResetPassword /> },
 
       {
         path: "/profile",
@@ -81,15 +85,15 @@ export default function App() {
       FallbackComponent={ErrorFallback}
       onReset={() => window.location.replace("/")}
     >
-      <AuthProvider>
-        <QueryClientProvider client={queryClient}>
-          <ReactQueryDevtools initialIsOpen={false} />
+      <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools initialIsOpen={false} />
+        <AuthProvider>
           <ShopProvider>
             <Toaster />
             <RouterProvider router={router} />;
           </ShopProvider>
-        </QueryClientProvider>
-      </AuthProvider>
+        </AuthProvider>
+      </QueryClientProvider>
     </ErrorBoundary>
   );
 }

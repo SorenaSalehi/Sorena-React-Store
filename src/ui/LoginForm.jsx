@@ -2,22 +2,25 @@ import {
   Box,
   Button,
   CircularProgress,
+  IconButton,
   Paper,
   TextField,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLogin } from "../Features/authentication/useLogin";
 import { useAuthContext } from "../context/AuthProvider";
 import { NavLink } from "react-router";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 export default function LoginForm() {
   const { register, formState, reset, handleSubmit } = useForm();
   const { errors } = formState;
-  const { login, isLoading } = useLogin();
+  const { login, isLogin } = useLogin();
   const { setUser } = useAuthContext();
-
+  const [showPassword, setShowPassword] = useState(false);
+  console.log(isLogin);
   function onSubmit({ email, password }) {
     login(
       { email, password },
@@ -27,6 +30,10 @@ export default function LoginForm() {
         },
       }
     );
+  }
+
+  function togglePassword() {
+    setShowPassword((prev) => !prev);
   }
 
   return (
@@ -60,6 +67,7 @@ export default function LoginForm() {
             })}
             error={errors.email}
             helperText={errors.email?.message}
+            disabled={isLogin}
           />
         </Box>
         <Box
@@ -70,7 +78,7 @@ export default function LoginForm() {
             id="password"
             variant="outlined"
             label="password"
-            type="password"
+            type={showPassword ? "text" : "password"}
             defaultValue="12345678"
             sx={{ flexGrow: "1" }}
             {...register("password", {
@@ -82,10 +90,18 @@ export default function LoginForm() {
             })}
             error={errors.password}
             helperText={errors.password?.message}
+            disabled={isLogin}
+            InputProps={{
+              endAdornment: (
+                <IconButton onClick={togglePassword}>
+                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              ),
+            }}
           />
         </Box>{" "}
-        <Button variant="contained" type="submit" disabled={isLoading}>
-          {isLoading ? <CircularProgress /> : "Login"}
+        <Button variant="contained" type="submit" disabled={isLogin}>
+          {isLogin ? <CircularProgress /> : "Login"}
         </Button>
         <NavLink to="/guest">Be My Quest</NavLink>
       </Box>

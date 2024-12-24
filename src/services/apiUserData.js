@@ -1,5 +1,6 @@
 import supabase from "./supabase";
 
+//*fetch user items
 export async function fetchUserItems({ userId, from }) {
   if (!userId || !from) return;
   const { data, error } = await supabase.from(from).select("*");
@@ -32,6 +33,7 @@ export async function removeFrom({ productId, from }) {
   if (error) throw new Error("something wrong to remove item");
 }
 
+//*change quantity
 export async function changeQuantity({ productId, quantity, type }) {
   if (!productId || !quantity || !type) return;
 
@@ -46,47 +48,4 @@ export async function changeQuantity({ productId, quantity, type }) {
   if (error) throw new Error("something wrong to remove item");
 
   return data;
-}
-
-export async function updateUserAccount({ email, password }) {
-  console.log(email, password);
-  if (!email || !password) return;
-
-  const { data, error } = await supabase.auth.updateUser(email, password);
-  if (error) throw new Error("something wrong to remove item");
-
-  console.log(data);
-}
-
-export async function fetchUserDetails() {
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return;
-
-  const { data: userDetails, error } = await supabase
-    .from("userDetails")
-    .select("*");
-  if (error) throw new Error("something wrong to remove item");
-
-  return userDetails.at(0);
-}
-
-export async function updateUserDetails({
-  user_id,
-  name = "",
-  lastName = "",
-  address = "",
-  phoneNumber = "",
-  nationalID = "",
-  birthday = "",
-}) {
-  const { data: user } = await supabase
-    .from("userDetails")
-    .update({ name, lastName, address, phoneNumber, nationalID, birthday })
-    .eq("user_id", user_id)
-    .select("*");
-
-  if (!user) throw new Error("something wrong to update user");
-  return user;
 }

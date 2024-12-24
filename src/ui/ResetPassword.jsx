@@ -1,40 +1,31 @@
-import {
-  Box,
-  Button,
-  IconButton,
-  Paper,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useAuthContext } from "../context/AuthProvider";
 import { useUpdateAccount } from "../Features/user/useUpdateAccount";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { useNavigate } from "react-router";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
-export default function AccountSetting() {
+export default function ResetPassword() {
   const { updateAccount, isUpdating } = useUpdateAccount();
-  const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate();
-
   const {
     register,
     handleSubmit,
-    reset,
-    formState: { errors },
     watch,
+    formState: { errors },
   } = useForm();
+  const [showPassword, setShowPassword] = useState(false);
+
+  const navigate = useNavigate();
 
   function onSubmit({ email, password }) {
-    console.log(email, password);
     updateAccount(
       { email, password },
       {
         onSuccess: () => {
-          toast.success("Account Updated Successfully!!");
-          reset();
-          navigate("/");
+          toast.success("Password updated successfully", { duration: 5000 });
+          navigate("/login");
         },
 
         onError: (error) => {
@@ -44,47 +35,53 @@ export default function AccountSetting() {
     );
   }
 
-  const password = watch("password", "");
+  const password = watch("password");
   function togglePassword() {
     setShowPassword((prev) => !prev);
   }
 
   return (
-    <Paper sx={{ p: 2, textAlign: "center" }}>
-      <Typography variant="h4">Account Setting</Typography>
-      <Typography variant="h6">
-        You Can Change Your Email And Password Here:
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "1rem",
+        padding: "3rem",
+      }}
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <Typography component="h4" variant="h4">
+        Enter Your New Password:
       </Typography>
       <Box
         component="form"
-        sx={{ display: "flex", flexDirection: "column", gap: 2, p: 2 }}
-        onSubmit={handleSubmit(onSubmit)}
+        sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}
       >
         <TextField
-          id="email"
-          label="Email"
+          type="email"
           variant="outlined"
+          label="Email"
           {...register("email", {
-            required: "Email is Required!!",
+            required: "Email is required",
             pattern: {
-              value: /\S+@\S+\.\S+/,
-              message: "Please provide a valid Email!",
+              value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
+              message: "Invalid email address",
             },
           })}
           error={errors?.email}
           helperText={errors?.email?.message}
           disabled={isUpdating}
         />
+
         <TextField
-          id="password"
-          label="password"
           type={showPassword ? "text" : "password"}
           variant="outlined"
+          label="Password"
           {...register("password", {
-            required: "Password is Required!!",
+            required: "Password is required",
             minLength: {
               value: 8,
-              message: "Password must be at least 8 characters long.",
+              message: "Password must be at least 6 characters",
             },
           })}
           error={errors?.password}
@@ -99,23 +96,29 @@ export default function AccountSetting() {
           }}
         />
         <TextField
-          id="confirmedPassword"
-          label="Confirm Password"
           type={showPassword ? "text" : "password"}
           variant="outlined"
-          {...register("confirmedPassword", {
-            required: "Password is Required!!",
+          label="Confirm Password"
+          {...register("confirmPassword", {
+            required: "Confirm Password is required",
             validate: (value) =>
               value === password || "The passwords do not match",
           })}
-          error={!!errors.confirmedPassword}
-          helperText={errors?.confirmedPassword?.message}
+          error={errors?.confirmPassword}
+          helperText={errors?.confirmPassword?.message}
           disabled={isUpdating}
+          InputProps={{
+            endAdornment: (
+              <IconButton onClick={togglePassword}>
+                {showPassword ? <Visibility /> : <VisibilityOff />}
+              </IconButton>
+            ),
+          }}
         />
-        <Button type="submit" variant="contained">
-          Submit
+        <Button type="submit" variant="contained" disabled={isUpdating}>
+          Reset Password
         </Button>
       </Box>
-    </Paper>
+    </Box>
   );
 }

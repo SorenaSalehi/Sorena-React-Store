@@ -18,10 +18,10 @@ export default function Login() {
     >
       <LoginForm />
       <Card>
-        <Typography component="h4" variant="h4">
-          Signup{" "}
-        </Typography>
         <Button onClick={() => navigate("/signup")}>Signup</Button>
+        <Button onClick={() => navigate("/forgotPassword")}>
+          Forgot Password
+        </Button>
       </Card>
     </Box>
   );

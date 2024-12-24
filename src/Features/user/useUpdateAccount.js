@@ -1,8 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
-import { updateUserAccount } from "../../services/apiUserData";
+import { updateUserAccount } from "../../services/apiAuth";
 
 export function useUpdateAccount() {
-  const { mutate: updateAccount, isLoading: isUpdating } = useMutation({
+  const { mutate: updateAccount, isPending: isUpdating } = useMutation({
     mutationFn: updateUserAccount,
   });
 
