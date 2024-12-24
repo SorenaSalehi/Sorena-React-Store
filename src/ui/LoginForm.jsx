@@ -11,22 +11,31 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLogin } from "../Features/authentication/useLogin";
 import { useAuthContext } from "../context/AuthProvider";
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import toast from "react-hot-toast";
 
 export default function LoginForm() {
   const { register, formState, reset, handleSubmit } = useForm();
   const { errors } = formState;
   const { login, isLogin } = useLogin();
   const { setUser } = useAuthContext();
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  console.log(isLogin);
+
   function onSubmit({ email, password }) {
     login(
       { email, password },
       {
         onSuccess: ({ user }) => {
           setUser(user);
+          toast.success("Welcome back", { duration: 4000 });
+
+          navigate(-1);
+        },
+
+        onError: () => {
+          toast.error("Provided Email or password is Wrong!!");
         },
       }
     );
@@ -103,7 +112,6 @@ export default function LoginForm() {
         <Button variant="contained" type="submit" disabled={isLogin}>
           {isLogin ? <CircularProgress /> : "Login"}
         </Button>
-        <NavLink to="/guest">Be My Quest</NavLink>
       </Box>
     </Paper>
   );

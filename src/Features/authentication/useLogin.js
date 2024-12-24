@@ -13,12 +13,6 @@ export function useLogin() {
 
     onSuccess: ({ user }) => {
       queryClient.setQueryData(["user"], user);
-      toast.success("Welcome back", { duration: 4000 });
-
-      navigate("/");
-    },
-    onError: () => {
-      toast.error("Provided Email or password is Wrong!!");
     },
   });
 

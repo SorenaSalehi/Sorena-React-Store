@@ -17,10 +17,7 @@ import SignupForm from "./ui/SignupForm";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "./ui/ErrorFallback";
 import { AuthProvider } from "./context/AuthProvider";
-import QuestPage from "./pages/GuestPage";
 import AccountSetting from "./pages/AccountSetting";
-import HomeSkeleton from "./ui/HomeSkeleton";
-import ProfileSkeleton from "./ui/ProfileSkeleton";
 import ForgotPassword from "./ui/ForgotPassword";
 import ResetPassword from "./ui/ResetPassword";
 
@@ -68,7 +65,6 @@ const routes = [
         element: <Wishlist />,
       },
 
-      { path: "/guest", element: <QuestPage /> },
     ],
   },
 ];
