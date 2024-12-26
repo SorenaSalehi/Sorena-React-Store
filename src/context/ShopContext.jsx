@@ -16,6 +16,8 @@ export function ShopProvider({ children }) {
   const { user_id } = useAuthContext();
 
   const [currentProduct, setCurrentProduct] = useState(null);
+  //*wishlist or basket
+  const [type, setType] = useState(null);
   const { basket, isBasketLoading } = useBasket({
     user_id,
     from: "basket",
@@ -43,7 +45,6 @@ export function ShopProvider({ children }) {
       });
       return;
     }
-    console.log(productId, to);
     if (!productId || !to) {
       toast.error("Something Went Wrong ,Try Again", {
         duration: 4000,
@@ -156,6 +157,9 @@ export function ShopProvider({ children }) {
 
         currentProduct,
         setCurrentProduct,
+
+        type,
+        setType,
 
         basket,
         isBasketLoading,

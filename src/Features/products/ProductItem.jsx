@@ -9,10 +9,10 @@ import { useNavigate, useSearchParams } from "react-router";
 import { Favorite, Remove, ShoppingBasket } from "@mui/icons-material";
 import { useShopContext } from "../../context/ShopContext";
 import { set } from "date-fns";
+import ItemBtns from "../../ui/ItemBtns";
 
 export default function ProductItem({ item, type }) {
-  const { handleAddTo, handleRemoveFrom, isAddingTo, setCurrentProduct } =
-    useShopContext();
+  const { basket, setCurrentProduct, setType } = useShopContext();
   const navigate = useNavigate();
 
   const {
@@ -27,9 +27,12 @@ export default function ProductItem({ item, type }) {
     discountPercentage,
   } = item;
 
+  const quantity = basket?.find((q) => Number(q.productId) === id)?.quantity;
+
   //*navigate to product details page
   function handleNavigate() {
     setCurrentProduct(item);
+    setType(type);
     navigate(`/product/${id}`);
   }
 
@@ -55,58 +58,10 @@ export default function ProductItem({ item, type }) {
         <Typography>{discountPercentage}% OFF</Typography>
       </Box>
 
-      {/* //*wishlist and shopping basket btn*/}
-      <Box component="div" sx={{ margin: "1rem", padding: "1rem" }}>
-        <Fab
-          onClick={() => handleAddTo({ productId: id, to: "basket" })}
-          disabled={isAddingTo}
-          sx={{
-            margin: " 0 0.5rem",
-            padding: "0.5rem",
-            width: "max-Content",
-            height: "max-content",
-          }}
-        >
-          <ShoppingBasket fontSize="small" />
-        </Fab>
+      {/* //*btns Group by type */}
+      <ItemBtns type={type} productId={id} quantity={quantity} />
 
-        {/* //*these used also in wishlist  */}
-        {type === "wishlist" ? (
-          <Fab
-            onClick={() =>
-              handleRemoveFrom({
-                productId: id,
-                from: "wishlist",
-              })
-            }
-            sx={{
-              margin: " 0 0.5rem",
-              padding: "0.5rem",
-              width: "max-Content",
-              height: "max-content",
-            }}
-          >
-            <Remove fontSize="small" />
-          </Fab>
-        ) : (
-          <Fab
-            onClick={() =>
-              handleAddTo({
-                productId: id,
-                from: "wishlist",
-              })
-            }
-            sx={{
-              margin: " 0 0.5rem",
-              padding: "0.5rem",
-              width: "max-Content",
-              height: "max-content",
-            }}
-          >
-            <Favorite fontSize="small" />
-          </Fab>
-        )}
-      </Box>
+      {/* //*card Area */}
       <CardActionArea>
         {/* Product Details */}
         <CardContent onClick={handleNavigate}>
@@ -114,8 +69,7 @@ export default function ProductItem({ item, type }) {
           <Box
             component="div"
             sx={{
-              width: "80%",
-              height: "80%",
+              width: "40%",
               margin: "0 auto",
             }}
           >

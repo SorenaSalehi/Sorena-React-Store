@@ -8,12 +8,11 @@ import ProductDetailsContent from "../ui/ProductDetailsContent";
 import { useParams } from "react-router";
 import { useProductById } from "../Features/products/useProductById";
 import { useShopContext } from "../context/ShopContext";
+import ItemBtns from "../ui/ItemBtns";
 
 export default function ProductDetails() {
- 
-  const { currentProduct,handleAddTo, handleRemoveFrom } = useShopContext();
-
-
+  const { currentProduct, handleAddTo, handleRemoveFrom, type } =
+    useShopContext();
 
   return (
     <Box component="div" style={{ position: "relative", margin: "1rem 1rem" }}>
@@ -34,48 +33,11 @@ export default function ProductDetails() {
         <ProductImageSwiper autoplay={100000} images={currentProduct.images} />
       </Typography>
 
-      {/* //*wishlist and shopping basket btn*/}
-      <Box component="div" sx={{ position: "fixed" }}>
-        <Fab
-          sx={{
-            margin: " 0 0.5rem",
-            padding: "0.5rem",
-            width: "max-Content",
-            height: "max-content",
-          }}
-          onClick={() =>
-            handleAddTo({
-              productId: currentProduct?.id,
-
-              from: "basket",
-            })
-          }
-        >
-          <ShoppingBasket fontSize="small" />
-        </Fab>
-        {
-          <Fab
-            sx={{
-              margin: " 0 0.5rem",
-              padding: "0.5rem",
-              width: "max-Content",
-              height: "max-content",
-            }}
-            onClick={() =>
-              handleAddTo({
-                productId: currentProduct?.id,
-
-                from: "wishlist",
-              })
-            }
-          >
-            <Favorite fontSize="small" />
-          </Fab>
-        }
-      </Box>
+      {/* //*btns Group by type */}
+      <ItemBtns type={type} productId={currentProduct.id} isDetails={true} />
 
       {/* //*Scrolling Content */}
-      <ProductDetailsContent  />
+      <ProductDetailsContent />
     </Box>
   );
 }

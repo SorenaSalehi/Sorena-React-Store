@@ -1,5 +1,6 @@
 import React from "react";
-import ShoppingBasketItem from "./ShoppingBasketItem";
+
+import ProductItem from "../products/ProductItem";
 import { Box, Button, Typography } from "@mui/material";
 import { calcCountPrice, calcDiscount } from "../../utils/helpers";
 import { useShopContext } from "../../context/ShopContext";
@@ -21,9 +22,9 @@ export default function ShoppingBasketList({ basketDetails }) {
       <Typography variant="h4" gutterBottom>
         Your Basket
       </Typography>
-      {/* //!must reuse product Item */}
       {basketDetails?.map((item) => (
-        <ShoppingBasketItem item={item} key={item.id} itemQuantity={basket} />
+        // <ShoppingBasketItem item={item} key={item.id} itemQuantity={basket} />
+        <ProductItem item={item} key={item.id} type="basket" />
       ))}
       <Typography variant="h6">{itemCount} Item</Typography>
       <Typography variant="h6" color="primary">

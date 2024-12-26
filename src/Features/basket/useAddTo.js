@@ -4,7 +4,7 @@ import { addTo as addToApi } from "../../services/apiUserData";
 export function useAddTo() {
   const queryClient = useQueryClient();
 
-  const { mutate: addTo, isLoading: isAddingTo } = useMutation({
+  const { mutate: addTo, isPending: isAddingTo } = useMutation({
     mutationFn: ({ user_id, productId, to }) =>
       addToApi({ user_id, productId, to }),
 

@@ -1,7 +1,9 @@
 import React from "react";
 import { useShopContext } from "../context/ShopContext";
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import ProductItem from "../Features/products/ProductItem";
+import { NavLink } from "react-router";
+import { Login } from "@mui/icons-material";
 
 export default function Wishlist() {
   const {
@@ -16,6 +18,11 @@ export default function Wishlist() {
     return (
       <Typography component="h2" variant="h2" sx={{ textAlign: "center" }}>
         Please Login First
+        <NavLink to="/login">
+          <Button>
+            <Login />
+          </Button>
+        </NavLink>
       </Typography>
     );
   }

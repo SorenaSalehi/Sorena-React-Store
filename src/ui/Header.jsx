@@ -13,8 +13,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import MoreIcon from "@mui/icons-material/MoreVert";
-import SideMenu from "./SideMenu";
 import { DarkMode, LogoutOutlined, ShoppingBasket } from "@mui/icons-material";
 import DarkModeToggle from "./DarkModeToggle";
 import { useLogout } from "../Features/authentication/useLogout";
