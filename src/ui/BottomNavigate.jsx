@@ -1,15 +1,14 @@
 import * as React from "react";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
-import FolderIcon from "@mui/icons-material/Folder";
-import RestoreIcon from "@mui/icons-material/Restore";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { AccountCircle, Home, ShoppingBasket } from "@mui/icons-material";
-import { NavLink, useNavigate } from "react-router";
-import { AppBar } from "@mui/material";
+import { Badge } from "@mui/material";
+import { useNavigate } from "react-router";
+import { useShopContext } from "../context/ShopContext";
 
 export default function BottomNavigate() {
+  const { basket, wishlist } = useShopContext();
   const [value, setValue] = React.useState("");
   const navigate = useNavigate();
 
@@ -21,7 +20,7 @@ export default function BottomNavigate() {
   return (
     <BottomNavigation
       sx={{
-        width: 300,
+        width: "100%",
         zIndex: 1100,
         position: "fixed",
         bottom: 0,
@@ -32,12 +31,35 @@ export default function BottomNavigate() {
       <BottomNavigationAction
         label="wishlist"
         value="/wishlist"
-        icon={<FavoriteIcon />}
+        icon={
+          <Badge
+            badgeContent={wishlist?.length}
+            color="success"
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+          >
+            <FavoriteIcon />
+          </Badge>
+        }
       />
+
       <BottomNavigationAction
         label="Shopping Basket"
         value="/shoppingBasket"
-        icon={<ShoppingBasket />}
+        icon={
+          <Badge
+            badgeContent={basket?.length}
+            color="success"
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+          >
+            <ShoppingBasket />
+          </Badge>
+        }
       />
 
       <BottomNavigationAction label="Home" value="/" icon={<Home />} />

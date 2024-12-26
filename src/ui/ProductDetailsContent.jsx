@@ -6,10 +6,11 @@ import {
   Rating,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import ShowMoreDrawer from "./ShowMoreDrawer";
 import { calcDiscount } from "../utils/helpers";
 import { useShopContext } from "../context/ShopContext";
+import { useNavigate } from "react-router";
 
 export default function ProductDetailsContent() {
   const {
@@ -22,6 +23,23 @@ export default function ProductDetailsContent() {
       discountPercentage,
     },
   } = useShopContext();
+
+  //*if user refresh the details page , then will current product remove and get empty page
+  if (
+    !brand &&
+    !title &&
+    !category &&
+    !price &&
+    !description &&
+    !discountPercentage
+  )
+    return (
+      <Card>
+        <Typography>
+          Please Check Your Connection OR Refresh the Page
+        </Typography>
+      </Card>
+    );
 
   return (
     <Card
@@ -47,7 +65,7 @@ export default function ProductDetailsContent() {
           variant="body2"
           sx={{ color: "text.secondary", display: "flex", gap: "0.3rem" }}
         >
-          <Box component="p">{category.replace("-", " ").toUpperCase()} |</Box>
+          <Box component="p">{category?.replace("-", " ").toUpperCase()} |</Box>
           <Box component="p" sx={{ display: "flex" }}>
             Price:{" "}
             <Typography

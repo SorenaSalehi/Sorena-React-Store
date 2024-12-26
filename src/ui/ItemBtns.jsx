@@ -9,7 +9,7 @@ import { Box, Fab, IconButton, Typography, Tooltip } from "@mui/material";
 import React from "react";
 import { useShopContext } from "../context/ShopContext";
 
-export default function ItemBtns({ type, productId, quantity, isDetails }) {
+function ItemBtns({ type, productId, quantity, isDetails }) {
   const {
     handleAddTo,
     handleRemoveFrom,
@@ -178,3 +178,5 @@ export default function ItemBtns({ type, productId, quantity, isDetails }) {
     </Box>
   );
 }
+
+export default React.memo(ItemBtns);

@@ -59,7 +59,7 @@ export default function ProductItem({ item, type }) {
       </Box>
 
       {/* //*btns Group by type */}
-      <ItemBtns type={type} productId={id} quantity={quantity} />
+      <ItemBtns key={id} type={type} productId={id} quantity={quantity} />
 
       {/* //*card Area */}
       <CardActionArea>
