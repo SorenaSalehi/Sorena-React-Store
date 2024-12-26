@@ -4,6 +4,7 @@ import "./index.css";
 import App from "./App.jsx";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "./ui/ErrorFallback.jsx";
+import { DarkModeProvider } from "./context/DarkModeProvider.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -11,7 +12,9 @@ createRoot(document.getElementById("root")).render(
       FallbackComponent={ErrorFallback}
       onReset={() => window.location.replace("/")}
     >
-      <App />
+      <DarkModeProvider>
+        <App />
+      </DarkModeProvider>
     </ErrorBoundary>
   </StrictMode>
 );

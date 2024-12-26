@@ -69,7 +69,7 @@ export default function ProductItem({ item, type }) {
           <Box
             component="div"
             sx={{
-              width: "40%",
+              width: "60%",
               margin: "0 auto",
             }}
           >

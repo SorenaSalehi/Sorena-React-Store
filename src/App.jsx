@@ -1,25 +1,30 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router";
-
-import Layout from "./ui/Layout";
-import Products from "./pages/Products";
-import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
-import ProductDetails from "./pages/ProductDetails";
-import ShoppingBasket from "./pages/ShoppingBasket";
-import UserProfile from "./pages/UserProfile";
-import Wishlist from "./pages/Wishlist";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { ShopProvider } from "./context/ShopContext";
 import { Toaster } from "react-hot-toast";
-import SignupForm from "./ui/SignupForm";
 import { ErrorBoundary } from "react-error-boundary";
-import ErrorFallback from "./ui/ErrorFallback";
+
+import { ShopProvider } from "./context/ShopContext";
 import { AuthProvider } from "./context/AuthProvider";
-import AccountSetting from "./pages/AccountSetting";
-import ForgotPassword from "./ui/ForgotPassword";
-import ResetPassword from "./ui/ResetPassword";
+import { createTheme, ThemeProvider } from "@mui/material";
+import { DarkModeProvider, useDarkMode } from "./context/DarkModeProvider";
+
+// Lazy-loaded components
+const Layout = React.lazy(() => import("./ui/Layout"));
+const Products = React.lazy(() => import("./pages/Products"));
+const Login = React.lazy(() => import("./pages/Login"));
+const Dashboard = React.lazy(() => import("./pages/Dashboard"));
+const ProductDetails = React.lazy(() => import("./pages/ProductDetails"));
+const ShoppingBasket = React.lazy(() => import("./pages/ShoppingBasket"));
+const UserProfile = React.lazy(() => import("./pages/UserProfile"));
+const Wishlist = React.lazy(() => import("./pages/Wishlist"));
+const SignupForm = React.lazy(() => import("./ui/SignupForm"));
+const ErrorFallback = React.lazy(() => import("./ui/ErrorFallback"));
+const AccountSetting = React.lazy(() => import("./pages/AccountSetting"));
+const ForgotPassword = React.lazy(() => import("./ui/ForgotPassword"));
+const ResetPassword = React.lazy(() => import("./ui/ResetPassword"));
+const MainFallback = React.lazy(() => import("./ui/MainFallback"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -75,20 +80,27 @@ const router = createBrowserRouter(routes, {
 });
 
 export default function App() {
+  const { isDarkMode } = useDarkMode();
+
+  const theme = createTheme({
+    palette: {
+      mode: isDarkMode ? "dark" : "light",
+    },
+  });
+
   return (
-    <ErrorBoundary
-      FallbackComponent={ErrorFallback}
-      onReset={() => window.location.replace("/")}
-    >
-      <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools initialIsOpen={false} />
-        <AuthProvider>
-          <ShopProvider>
-            <Toaster />
-            <RouterProvider router={router} />;
-          </ShopProvider>
-        </AuthProvider>
-      </QueryClientProvider>
-    </ErrorBoundary>
+    <Suspense fallback={<MainFallback />}>
+      <ThemeProvider theme={theme}>
+        <QueryClientProvider client={queryClient}>
+          <ReactQueryDevtools initialIsOpen={false} />
+          <AuthProvider>
+            <ShopProvider>
+              <Toaster />
+              <RouterProvider router={router} />;
+            </ShopProvider>
+          </AuthProvider>
+        </QueryClientProvider>
+      </ThemeProvider>
+    </Suspense>
   );
 }

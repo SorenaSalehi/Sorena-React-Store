@@ -67,7 +67,12 @@ export default function ProductImageSwiper({
       >
         {images?.map((img) => (
           <SwiperSlide>
-            <Box component="img" lazy alt={`product-img-${img}  `} src={img} />
+            <Box
+              component="img"
+              loading="lazy"
+              alt={`product-img-${img}`}
+              src={img}
+            />
           </SwiperSlide>
         ))}
       </Swiper>

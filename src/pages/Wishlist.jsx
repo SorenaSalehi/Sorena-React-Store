@@ -41,7 +41,7 @@ export default function Wishlist() {
   }
 
   return (
-    <Box component="ul">
+    <Box component="ul" sx={{ listStyle: "none" }}>
       {wishlistDetails?.map((item) => (
         <ProductItem item={item} key={item.id} type="wishlist" />
       ))}
