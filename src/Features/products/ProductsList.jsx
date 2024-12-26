@@ -4,7 +4,6 @@ import React from "react";
 import ProductItem from "./ProductItem";
 import { useProducts } from "./useProducts";
 import { useOneProduct } from "./useOneProduct";
-import { Home } from "@mui/icons-material";
 import HomeSkeleton from "../../ui/HomeSkeleton";
 
 export default function ProductsList({ category }) {

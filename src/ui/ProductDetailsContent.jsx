@@ -9,19 +9,20 @@ import {
 import React from "react";
 import ShowMoreDrawer from "./ShowMoreDrawer";
 import { calcDiscount } from "../utils/helpers";
+import { useShopContext } from "../context/ShopContext";
 
-export default function ProductDetailsContent({
-  details: {
-    brand,
-    title,
-    category,
-    price,
+export default function ProductDetailsContent() {
+  const {
+    currentProduct: {
+      brand,
+      title,
+      category,
+      price,
+      description,
+      discountPercentage,
+    },
+  } = useShopContext();
 
-    description,
-
-    discountPercentage,
-  },
-}) {
   return (
     <Card
       sx={{

@@ -4,7 +4,7 @@ import { changeQuantity } from "../../services/apiUserData";
 export function useUpdateQuantity() {
   const queryClient = useQueryClient();
 
-  const { mutate: updateQuantity, isLoading: isUpdatingQuantity } = useMutation(
+  const { mutate: updateQuantity, isPending: isUpdatingQuantity } = useMutation(
     {
       mutationFn: ({ productId, quantity, type }) =>
         changeQuantity({ productId, quantity, type }),

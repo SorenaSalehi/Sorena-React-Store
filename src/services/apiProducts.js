@@ -48,6 +48,7 @@ export async function getProductById(id) {
 
   if (!res.ok) throw new Error(`Failed to fetch category: ${category}`);
   const data = await res.json();
+  console.log(data);
   return data;
 }
 

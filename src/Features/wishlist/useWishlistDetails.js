@@ -5,12 +5,13 @@ export function useWishlistDetails(wishlist) {
   const ids =
     wishlist?.length > 0 ? wishlist?.map((item) => item.productId) : null;
 
-  const { data: wishlistDetails = [], isLoading: isDetailsLoading } = useQuery({
-    queryKey: ["wishlistDetails", , wishlist],
-    queryFn: () => getAllProductsById(ids),
+  const { data: wishlistDetails = [], isLoading: isWishlistDetailsLoading } =
+    useQuery({
+      queryKey: ["wishlistDetails", , wishlist],
+      queryFn: () => getAllProductsById(ids),
 
-    enabled: !!wishlist,
-  });
+      enabled: !!wishlist,
+    });
 
-  return { wishlistDetails, isDetailsLoading };
+  return { wishlistDetails, isWishlistDetailsLoading };
 }

@@ -1,25 +1,26 @@
 import React from "react";
-import ShoppingBasketList from "../Features/basket/ShoppingBasketList";
-import { useAuthContext } from "../context/AuthProvider";
-import { useBasket } from "../Features/basket/useBasket";
-import { useBasketDetails } from "../Features/basket/useBasketDetails";
 import { Typography } from "@mui/material";
 
+import ShoppingBasketList from "../Features/basket/ShoppingBasketList";
+import { useShopContext } from "../context/ShopContext";
+
 export default function ShoppingBasket() {
-  const { user } = useAuthContext();
-  // console.log("user", user);
-  const { basket, isBasketLoading } = useBasket({
-    userId: user?.id,
-    from: "basket",
-  });
-  
-  // console.log("basket", basket);
-  const { basketDetails, isDetailsLoading } = useBasketDetails(basket);
+  const { user_id, isBasketLoading, basketDetails, isBasketDetailsLoading } =
+    useShopContext();
 
-  if (isDetailsLoading || isBasketLoading) return <div>loadibng ...</div>;
-  // console.log("loading", isDetailsLoading);
-  // console.log(basketDetails);
+  //*if user is not logged in
+  if (!user_id) {
+    return (
+      <Typography component="h2" variant="h2" sx={{ textAlign: "center" }}>
+        Please Login First
+      </Typography>
+    );
+  }
 
+  //*if basket is loading
+  if (isBasketDetailsLoading || isBasketLoading) return <div>loading ...</div>;
+
+  //* basket is empty
   if (basketDetails?.length === 0) {
     return (
       <Typography component="h2" variant="h2" sx={{ textAlign: "center" }}>
@@ -28,5 +29,5 @@ export default function ShoppingBasket() {
     );
   }
 
-  return <ShoppingBasketList basketDetails={basketDetails} basket={basket} />;
+  return <ShoppingBasketList basketDetails={basketDetails} />;
 }

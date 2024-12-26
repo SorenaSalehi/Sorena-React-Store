@@ -4,10 +4,9 @@ const AuthContext = createContext();
 
 function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [email, setEmail] = useState(null);
 
   return (
-    <AuthContext.Provider value={{ setUser, user, email, setEmail }}>
+    <AuthContext.Provider value={{ user, setUser, user_id: user?.id }}>
       {children}
     </AuthContext.Provider>
   );
@@ -15,9 +14,8 @@ function AuthProvider({ children }) {
 
 function useAuthContext() {
   const context = useContext(AuthContext);
-
-  if (!context) throw new Error("Auth Context Was used OutSide the provider!!");
-
+  if (!context)
+    throw new Error("Auth Context must be used within AuthProvider");
   return context;
 }
 

@@ -2,8 +2,13 @@ import React from "react";
 import ShoppingBasketItem from "./ShoppingBasketItem";
 import { Box, Button, Typography } from "@mui/material";
 import { calcCountPrice, calcDiscount } from "../../utils/helpers";
+import { useShopContext } from "../../context/ShopContext";
 
-export default function ShoppingBasketList({ basketDetails, basket }) {
+export default function ShoppingBasketList({ basketDetails }) {
+  const { basket, isBasketLoading } = useShopContext();
+
+  if (isBasketLoading) return <div>loading ...</div>;
+
   if (!basketDetails) return null;
   //*calc items count and total price (some item has quantity and must also calc them)
   const { itemCount, totalPrice } = calcCountPrice({

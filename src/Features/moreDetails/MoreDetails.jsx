@@ -1,30 +1,15 @@
-import {
-  Box,
-  Divider,
-  Typography,
-  Card,
-  CardContent,
-  Grid,
-  Grid2,
-} from "@mui/material";
-import {
-  LocalShipping,
-  Star,
-  Category,
-  CheckCircle,
-  HourglassBottom,
-} from "@mui/icons-material";
+import { Box, Typography, Card, CardContent, Grid2 } from "@mui/material";
+import { Star, Category, CheckCircle } from "@mui/icons-material";
 import { useShopContext } from "../../context/ShopContext";
 
-export default function MoreDetails({ detailOf }) {
+export default function MoreDetails() {
   const { currentProduct } = useShopContext();
+
   const {
     discountPercentage,
     rating,
     brand,
-    availabilityStatus,
     category,
-    price,
     returnPolicy,
     shippingInformation,
     tags,
@@ -93,26 +78,7 @@ export default function MoreDetails({ detailOf }) {
       <Card>
         <CardContent>
           <Typography variant="h6">Specifications</Typography>
-          {category === "mens-shoes" && (
-            <Typography variant="body1">
-              <b>Sizes:</b> 38 | 39 | 41 | 42 | 44
-            </Typography>
-          )}
-          {category === "womens-shoes" && (
-            <Typography variant="body1">
-              <b>Sizes:</b> 29 | 32 | 34 | 35 | 36
-            </Typography>
-          )}
-          {category === "mens-shirts" && (
-            <Typography variant="body1">
-              <b>Sizes:</b> S | L | XL | 2Xl
-            </Typography>
-          )}{" "}
-          {category === "womens-shirts" && (
-            <Typography variant="body1">
-              <b>Sizes:</b> XS | S | L
-            </Typography>
-          )}
+
           <Typography variant="body1">
             <b>Weight:</b> {weight}
           </Typography>

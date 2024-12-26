@@ -1,13 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchUserItems } from "../../services/apiUserData";
 
-export function useWishlist({ userId, from }) {
-  console.log(userId, from);
+export function useWishlist({ user_id, from }) {
   const { data: wishlist = [], isLoading: isWishlistLoading } = useQuery({
     queryKey: ["wishlist"],
-    queryFn: () => fetchUserItems({ userId, from }),
+    queryFn: () => fetchUserItems({ user_id, from }),
 
-    enabled: !!userId,
+    enabled: !!user_id,
   });
 
   return { wishlist, isWishlistLoading };

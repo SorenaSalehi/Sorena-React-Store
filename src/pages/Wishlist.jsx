@@ -2,23 +2,29 @@ import React from "react";
 import { useShopContext } from "../context/ShopContext";
 import { Box, Typography } from "@mui/material";
 import ProductItem from "../Features/products/ProductItem";
-import { useAuthContext } from "../context/AuthProvider";
-import { useWishlist } from "../Features/wishlist/useWishlist";
-import { useBasketDetails } from "../Features/basket/useBasketDetails";
-import { useWishlistDetails } from "../Features/wishlist/useWishlistDetails";
 
 export default function Wishlist() {
-  const { user } = useAuthContext();
-  const { wishlist, isWishlistLoading } = useWishlist({
-    userId: user?.id,
-    from: "wishlist",
-  });
-  console.log(wishlist);
-  const { wishlistDetails, isDetailsLoading } = useWishlistDetails(wishlist);
+  const {
+    user_id,
+    isWishlistLoading,
+    wishlistDetails,
+    isWishlistDetailsLoading,
+  } = useShopContext();
 
-  if (isDetailsLoading || isWishlistLoading) return <div>loadibng ...</div>;
-  
+  //*if user is not logged in
+  if (!user_id) {
+    return (
+      <Typography component="h2" variant="h2" sx={{ textAlign: "center" }}>
+        Please Login First
+      </Typography>
+    );
+  }
 
+  //*if wishlist is Loading
+  if (isWishlistDetailsLoading || isWishlistLoading)
+    return <div>loading ...</div>;
+
+  //*if wishlist is empty
   if (wishlistDetails?.length === 0) {
     return (
       <Typography component="h2" variant="h2" sx={{ textAlign: "center" }}>

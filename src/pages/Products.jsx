@@ -8,13 +8,15 @@ import Category from "../ui/Category";
 export default function Products() {
   const [category, setCategory] = useState(null);
 
+  //*refs for scrolling
   const HeadRef = useRef(null);
   const ProductsRef = useRef(null);
 
+  //*scroll to top
   function handleGoTop() {
     HeadRef.current?.scrollIntoView({ behavior: "smooth" });
   }
-
+  //*handle category change and Scroll to products
   function handleCategory(value) {
     setCategory(value);
     ProductsRef.current?.scrollIntoView({ behavior: "smooth" });

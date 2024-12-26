@@ -8,24 +8,12 @@ import ProductImageSwiper from "../../ui/ProductImgSwiper";
 import { useNavigate, useSearchParams } from "react-router";
 import { Favorite, Remove, ShoppingBasket } from "@mui/icons-material";
 import { useShopContext } from "../../context/ShopContext";
-import toast from "react-hot-toast";
-import { useAddToBasket } from "../basket/useAddTobasket";
-import { useRemoveFromBasket } from "../basket/useRemoveFromBasket";
-import { useAuthContext } from "../../context/AuthProvider";
-import { useRemoveFromWishlist } from "../wishlist/useRemoveFromWishlist";
-import { useAddToWishlist } from "../wishlist/useAddToWishlist";
-import { useBasket } from "../basket/useBasket";
-import { useUpdateQuantity } from "../basket/useUpdateQuantity";
+import { set } from "date-fns";
 
 export default function ProductItem({ item, type }) {
+  const { handleAddTo, handleRemoveFrom, isAddingTo, setCurrentProduct } =
+    useShopContext();
   const navigate = useNavigate();
-  const { user } = useAuthContext();
-  const { basket } = useBasket({ userId: user?.id, from: "basket" });
-  const { addToBasket, isLoadingAddToBasket } = useAddToBasket();
-  const { removeFromBasket, isLoadingRemove } = useRemoveFromBasket();
-  const { addToWishlist, isAdding } = useAddToWishlist();
-  const { removeFromWishlist, isRemoving } = useRemoveFromWishlist();
-  const { updateQuantity, isUpdatingQuantity } = useUpdateQuantity();
 
   const {
     id,
@@ -38,89 +26,11 @@ export default function ProductItem({ item, type }) {
     tags,
     discountPercentage,
   } = item;
+
+  //*navigate to product details page
   function handleNavigate() {
+    setCurrentProduct(item);
     navigate(`/product/${id}`);
-  }
-
-  function handleAddTo({ user_id, productId, from }) {
-    if (!user_id || !productId || !from) return;
-
-    const isAlreadyExist = basket
-      ?.map((item) => {
-        return Number(item.productId);
-      })
-      .includes(productId);
-
-    if (isAlreadyExist) {
-      const quantity = basket?.find(
-        (q) => Number(q.productId) === productId
-      )?.quantity;
-      updateQuantity(
-        { productId, quantity, type: "increase" },
-        {
-          onSuccess: () => {
-            toast.success(
-              `You have *(${title})* Already In Your Shopping Basket`,
-              {
-                duration: 6000,
-              }
-            );
-          },
-        }
-      );
-      return;
-    }
-
-    if (from === "basket") {
-      addToBasket(
-        { user_id, productId, from },
-
-        {
-          onSuccess: () => {
-            toast.success(`${title} Was Successfully  Added to your ${from}`, {
-              duration: 4000,
-            });
-          },
-
-          onError: () => {
-            toast.error("Something Went Wrong!!");
-          },
-        }
-      );
-    }
-    if (from === "wishlist") {
-      addToWishlist(
-        { user_id, productId, from },
-
-        {
-          onSuccess: () => {
-            toast.success(`${title} Was Successfully  Added to your ${from}`, {
-              duration: 4000,
-            });
-          },
-
-          onError: () => {
-            toast.error("Something Went Wrong!!");
-          },
-        }
-      );
-    }
-  }
-
-  function handleRemoveFrom({ user_id, productId, from }) {
-    if ((!user_id, !productId, !from)) return;
-
-    removeFromBasket(
-      { user_id, productId, from },
-      {
-        onSuccess: () => {
-          toast.success(`${title} Was Successfully Remove from your ${from}`, {
-            duration: 4000,
-          });
-        },
-        onError: () => toast.error("Something Went Wrong!!"),
-      }
-    );
   }
 
   return (
@@ -148,10 +58,8 @@ export default function ProductItem({ item, type }) {
       {/* //*wishlist and shopping basket btn*/}
       <Box component="div" sx={{ margin: "1rem", padding: "1rem" }}>
         <Fab
-          onClick={() =>
-            handleAddTo({ user_id: user?.id, productId: id, from: "basket" })
-          }
-          disabled={isLoadingAddToBasket}
+          onClick={() => handleAddTo({ productId: id, to: "basket" })}
+          disabled={isAddingTo}
           sx={{
             margin: " 0 0.5rem",
             padding: "0.5rem",
@@ -167,7 +75,6 @@ export default function ProductItem({ item, type }) {
           <Fab
             onClick={() =>
               handleRemoveFrom({
-                user_id: user?.id,
                 productId: id,
                 from: "wishlist",
               })
@@ -185,7 +92,6 @@ export default function ProductItem({ item, type }) {
           <Fab
             onClick={() =>
               handleAddTo({
-                user_id: user?.id,
                 productId: id,
                 from: "wishlist",
               })

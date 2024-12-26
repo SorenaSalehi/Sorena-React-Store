@@ -8,7 +8,7 @@ export function useRemoveFromWishlist() {
 
   const {
     mutate: removeFromWishlist,
-    isLoading: isRemoving,
+    isPending: isRemovingFromWishlist,
     error,
   } = useMutation({
     mutationFn: removeFrom,
@@ -18,5 +18,5 @@ export function useRemoveFromWishlist() {
     },
   });
 
-  return { removeFromWishlist, isRemoving };
+  return { removeFromWishlist, isRemovingFromWishlist };
 }

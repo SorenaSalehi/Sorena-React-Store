@@ -2,20 +2,19 @@ import React, { useState } from "react";
 import { Box, Typography, IconButton, Divider, Fab } from "@mui/material";
 import { Delete, Remove, Add, Favorite } from "@mui/icons-material";
 
-import { useRemoveFromBasket } from "./useRemoveFromBasket";
 import ProductImageSwiper from "../../ui/ProductImgSwiper";
 import { calcDiscount } from "../../utils/helpers";
-import toast from "react-hot-toast";
-import { useAddToBasket } from "./useAddTobasket";
-import { useUpdateQuantity } from "./useUpdateQuantity";
-import { useAddToWishlist } from "../wishlist/useAddToWishlist";
-import { useAuthContext } from "../../context/AuthProvider";
+import { useShopContext } from "../../context/ShopContext";
 
 export default function ShoppingBasketItem({ item, itemQuantity }) {
-  const { user } = useAuthContext();
-  const { updateQuantity, isUpdatingQuantity } = useUpdateQuantity();
-  const { removeFromBasket, isLoadingRemove } = useRemoveFromBasket();
-  const { addToWishlist, isAdding } = useAddToWishlist();
+  const {
+    handleUpdateQuantity,
+    isUpdatingQuantity,
+    handleRemoveFrom,
+    handleAddTo,
+    isWishlistDetailsLoading,
+  } = useShopContext();
+
   const {
     id,
     images,
@@ -27,45 +26,11 @@ export default function ShoppingBasketItem({ item, itemQuantity }) {
     price,
     discountPercentage,
   } = item;
+
   // console.log(itemQuantity);
   const quantity = itemQuantity?.find(
     (q) => Number(q.productId) === id
   )?.quantity;
-
-  function handleAddToWishlist({ user_id, productId, from }) {
-    addToWishlist(
-      { user_id, productId, from },
-      {
-        onSuccess: () => {
-          toast.success(`(${title}) Was successfully Add to Wishlist`);
-        },
-      }
-    );
-  }
-
-  //*update quantity from user data
-  function handleUpdateQuantity({ productId, quantity, type }) {
-    updateQuantity(
-      { productId, quantity, type },
-      {
-        onError: () => {
-          toast.error("Something Went Wrong ,Try Again");
-        },
-      }
-    );
-  }
-  //*delete from basket
-  function handleDelete({ productId, from }) {
-    removeFromBasket(
-      { productId, from },
-      {
-        onSuccess: () =>
-          toast.success(`${title} Was Successfully Remove From Basket`, {
-            duration: 4000,
-          }),
-      }
-    );
-  }
 
   return (
     <Box sx={{ padding: "1rem", textAlign: "center" }}>
@@ -101,18 +66,19 @@ export default function ShoppingBasketItem({ item, itemQuantity }) {
                   height: "max-content",
                 }}
                 onClick={() =>
-                  handleAddToWishlist({
-                    user_id: user?.id,
+                  handleAddTo({
                     productId: id,
-                    from: "wishlist",
+                    to: "wishlist",
                   })
                 }
               >
                 <Favorite fontSize="small" />
               </Fab>
+
               <Box sx={{ width: "200px" }}>
                 <ProductImageSwiper images={images} />
               </Box>
+
               <Box sx={{ flex: 1, textAlign: "left" }}>
                 <Typography variant="h6">{title}</Typography>
                 <Typography variant="body2" color="text.secondary">
@@ -172,9 +138,9 @@ export default function ShoppingBasketItem({ item, itemQuantity }) {
                 <IconButton
                   color="error"
                   onClick={() =>
-                    handleDelete({ productId: id, from: "basket" })
+                    handleRemoveFrom({ productId: id, from: "basket" })
                   }
-                  disabled={isLoadingRemove}
+                  disabled={isWishlistDetailsLoading}
                 >
                   <Delete />
                 </IconButton>

@@ -4,7 +4,7 @@ import { addTo } from "../../services/apiUserData";
 export function useAddToWishlist() {
   const queryClient = useQueryClient();
 
-  const { mutate: addToWishlist, isLoading: isAdding } = useMutation({
+  const { mutate: addToWishlist, isPending: isAddingToWishlist } = useMutation({
     mutationFn: addTo,
 
     onSuccess: () => {
@@ -16,5 +16,5 @@ export function useAddToWishlist() {
     },
   });
 
-  return { addToWishlist, isAdding };
+  return { addToWishlist, isAddingToWishlist };
 }
