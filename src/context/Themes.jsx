@@ -28,6 +28,7 @@ const lightTheme = createTheme({
       fontSize: "1rem",
       fontWeight: 400,
     },
+    
   },
 });
 
@@ -52,6 +53,7 @@ const darkTheme = createTheme({
   typography: {
     fontFamily: "'Roboto', 'Arial', sans-serif",
   },
+  
 });
 
 export { lightTheme, darkTheme };

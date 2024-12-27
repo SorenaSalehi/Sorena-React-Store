@@ -1,4 +1,10 @@
-import { AppBar, Box, FormControlLabel, Typography } from "@mui/material";
+import {
+  AppBar,
+  Box,
+  FormControlLabel,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 import React from "react";
 
 import DarkModeSwitch from "../ui/DarkModeSwitch";
@@ -10,6 +16,7 @@ export default function Header() {
         position="fixed"
         sx={{
           padding: "1rem",
+          
         }}
       >
         <Box

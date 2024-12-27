@@ -9,7 +9,6 @@ export default function Layout() {
     <Box
       component="div"
       sx={{
-        height: "100dvh",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -22,9 +21,8 @@ export default function Layout() {
           width: "90dvw",
           display: "flex",
           flexDirection: "column",
-          height: "80vh",
           overflow: "auto",
-          padding: " 2rem 0 2rem",
+          paddingTop: "10dvh",
         }}
       >
         <Outlet />

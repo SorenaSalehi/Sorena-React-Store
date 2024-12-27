@@ -30,7 +30,7 @@ export default function Products() {
       {/* //*products list */}
       <Box
         component="div"
-        sx={{ paddingX: "2rem", position: "relative" }}
+        sx={{ padding: "2rem", position: "relative" }}
         ref={ProductsRef}
       >
         <ProductsList category={category} />
