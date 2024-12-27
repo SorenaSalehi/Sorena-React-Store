@@ -27,7 +27,8 @@ export async function login({ email, password }) {
 //*logout
 export async function logout() {
   const { error } = await supabase.auth.signOut();
-  if (error) throw new Error(error.message);
+  if (error)
+    throw new Error(error.message || "Something Went Wrong for Logout!!");
 }
 
 //*reset password
@@ -36,7 +37,10 @@ export async function resetPassword({ email }) {
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
     redirectTo: `${window.location.origin}/resetPassword`,
   });
-  if (error) throw new Error(error.message);
+  if (error)
+    throw new Error(
+      error.message || "Something Went Wrong for Reset Password!!"
+    );
 }
 
 //*update password

@@ -5,7 +5,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
-import { useDarkMode } from "../context/DarkModeProvider";
+import { useThemeMode } from "../context/ThemeModeProvider";
 
 const CustomSwitch = styled(Switch)(({ theme }) => ({
   width: 62,
@@ -45,17 +45,17 @@ const CustomSwitch = styled(Switch)(({ theme }) => ({
 }));
 
 export default function DarkModeSwitch() {
-  const { isDarkMode, handleToggle } = useDarkMode();
+  const { mode, toggleTheme } = useThemeMode();
 
   return (
     <FormGroup>
       <FormControlLabel
         control={
           <CustomSwitch
-            checked={isDarkMode}
-            onChange={handleToggle}
-            icon={<DarkModeIcon />}
-            checkedIcon={<LightModeIcon />}
+            checked={mode === "dark"}
+            onChange={toggleTheme}
+            icon={<LightModeIcon />}
+            checkedIcon={<DarkModeIcon />}
           />
         }
       />

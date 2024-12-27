@@ -2,7 +2,6 @@ import { AppBar, Box, FormControlLabel, Typography } from "@mui/material";
 import React from "react";
 
 import DarkModeSwitch from "../ui/DarkModeSwitch";
-import DarkModeToggle from "./DarkModeToggle";
 
 export default function Header() {
   return (

@@ -19,7 +19,7 @@ export default function Layout() {
       <Box
         component="section"
         sx={{
-          width: "100dvw",
+          width: "90dvw",
           display: "flex",
           flexDirection: "column",
           height: "80vh",

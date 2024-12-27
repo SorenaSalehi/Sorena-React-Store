@@ -12,7 +12,6 @@ const ShopContext = createContext();
 
 export function ShopProvider({ children }) {
   const { user_id } = useAuthContext();
-
   const [currentProduct, setCurrentProduct] = useState({});
   //*wishlist or basket
   const [type, setType] = useState(null);
