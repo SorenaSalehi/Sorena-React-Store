@@ -16,7 +16,7 @@ export default function Header() {
         position="fixed"
         sx={{
           padding: "1rem",
-          
+          backgroundColor: "background.appBar",
         }}
       >
         <Box

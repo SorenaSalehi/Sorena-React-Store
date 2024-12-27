@@ -28,7 +28,6 @@ const lightTheme = createTheme({
       fontSize: "1rem",
       fontWeight: 400,
     },
-    
   },
 });
 
@@ -41,9 +40,11 @@ const darkTheme = createTheme({
     secondary: {
       main: "#f48fb1",
     },
+
     background: {
       default: "#121212", // Dark background
       paper: "#1d1d1d",
+      appBar: "#83040c",
     },
     text: {
       primary: "#ffffff", // Primary text in dark mode
@@ -53,7 +54,6 @@ const darkTheme = createTheme({
   typography: {
     fontFamily: "'Roboto', 'Arial', sans-serif",
   },
-  
 });
 
 export { lightTheme, darkTheme };

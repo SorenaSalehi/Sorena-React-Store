@@ -30,7 +30,7 @@ export default function Products() {
       {/* //*products list */}
       <Box
         component="div"
-        sx={{ padding: "2rem", position: "relative" }}
+        sx={{ padding: "1rem", position: "relative" }}
         ref={ProductsRef}
       >
         <ProductsList category={category} />
@@ -43,7 +43,8 @@ export default function Products() {
             top: "80%",
             right: "1rem",
             zIndex: "100",
-            backgroundColor: "red",
+            color: "secondary.main",
+            backgroundColor: "text.secondary",
           }}
         >
           <ArrowUpward />

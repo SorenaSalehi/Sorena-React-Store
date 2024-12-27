@@ -33,8 +33,8 @@ export default function ProductImageSwiper({ images, onClick }) {
           alignItems: "center",
         },
         "& .swiper-slide img": {
-          maxWidth: "100%",
-          maxHeight: "100%",
+          width: "100px",
+          height: "100px",
           objectFit: "contain",
           borderRadius: "50%",
         },

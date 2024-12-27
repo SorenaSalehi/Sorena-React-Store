@@ -5,10 +5,8 @@ import CardActionArea from "@mui/material/CardActionArea";
 import { Box, Typography, Rating, Divider, Fab, duration } from "@mui/material";
 import "swiper/css";
 import ProductImageSwiper from "../../ui/ProductImgSwiper";
-import { useNavigate, useSearchParams } from "react-router";
-import { Favorite, Remove, ShoppingBasket } from "@mui/icons-material";
+import { useNavigate } from "react-router";
 import { useShopContext } from "../../context/ShopContext";
-import { set } from "date-fns";
 import ItemBtns from "../../ui/ItemBtns";
 
 export default function ProductItem({ item, type }) {

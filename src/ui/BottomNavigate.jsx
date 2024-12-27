@@ -24,6 +24,8 @@ export default function BottomNavigate() {
         zIndex: 1100,
         position: "fixed",
         bottom: 0,
+        backgroundColor: "background.appBar",
+        color: "text.primary",
       }}
       value={value}
       onChange={handleChange}
