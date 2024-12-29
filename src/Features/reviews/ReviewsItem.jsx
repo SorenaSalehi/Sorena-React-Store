@@ -12,7 +12,7 @@ export default function ReviewsItem() {
     <Box
       component="section"
       sx={{
-        backgroundColor: "lightgray",
+        backgroundColor: "background.default",
         borderRadius: "1rem",
         padding: "1rem",
         maxWidth: 600,

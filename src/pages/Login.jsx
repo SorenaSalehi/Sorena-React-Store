@@ -1,7 +1,7 @@
 import React from "react";
 import SignupForm from "../ui/SignupForm";
 import LoginForm from "../ui/LoginForm";
-import { Box, Button, Card, Typography } from "@mui/material";
+import { Box, Button, Card, Divider, Typography } from "@mui/material";
 import { useNavigate } from "react-router";
 
 export default function Login() {
@@ -17,12 +17,26 @@ export default function Login() {
       }}
     >
       <LoginForm />
-      <Card>
-        <Button onClick={() => navigate("/signup")}>Signup</Button>
-        <Button onClick={() => navigate("/forgotPassword")}>
+      <Box
+        component="div"
+        sx={{
+          textAlign: "center",
+        }}
+      >
+        <Button
+          sx={{ color: "background.appBar" }}
+          onClick={() => navigate("/signup")}
+        >
+          Signup
+        </Button>
+        <Divider sx={{ marginY: "1rem" }} />
+        <Button
+          sx={{ color: "background.appBar" }}
+          onClick={() => navigate("/forgotPassword")}
+        >
           Forgot Password
         </Button>
-      </Card>
+      </Box>
     </Box>
   );
 }

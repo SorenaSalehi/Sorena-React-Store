@@ -35,7 +35,11 @@ export default function MoreDetails() {
       <Card>
         <CardContent>
           <Typography variant="h6">Quick Overview</Typography>
-          <Grid2 container spacing={2}>
+          <Grid2
+            container
+            spacing={2}
+            sx={{ display: "flex", alignItems: "center" }}
+          >
             <Grid2 item xs={4}>
               <Typography component="p" color="text.secondary">
                 Discount
@@ -46,15 +50,22 @@ export default function MoreDetails() {
               <Typography component="p" color="text.secondary">
                 Rating
               </Typography>
-              <Typography variant="body1">
-                <Star color="primary" /> {rating}
+              <Typography
+                variant="body1"
+                sx={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
+              >
+                <Star color="primary" />
+                <Typography variant="body1">{rating}</Typography>
               </Typography>
             </Grid2>
             <Grid2 item xs={4}>
               <Typography component="p" color="text.secondary">
                 Availability
               </Typography>
-              <Typography variant="body1">
+              <Typography
+                variant="body1"
+                sx={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
+              >
                 <CheckCircle color="success" />
                 {stock > 0 ? ` in Stock` : "Non-Existent"}
               </Typography>
@@ -66,9 +77,14 @@ export default function MoreDetails() {
       {/* Product Details */}
       <Card>
         <CardContent>
-          <Typography variant="h6">Product Details</Typography>
+          <Typography variant="h6" sx={{ opacity: "70%" }}>
+            Product Details
+          </Typography>
           <Typography variant="body1">
-            <b>Brand:</b> {brand}
+            <Typography component="b" sx={{ opacity: "70%" }}>
+              Brand:
+            </Typography>{" "}
+            {brand}
           </Typography>
           <Typography variant="body2">{title}</Typography>
         </CardContent>
@@ -77,10 +93,15 @@ export default function MoreDetails() {
       {/* Dimensions */}
       <Card>
         <CardContent>
-          <Typography variant="h6">Specifications</Typography>
+          <Typography variant="h6" sx={{ opacity: "70%" }}>
+            Specifications
+          </Typography>
 
           <Typography variant="body1">
-            <b>Weight:</b> {weight}
+            <Typography component="b" sx={{ opacity: "70%" }}>
+              Weight:
+            </Typography>{" "}
+            {weight}
           </Typography>
           <Typography variant="body2" color="text.secondary">
             <b>Dimensions:</b> depth ({depth}) x width ({width}) x height (
@@ -92,18 +113,32 @@ export default function MoreDetails() {
       {/* Warranty, Shipping, Stock */}
       <Card>
         <CardContent>
-          <Typography variant="h6">Additional Info</Typography>
-          <Typography variant="body1">
-            <b>Warranty:</b> {warrantyInformation}
+          <Typography variant="h6" sx={{ opacity: "70%" }}>
+            Additional Info
           </Typography>
           <Typography variant="body1">
-            <b>Shipping:</b> {shippingInformation}
+            <Typography component="b" sx={{ opacity: "70%" }}>
+              Warranty:
+            </Typography>{" "}
+            {warrantyInformation}
           </Typography>
           <Typography variant="body1">
-            <b>Stock:</b> {stock} units
+            <Typography component="b" sx={{ opacity: "70%" }}>
+              Shipping:
+            </Typography>{" "}
+            {shippingInformation}
           </Typography>
           <Typography variant="body1">
-            <b>Return Policy:</b> {returnPolicy}
+            <Typography component="b" sx={{ opacity: "70%" }}>
+              Stock:
+            </Typography>{" "}
+            {stock} units
+          </Typography>
+          <Typography variant="body1">
+            <Typography component="b" sx={{ opacity: "70%" }}>
+              Return Policy:
+            </Typography>{" "}
+            {returnPolicy}
           </Typography>
         </CardContent>
       </Card>
@@ -111,8 +146,19 @@ export default function MoreDetails() {
       {/* Categories */}
       <Card>
         <CardContent>
-          <Typography variant="h6">Categories</Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="h6" sx={{ opacity: "70%" }}>
+            Categories
+          </Typography>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+              my: "0.5rem",
+            }}
+          >
             <Category color="primary" />{" "}
             {category?.replace("-", " ").toUpperCase()},{" "}
             {tags?.[0]?.toUpperCase()}

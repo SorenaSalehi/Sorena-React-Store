@@ -26,6 +26,13 @@ export default function BottomNavigate() {
         bottom: 0,
         backgroundColor: "background.appBar",
         color: "text.primary",
+
+        "& button": {
+          color: "background.paperFade",
+        },
+        "& button.Mui-selected": {
+          color: "background.default",
+        },
       }}
       value={value}
       onChange={handleChange}
@@ -48,7 +55,7 @@ export default function BottomNavigate() {
       />
 
       <BottomNavigationAction
-        label="Shopping Basket"
+        label="Basket"
         value="/shoppingBasket"
         icon={
           <Badge

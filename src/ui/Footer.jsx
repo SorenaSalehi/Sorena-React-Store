@@ -1,10 +1,10 @@
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import React from "react";
 
 export default function Footer() {
   return (
-    <>
-      <Typography component="p">
+    <Box component="div" sx={{ position: "fixed", bottom: 70 }}>
+      <Typography variant="caption">
         Crafted with ❤️ by Sorena. Connect with me on{" "}
         <Typography
           component="a"
@@ -17,6 +17,6 @@ export default function Footer() {
           Github .
         </Typography>
       </Typography>
-    </>
+    </Box>
   );
 }

@@ -2,10 +2,10 @@ import React from "react";
 import { Box, Button, Typography } from "@mui/material";
 
 import { useShopContext } from "../context/ShopContext";
-import { NavLink } from "react-router";
-import { Login } from "@mui/icons-material";
 import { calcCountPrice } from "../utils/helpers";
 import ProductItem from "../Features/products/ProductItem";
+import NotLoggedIn from "../ui/NotLoggedIn";
+import LoadingCar from "../ui/LoadingCar";
 
 export default function ShoppingBasket() {
   const {
@@ -18,26 +18,17 @@ export default function ShoppingBasket() {
 
   //*if user is not logged in
   if (!user_id) {
-    return (
-      <Typography component="h2" variant="h2" sx={{ textAlign: "center" }}>
-        Please Login First
-        <NavLink to="/login">
-          <Button>
-            <Login />
-          </Button>
-        </NavLink>
-      </Typography>
-    );
+    return <NotLoggedIn />;
   }
 
   //*if basket is loading
-  if (isBasketDetailsLoading || isBasketLoading) return <div>loading ...</div>;
+  if (isBasketDetailsLoading || isBasketLoading) return <LoadingCar />;
 
   //*if basket is empty
   if (basketDetails?.length === 0) {
     return (
-      <Typography component="h2" variant="h2" sx={{ textAlign: "center" }}>
-        Your Shopping Basket is Empty
+      <Typography component="h5" variant="h5" sx={{ textAlign: "center" }}>
+        Your Shopping Basket is Empty 🥲
       </Typography>
     );
   }

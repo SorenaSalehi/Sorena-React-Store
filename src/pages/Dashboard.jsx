@@ -90,15 +90,12 @@ export default function Dashboard() {
                 <Typography
                   variant="button"
                   sx={{
-                    backgroundColor: "secondary.main",
+                    backgroundColor: "orange",
                     color: "white",
                     px: 2,
                     py: 1,
                     borderRadius: "16px",
                     cursor: "pointer",
-                    "&:hover": {
-                      backgroundColor: "secondary.dark",
-                    },
                   }}
                   value="currentOrders"
                 >
@@ -118,7 +115,7 @@ export default function Dashboard() {
                 <Typography
                   variant="button"
                   sx={{
-                    backgroundColor: "success.main",
+                    backgroundColor: "green",
                     color: "white",
                     px: 2,
                     py: 1,
@@ -141,36 +138,42 @@ export default function Dashboard() {
         <List
           sx={{
             width: "100%",
-            bgcolor: "background.paper",
+            bgcolor: "background.default",
             borderRadius: "8px",
             boxShadow: 1,
+            "& .MuiIconButton-root": {
+              color: "background.appBar", // Apply the desired color to all IconButtons
+            },
+            "& .MuiSvgIcon-root": {
+              color: "background.appBar", // Apply the desired color to all icons
+            },
           }}
         >
           {/* //*user details */}
           <ListItem divider onClick={() => handleProfile()}>
             <ListItemText primary="Profile" />
-            <IconButton color="primary" aria-label="edit profile">
+            <IconButton color="background.appBar" aria-label="edit profile">
               <AccountCircleRounded />
             </IconButton>
           </ListItem>
           {/* //*Account setting */}
           <ListItem divider onClick={() => handleAccount()}>
             <ListItemText primary="Account" />
-            <IconButton color="primary" aria-label="edit profile">
+            <IconButton aria-label="edit profile">
               <ManageAccountsRounded />
             </IconButton>
           </ListItem>
           {/* //*shopping basket */}
           <ListItem divider onClick={() => navigate("/shoppingBasket")}>
-            <ListItemText primary="Shopping basket" />
-            <IconButton color="primary" aria-label="Shopping basket">
+            <ListItemText primary="Shopping Cart" />
+            <IconButton aria-label="Shopping basket">
               <ShoppingBasketRounded />
             </IconButton>
           </ListItem>
           {/* //*wishlist */}
           <ListItem divider onClick={() => navigate("/wishlist")}>
             <ListItemText primary="Wishlist" />
-            <IconButton color="primary" aria-label="Wishlist">
+            <IconButton aria-label="Wishlist">
               <FavoriteRounded />
             </IconButton>
           </ListItem>{" "}

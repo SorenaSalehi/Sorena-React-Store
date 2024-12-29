@@ -35,7 +35,7 @@ export default function ProductDetailsContent() {
   )
     return (
       <Card>
-        <Typography>
+        <Typography component="p">
           Please Check Your Connection OR Refresh the Page
         </Typography>
       </Card>
@@ -44,14 +44,16 @@ export default function ProductDetailsContent() {
   return (
     <Card
       sx={{
-        marginTop: "60vh",
+        marginTop: "40vh",
         padding: "2rem",
         backgroundColor: "white",
         position: "relative",
-        bgcolor: "lightgray",
+        backgroundColor: "Background.default",
       }}
     >
-      <CardContent>
+      <CardContent
+        style={{ backgroundColor: "background.paper", borderRadius: "1rem" }}
+      >
         <Box sx={{ marginBottom: "0.5rem" }}>
           <Typography>{brand}</Typography>
 
@@ -61,23 +63,51 @@ export default function ProductDetailsContent() {
         </Box>
         <Divider />
 
-        <Typography
-          variant="body2"
-          sx={{ color: "text.secondary", display: "flex", gap: "0.3rem" }}
+        <Box
+          component="div"
+          sx={{
+            color: "text.secondary",
+            display: "flex",
+            gap: "0.3rem",
+            alignItems: "center",
+            justifyContent: "space-evenly",
+          }}
         >
-          <Box component="p">{category?.replace("-", " ").toUpperCase()} |</Box>
-          <Box component="p" sx={{ display: "flex" }}>
-            Price:{" "}
+          <Typography component="p" variant="caption">
+            {category?.replace("-", " ").toUpperCase()} |
+          </Typography>
+          <Box
+            component="div"
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-evenly",
+            }}
+          >
+            <Typography variant="body2">Price: </Typography>
             <Typography
-              sx={{ textDecoration: "line-through", marginRight: "0.3rem" }}
+              sx={{
+                textDecoration: "line-through",
+                marginX: "0.3rem",
+                color: "secondary.main",
+              }}
+              variant="caption"
             >
               {price}
             </Typography>
-            <span>&rarr;</span>
-            <Typography>{calcDiscount(price, discountPercentage)}</Typography>
+            <Typography variant="body2">&rarr;</Typography>
+            <Typography
+              variant="body2"
+              sx={{
+                marginX: "0.3rem",
+                color: "primary.main",
+              }}
+            >
+              {calcDiscount(price, discountPercentage)}
+            </Typography>
           </Box>
           <Rating name="read-only" value={4} readOnly />
-        </Typography>
+        </Box>
         <Divider />
 
         <Typography sx={{ marginTop: "1rem" }}>{description}</Typography>

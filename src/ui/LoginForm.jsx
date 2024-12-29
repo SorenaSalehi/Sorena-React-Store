@@ -109,7 +109,15 @@ export default function LoginForm() {
             }}
           />
         </Box>{" "}
-        <Button variant="contained" type="submit" disabled={isLogin}>
+        <Button
+          variant="contained"
+          type="submit"
+          disabled={isLogin}
+          sx={{
+            color: "background.appBar",
+            backgroundColor: "background.default",
+          }}
+        >
           {isLogin ? <CircularProgress /> : "Login"}
         </Button>
       </Box>

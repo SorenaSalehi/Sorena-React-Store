@@ -1,9 +1,11 @@
 import React from "react";
 import { useShopContext } from "../context/ShopContext";
 import { Box, Button, Typography } from "@mui/material";
-import ProductItem from "../Features/products/ProductItem";
 import { NavLink } from "react-router";
-import { Login } from "@mui/icons-material";
+
+import ProductItem from "../Features/products/ProductItem";
+import NotLoggedIn from "../ui/NotLoggedIn";
+import LoadingCar from "../ui/LoadingCar";
 
 export default function Wishlist() {
   const {
@@ -15,27 +17,17 @@ export default function Wishlist() {
 
   //*if user is not logged in
   if (!user_id) {
-    return (
-      <Typography component="h2" variant="h2" sx={{ textAlign: "center" }}>
-        Please Login First
-        <NavLink to="/login">
-          <Button>
-            <Login />
-          </Button>
-        </NavLink>
-      </Typography>
-    );
+    return <NotLoggedIn />;
   }
 
   //*if wishlist is Loading
-  if (isWishlistDetailsLoading || isWishlistLoading)
-    return <div>loading ...</div>;
+  if (isWishlistDetailsLoading || isWishlistLoading) return <LoadingCar />;
 
   //*if wishlist is empty
   if (wishlistDetails?.length === 0) {
     return (
-      <Typography component="h2" variant="h2" sx={{ textAlign: "center" }}>
-        Your Shopping Basket is Empty
+      <Typography component="h5" variant="h5" sx={{ textAlign: "center" }}>
+        Your Wishlist is Empty 🥲
       </Typography>
     );
   }

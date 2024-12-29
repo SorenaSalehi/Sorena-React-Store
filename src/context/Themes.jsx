@@ -4,14 +4,16 @@ const lightTheme = createTheme({
   palette: {
     mode: "light", // Light mode
     primary: {
-      main: "#1976d2", // Customize primary color
+      main: "#FF0000", // Customize primary color
     },
     secondary: {
-      main: "#9c27b0", // Customize secondary color
+      main: "#000000", // Customize secondary color
     },
     background: {
       default: "#f5f5f5", // Default background color
       paper: "#ffffff", // Paper background color
+      paperFade: "#ffffff99", // Paper background color
+      appBar: "#03AED2",
     },
     text: {
       primary: "#000000", // Primary text color
@@ -29,22 +31,24 @@ const lightTheme = createTheme({
       fontWeight: 400,
     },
   },
+  
 });
 
 const darkTheme = createTheme({
   palette: {
     mode: "dark", // Dark mode
     primary: {
-      main: "#90caf9",
+      main: "#000000",
     },
     secondary: {
-      main: "#f48fb1",
+      main: "#FF0000",
     },
 
     background: {
-      default: "#121212", // Dark background
-      paper: "#1d1d1d",
-      appBar: "#83040c",
+      default: "#000000", // Dark background
+      paper: "#3D0000",
+      paperFade: "#3D000099",
+      appBar: "#950101",
     },
     text: {
       primary: "#ffffff", // Primary text in dark mode
@@ -53,6 +57,18 @@ const darkTheme = createTheme({
   },
   typography: {
     fontFamily: "'Roboto', 'Arial', sans-serif",
+    caption: {
+      fontSize: "0.5rem",
+    },
+  },
+  components: {
+    MuiRating: {
+      styleOverrides: {
+        icon: {
+          fontSize: "0.5rem", // Custom size for Rating icons
+        },
+      },
+    },
   },
 });
 

@@ -13,12 +13,9 @@ export default function MainFallback() {
           gridTemplateColumns: "repeat(3,1fr)",
           gap: "1rem 5rem",
           marginBottom: "1rem",
-          mx: "auto",
+          margin: "2rem auto ",
         }}
       >
-        <Skeleton variant="circular" width={70} height={70} />
-        <Skeleton variant="circular" width={70} height={70} />
-        <Skeleton variant="circular" width={70} height={70} />
         <Skeleton variant="circular" width={70} height={70} />
         <Skeleton variant="circular" width={70} height={70} />
         <Skeleton variant="circular" width={70} height={70} />
@@ -30,8 +27,9 @@ export default function MainFallback() {
         <Skeleton variant="rectangular" width="100%" height="20dvh" />
         <Skeleton variant="rectangular" width="100%" height="20dvh" />
         <Skeleton variant="rectangular" width="100%" height="20dvh" />
+        <Skeleton variant="rectangular" width="100%" height="20dvh" />
       </Box>
-      <Skeleton variant="text" width="100%" height="10dvh" />
+      {/* <Skeleton variant="text" width="100%" height="10dvh" /> */}
     </Stack>
   );
 }

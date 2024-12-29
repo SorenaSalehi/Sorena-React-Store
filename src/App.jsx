@@ -83,7 +83,7 @@ export default function App() {
         <AuthProvider>
           <ShopProvider>
             <Toaster />
-            <RouterProvider router={router} />;
+            <RouterProvider router={router} />
           </ShopProvider>
         </AuthProvider>
       </QueryClientProvider>

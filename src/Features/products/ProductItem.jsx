@@ -44,20 +44,27 @@ export default function ProductItem({ item, type }) {
         sx={{
           position: "absolute",
           top: "10px",
-          right: "10px",
-          backgroundColor: "red",
-          color: "white",
           padding: "0.25rem 0.5rem",
-          borderRadius: "4px",
-          fontSize: "0.75rem",
-          fontWeight: "bold",
+          display: "flex",
+          justifyContent: "space-between",
+          width: "100%",
         }}
       >
-        <Typography>{discountPercentage}% OFF</Typography>
-      </Box>
+        <Typography
+          variant="body2"
+          sx={{
+            backgroundColor: "red",
+            color: "text.primary",
+            borderRadius: "0.5rem",
+            padding: "0.2rem 0.5rem",
+          }}
+        >
+          {discountPercentage}% OFF
+        </Typography>
 
-      {/* //*btns Group by type */}
-      <ItemBtns key={id} type={type} productId={id} quantity={quantity} />
+        {/* //*btns Group by type */}
+        <ItemBtns key={id} type={type} productId={id} quantity={quantity} />
+      </Box>
 
       {/* //*card Area */}
       <CardActionArea>
@@ -81,24 +88,26 @@ export default function ProductItem({ item, type }) {
             {title}
           </Typography>
           <Divider variant="middle" />
-          <Typography
-            variant="body2"
+          <Box
+            component="div"
             sx={{
               color: "text.secondary",
               display: "flex",
               gap: "1rem",
               paddingTop: "1rem",
+              alignItems: "center",
             }}
           >
             <Typography variant="caption" component="p">
-              {category?.replace("-", " ").toUpperCase()} |{" "}
+              {category?.replace("-", " ").toUpperCase()} <br />{" "}
               {tags?.[0]?.toUpperCase()}
             </Typography>
             <Typography variant="caption" component="p">
-              Price: {price} $
+              Price: <br />
+              {price} $
             </Typography>
             <Rating name="read-only" value={rating} readOnly size="small" />
-          </Typography>
+          </Box>
         </CardContent>
       </CardActionArea>
     </Card>
