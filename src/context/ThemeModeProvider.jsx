@@ -3,12 +3,12 @@ import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { lightTheme, darkTheme } from "./Themes";
 
-
 const ThemeModeContext = createContext();
 
 export function ThemeModeProvider({ children }) {
-  const [mode, setMode] = useState("light");
-  // window.matchMedia("(prefers-color-scheme:dark)").matches && "dark"
+  const [mode, setMode] = useState(
+    window.matchMedia("(prefers-color-scheme:dark)").matches && "dark"
+  );
   const theme = useMemo(
     () => (mode === "light" ? lightTheme : darkTheme),
     [mode]

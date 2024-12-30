@@ -54,7 +54,7 @@ export default function MoreDetails() {
                 variant="body1"
                 sx={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
               >
-                <Star color="primary" />
+                <Star color="info" />
                 <Typography variant="body1">{rating}</Typography>
               </Typography>
             </Grid2>
@@ -159,7 +159,7 @@ export default function MoreDetails() {
               my: "0.5rem",
             }}
           >
-            <Category color="primary" />{" "}
+            <Category color="success" />{" "}
             {category?.replace("-", " ").toUpperCase()},{" "}
             {tags?.[0]?.toUpperCase()}
           </Typography>

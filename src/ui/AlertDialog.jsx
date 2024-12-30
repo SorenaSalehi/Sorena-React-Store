@@ -44,7 +44,7 @@ export default function AlertDialog({
     <React.Fragment>
       <ListItem divider onClick={handleClickOpen}>
         <ListItemText primary={label} />
-        <IconButton color="primary" aria-label="Logout">
+        <IconButton color="text.btn" aria-label="Logout">
           <LogoutRounded />
         </IconButton>
       </ListItem>
@@ -62,8 +62,12 @@ export default function AlertDialog({
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Disagree</Button>
-          <Button onClick={handleSubmit}>Agree</Button>
+          <Button onClick={handleClose} color="error">
+            Cancel
+          </Button>
+          <Button onClick={handleSubmit} color="success">
+            Agree
+          </Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>

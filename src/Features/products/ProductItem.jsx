@@ -44,19 +44,20 @@ export default function ProductItem({ item, type }) {
         sx={{
           position: "absolute",
           top: "10px",
-          padding: "0.25rem 0.5rem",
+          padding: "0.3rem 0.5rem",
           display: "flex",
           justifyContent: "space-between",
           width: "100%",
         }}
       >
         <Typography
-          variant="body2"
+          variant="caption"
           sx={{
-            backgroundColor: "red",
-            color: "text.primary",
+            padding: "0.4rem 0.5rem 0",
             borderRadius: "0.5rem",
-            padding: "0.2rem 0.5rem",
+            color: "text.btn",
+            fontWeight: "bold",
+            backgroundColor: "#ff0000",
           }}
         >
           {discountPercentage}% OFF
@@ -69,7 +70,7 @@ export default function ProductItem({ item, type }) {
       {/* //*card Area */}
       <CardActionArea>
         {/* Product Details */}
-        <CardContent onClick={handleNavigate}>
+        <CardContent>
           {/* Image Slider */}
           <Box
             component="div"
@@ -80,33 +81,34 @@ export default function ProductItem({ item, type }) {
           >
             <ProductImageSwiper images={images} />
           </Box>
-
-          <Typography gutterBottom variant="h6" component="p">
-            {brand}
-          </Typography>
-          <Typography gutterBottom variant="body2" component="p">
-            {title}
-          </Typography>
-          <Divider variant="middle" />
-          <Box
-            component="div"
-            sx={{
-              color: "text.secondary",
-              display: "flex",
-              gap: "1rem",
-              paddingTop: "1rem",
-              alignItems: "center",
-            }}
-          >
-            <Typography variant="caption" component="p">
-              {category?.replace("-", " ").toUpperCase()} <br />{" "}
-              {tags?.[0]?.toUpperCase()}
+          <Box onClick={handleNavigate}>
+            <Typography gutterBottom variant="h6" component="p">
+              {brand}
             </Typography>
-            <Typography variant="caption" component="p">
-              Price: <br />
-              {price} $
+            <Typography gutterBottom variant="body2" component="p">
+              {title}
             </Typography>
-            <Rating name="read-only" value={rating} readOnly size="small" />
+            <Divider variant="middle" />
+            <Box
+              component="div"
+              sx={{
+                color: "text.secondary",
+                display: "flex",
+                justifyContent: "space-between",
+                paddingTop: "1rem",
+                alignItems: "center",
+              }}
+            >
+              <Typography variant="caption" component="p">
+                {category?.replace("-", " ").toUpperCase()} <br />{" "}
+                {tags?.[0]?.toUpperCase()}
+              </Typography>
+              <Typography variant="caption" component="p">
+                Price:
+                {price} $<br />
+                <Rating name="read-only" value={rating} readOnly size="small" />
+              </Typography>
+            </Box>
           </Box>
         </CardContent>
       </CardActionArea>

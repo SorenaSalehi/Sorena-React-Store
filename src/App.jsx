@@ -18,7 +18,7 @@ const UserProfile = React.lazy(() => import("./pages/UserProfile"));
 const Wishlist = React.lazy(() => import("./pages/Wishlist"));
 const SignupForm = React.lazy(() => import("./ui/SignupForm"));
 const AccountSetting = React.lazy(() => import("./pages/AccountSetting"));
-const ForgotPassword = React.lazy(() => import("./ui/ForgotPassword"));
+const ForgotPassword = React.lazy(() => import("./pages/ForgotPassword"));
 const ResetPassword = React.lazy(() => import("./ui/ResetPassword"));
 const MainFallback = React.lazy(() => import("./ui/MainFallback"));
 
@@ -79,7 +79,7 @@ export default function App() {
   return (
     <Suspense fallback={<MainFallback />}>
       <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools initialIsOpen={false} />
+        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
         <AuthProvider>
           <ShopProvider>
             <Toaster />

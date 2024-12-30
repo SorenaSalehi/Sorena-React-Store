@@ -65,7 +65,12 @@ export default function ForgotPassword() {
           helperText={errors?.email?.message}
           disabled={isPending}
         />
-        <Button type="submit" variant="contained" disabled={isPending}>
+        <Button
+          type="submit"
+          variant="contained"
+          disabled={isPending}
+          sx={{ backgroundColor: "background.appBar" }}
+        >
           Reset Password
         </Button>
       </Box>

@@ -9,7 +9,7 @@ import { useShopContext } from "../context/ShopContext";
 
 export default function BottomNavigate() {
   const { basket, wishlist } = useShopContext();
-  const [value, setValue] = React.useState("");
+  const [value, setValue] = React.useState("/");
   const navigate = useNavigate();
 
   const handleChange = (_, newValue) => {
@@ -28,10 +28,10 @@ export default function BottomNavigate() {
         color: "text.primary",
 
         "& button": {
-          color: "background.paperFade",
+          color: "text.btnFade",
         },
         "& button.Mui-selected": {
-          color: "background.default",
+          color: "text.btn",
         },
       }}
       value={value}

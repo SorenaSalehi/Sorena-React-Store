@@ -6,7 +6,6 @@ import { format } from "date-fns";
 export default function ReviewsItem() {
   const { currentProduct } = useShopContext();
   const reviews = currentProduct?.reviews;
-  console.log(reviews);
 
   return (
     <Box
@@ -31,7 +30,7 @@ export default function ReviewsItem() {
               alignItems: "center",
             }}
           >
-            <Typography variant="h6">{review.reviewerName}</Typography>
+            <Typography variant="body2">{review.reviewerName}</Typography>
             <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
               <AccessTime fontSize="small" color="action" />
               <Typography
@@ -42,7 +41,7 @@ export default function ReviewsItem() {
               </Typography>
             </Box>
           </Box>
-          <Rating value={review.rating} readOnly />
+          <Rating value={review.rating} readOnly size="small" />
           <Typography variant="body2" sx={{ mt: 0.5 }}>
             {review.comment}
           </Typography>

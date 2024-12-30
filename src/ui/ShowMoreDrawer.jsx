@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Button, Box, SwipeableDrawer, Fab } from "@mui/material";
-import { Close } from "@mui/icons-material";
+import { Close, More, MoreHoriz } from "@mui/icons-material";
 import Reviews from "../Features/reviews/Reviews";
 import MoreDetails from "../Features/moreDetails/MoreDetails";
 
 const drawerBleeding = 56;
 
-function ShowMoreDrawer({ section, reviews }) {
+function ShowMoreDrawer({ section }) {
   const [open, setOpen] = useState(false);
 
   const toggleDrawer = (newOpen) => () => {
@@ -16,7 +16,9 @@ function ShowMoreDrawer({ section, reviews }) {
   return (
     <Box sx={{ zIndex: 50 }}>
       <Box sx={{ textAlign: "center", pt: 1 }}>
-        <Button onClick={toggleDrawer(true)}>{section}</Button>
+        <Button onClick={toggleDrawer(true)} sx={{ color: "text.primary" }}>
+          {section} <MoreHoriz />
+        </Button>
       </Box>
       <SwipeableDrawer
         anchor="bottom"

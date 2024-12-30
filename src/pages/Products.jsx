@@ -4,10 +4,12 @@ import { ArrowUpward } from "@mui/icons-material";
 
 import ProductsList from "../Features/products/ProductsList";
 import Category from "../ui/Category";
+import { InView, useInView } from "react-intersection-observer";
 
 export default function Products() {
   const [category, setCategory] = useState(null);
-
+  const { ref } = useInView();
+  const [showArrow, setShowArrow] = useState(false);
   //*refs for scrolling
   const HeadRef = useRef(null);
   const ProductsRef = useRef(null);
@@ -25,7 +27,13 @@ export default function Products() {
   return (
     <>
       {/* //*categories */}
-      <Category handleCategory={handleCategory} HeadRef={HeadRef} />
+      <InView
+        onChange={(inView) => {
+          setShowArrow(!inView);
+        }}
+      >
+        <Category handleCategory={handleCategory} HeadRef={HeadRef} ref={ref} />
+      </InView>
 
       {/* //*products list */}
       <Box
@@ -36,19 +44,21 @@ export default function Products() {
         <ProductsList category={category} />
 
         {/* //*go to top */}
-        <Fab
-          onClick={handleGoTop}
-          sx={{
-            position: "fixed",
-            top: "80%",
-            right: "1rem",
-            zIndex: "100",
-            color: "secondary.main",
-            backgroundColor: "text.secondary",
-          }}
-        >
-          <ArrowUpward />
-        </Fab>
+        {showArrow && (
+          <Fab
+            onClick={handleGoTop}
+            sx={{
+              position: "fixed",
+              top: "80%",
+              right: "1rem",
+              zIndex: 1100,
+              color: "text.btn",
+              backgroundColor: "background.appBar",
+            }}
+          >
+            <ArrowUpward />
+          </Fab>
+        )}
       </Box>
     </>
   );

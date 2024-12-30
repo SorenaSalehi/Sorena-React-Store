@@ -107,7 +107,11 @@ export default function UpdateAccountForm() {
         helperText={errors?.confirmedPassword?.message}
         disabled={isUpdating}
       />
-      <Button type="submit" variant="contained">
+      <Button
+        type="submit"
+        variant="contained"
+        sx={{ backgroundColor: "background.appBar" }}
+      >
         Submit
       </Button>
     </Box>

@@ -1,4 +1,4 @@
-import { ArrowBack, Login } from "@mui/icons-material";
+import { ArrowBack } from "@mui/icons-material";
 import {
   Box,
   Paper,
@@ -10,7 +10,6 @@ import {
 } from "@mui/material";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Form } from "react-router";
 import { useNavigate } from "react-router";
 import { useUserDetails } from "../Features/user/useUserDetails";
 import { useUser } from "../Features/user/useUser";
@@ -82,7 +81,7 @@ export default function UserProfile() {
         <IconButton
           color="primary"
           aria-label="back"
-          sx={{ marginRight: "1rem" }}
+          sx={{ marginRight: "1rem", color: "text.primary" }}
           onClick={handleBackBtn}
         >
           <ArrowBack />
@@ -157,7 +156,12 @@ export default function UserProfile() {
           helperText={errors?.birthday?.message}
           defaultValue={birthday}
         />
-        <Button type="submit" variant="contained" disabled={isUpdating}>
+        <Button
+          type="submit"
+          variant="contained"
+          disabled={isUpdating}
+          sx={{ backgroundColor: "background.appBar" }}
+        >
           {isUpdating ? <CircularProgress /> : "Submit"}
         </Button>
       </Box>

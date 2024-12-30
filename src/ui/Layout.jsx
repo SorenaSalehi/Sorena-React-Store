@@ -1,7 +1,9 @@
-import React from "react";
-import Header from "./Header";
+import React, { useEffect } from "react";
 import { Outlet } from "react-router";
 import { Box } from "@mui/material";
+import { InView, useInView } from "react-intersection-observer";
+
+import Header from "./Header";
 import BottomNavigate from "./BottomNavigate";
 
 export default function Layout() {
@@ -15,6 +17,7 @@ export default function Layout() {
       }}
     >
       <Header />
+
       <Box
         component="section"
         sx={{
@@ -22,7 +25,7 @@ export default function Layout() {
           display: "flex",
           flexDirection: "column",
           overflow: "auto",
-          paddingTop: "10dvh",
+          padding: "10dvh 0",
         }}
       >
         <Outlet />

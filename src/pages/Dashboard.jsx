@@ -10,10 +10,8 @@ import {
 } from "@mui/material";
 import {
   AccountCircleRounded,
-  ContactSupport,
   FavoriteRounded,
   ManageAccountsRounded,
-  PersonRemoveRounded,
   ShoppingBasketRounded,
 } from "@mui/icons-material";
 import { NavLink, useNavigate } from "react-router";
@@ -26,7 +24,7 @@ import Footer from "../ui/Footer.jsx";
 
 export default function Dashboard() {
   const { user, setUser } = useAuthContext();
-  const { logout, isLoginOut } = useLogout();
+  const { logout } = useLogout();
   const navigate = useNavigate();
 
   function handleProfile() {
@@ -55,7 +53,7 @@ export default function Dashboard() {
         component="section"
         sx={{
           padding: 2,
-          backgroundColor: "background.default",
+          backgroundColor: "background.paper",
           borderRadius: "8px",
           boxShadow: 3,
           maxWidth: 600,
@@ -142,10 +140,7 @@ export default function Dashboard() {
             borderRadius: "8px",
             boxShadow: 1,
             "& .MuiIconButton-root": {
-              color: "background.appBar", // Apply the desired color to all IconButtons
-            },
-            "& .MuiSvgIcon-root": {
-              color: "background.appBar", // Apply the desired color to all icons
+              color: "text.primary",
             },
           }}
         >

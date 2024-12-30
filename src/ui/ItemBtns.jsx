@@ -5,19 +5,13 @@ import {
   ShoppingBasket,
   Delete,
 } from "@mui/icons-material";
-import { Box, Fab, IconButton, Typography, Tooltip } from "@mui/material";
+import { Box, Fab, Tooltip } from "@mui/material";
 import React from "react";
 import { useShopContext } from "../context/ShopContext";
 
 function ItemBtns({ type, productId, quantity, isDetails }) {
-  const {
-    handleAddTo,
-    handleRemoveFrom,
-    handleUpdateQuantity,
-    isAddingTo,
-    isRemovingFrom,
-    isUpdatingQuantity,
-  } = useShopContext();
+  const { handleAddTo, handleRemoveFrom, isAddingTo, isRemovingFrom } =
+    useShopContext();
 
   // Handle actions based on the type
   const handleAction = (actionType) => {
@@ -40,13 +34,21 @@ function ItemBtns({ type, productId, quantity, isDetails }) {
           gap: "1rem",
           justifyContent: "center",
           alignItems: "center",
+          "& .MuiButtonBase-root": {
+            width: "auto",
+            height: "auto",
+            padding: "0.5rem",
+          },
+          "& .MuiSvgIcon-root": {
+            color: "background.appBar",
+            fontSize: "1rem",
+          },
         }}
       >
         <Tooltip title="Add to Basket">
           <Fab
             onClick={() => handleAddTo({ productId, to: "basket" })}
             disabled={isAddingTo}
-            size="small"
           >
             <ShoppingBasket />
           </Fab>
@@ -55,7 +57,6 @@ function ItemBtns({ type, productId, quantity, isDetails }) {
           <Fab
             onClick={() => handleAddTo({ productId, to: "wishlist" })}
             disabled={isAddingTo}
-            size="small"
           >
             <Favorite />
           </Fab>
@@ -68,15 +69,27 @@ function ItemBtns({ type, productId, quantity, isDetails }) {
     <Box
       component="div"
       sx={{
-        margin: "1rem",
-        padding: "1rem",
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
         gap: "1rem",
+        "& .MuiButtonBase-root": {
+          width: "auto",
+          height: "auto",
+          padding: "0.5rem",
+        },
+        "& .MuiSvgIcon-root": {
+          color: "background.appBar",
+          fontSize: "1rem",
+        },
+        "& :nth-child(even)": {
+          "& .MuiSvgIcon-root": {
+            color: "red",
+          },
+        },
       }}
     >
-      {/* Add or Remove Actions */}
+      {/* //*Add or Remove Actions */}
       <Box component="div" sx={{ display: "flex", gap: "1rem" }}>
         {type === "basket" && (
           <>
@@ -84,7 +97,6 @@ function ItemBtns({ type, productId, quantity, isDetails }) {
               <Fab
                 onClick={() => handleAction("addToWishlist")}
                 disabled={isAddingTo}
-                size="small"
               >
                 <Favorite />
               </Fab>
@@ -93,8 +105,6 @@ function ItemBtns({ type, productId, quantity, isDetails }) {
               <Fab
                 onClick={() => handleAction("remove")}
                 disabled={isRemovingFrom}
-                size="small"
-                color="error"
               >
                 <Delete />
               </Fab>
@@ -107,7 +117,6 @@ function ItemBtns({ type, productId, quantity, isDetails }) {
               <Fab
                 onClick={() => handleAction("addToBasket")}
                 disabled={isAddingTo}
-                size="small"
               >
                 <ShoppingBasket />
               </Fab>
@@ -116,8 +125,6 @@ function ItemBtns({ type, productId, quantity, isDetails }) {
               <Fab
                 onClick={() => handleAction("remove")}
                 disabled={isRemovingFrom}
-                size="small"
-                color="error"
               >
                 <Delete />
               </Fab>
@@ -125,56 +132,6 @@ function ItemBtns({ type, productId, quantity, isDetails }) {
           </>
         )}
       </Box>
-
-      {/* Quantity Controls for Basket Items */}
-      {type === "basket" && !isDetails && (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: "0.5rem",
-          }}
-        >
-          <Tooltip title="Decrease Quantity">
-            <Fab
-              disabled={quantity === 1 || isUpdatingQuantity}
-              color="primary"
-              onClick={() =>
-                handleUpdateQuantity({
-                  productId,
-                  quantity,
-                  type: "decrease",
-                })
-              }
-              size="small"
-            >
-              <Remove />
-            </Fab>
-          </Tooltip>
-          <Tooltip title="Total Quantity">
-            <Fab size="medium" color="success">
-              {quantity}
-            </Fab>
-          </Tooltip>
-          <Tooltip title="Increase Quantity">
-            <Fab
-              color="primary"
-              onClick={() =>
-                handleUpdateQuantity({
-                  productId,
-                  quantity,
-                  type: "increase",
-                })
-              }
-              disabled={isUpdatingQuantity}
-              size="small"
-            >
-              <Add />
-            </Fab>
-          </Tooltip>
-        </Box>
-      )}
     </Box>
   );
 }

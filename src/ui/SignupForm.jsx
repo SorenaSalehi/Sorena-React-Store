@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-  Box,
-  Button,
-  IconButton,
-  Paper,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Button, IconButton, Paper, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { useSignup } from "../Features/authentication/useSignup";
 import { useNavigate } from "react-router";
@@ -16,7 +9,6 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 export default function SignupForm() {
   const {
     register,
-    formState,
     handleSubmit,
     formState: { errors },
     watch,
@@ -120,7 +112,12 @@ export default function SignupForm() {
           }}
         />
 
-        <Button variant="contained" type="submit" disabled={isLoading}>
+        <Button
+          variant="contained"
+          type="submit"
+          disabled={isLoading}
+          sx={{ backgroundColor: "background.appBar" }}
+        >
           Submit
         </Button>
       </Box>

@@ -4,7 +4,7 @@ const lightTheme = createTheme({
   palette: {
     mode: "light", // Light mode
     primary: {
-      main: "#FF0000", // Customize primary color
+      main: "#000000", // Customize primary color
     },
     secondary: {
       main: "#000000", // Customize secondary color
@@ -16,8 +16,10 @@ const lightTheme = createTheme({
       appBar: "#03AED2",
     },
     text: {
-      primary: "#000000", // Primary text color
-      secondary: "#5f6368", // Secondary text color
+      primary: "#03AED2", // Primary text color
+      secondary: "#5f6368",
+      btn: "#ffffff",
+      btnFade: "#ffffff99",
     },
   },
   typography: {
@@ -31,14 +33,13 @@ const lightTheme = createTheme({
       fontWeight: 400,
     },
   },
-  
 });
 
 const darkTheme = createTheme({
   palette: {
     mode: "dark", // Dark mode
     primary: {
-      main: "#000000",
+      main: "#f5f5f5",
     },
     secondary: {
       main: "#FF0000",
@@ -53,6 +54,8 @@ const darkTheme = createTheme({
     text: {
       primary: "#ffffff", // Primary text in dark mode
       secondary: "#aaaaaa",
+      btn: "#ffffff",
+      btnFade: "#ffffff99",
     },
   },
   typography: {

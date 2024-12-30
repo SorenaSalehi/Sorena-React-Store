@@ -1,6 +1,6 @@
 import React from "react";
 import Typography from "@mui/material/Typography";
-import { Box } from "@mui/material";
+import { Box, Card } from "@mui/material";
 import { ShoppingBasket } from "@mui/icons-material";
 
 import ProductImageSwiper from "../ui/ProductImgSwiper";
@@ -10,6 +10,17 @@ import ItemBtns from "../ui/ItemBtns";
 
 export default function ProductDetails() {
   const { currentProduct, type } = useShopContext();
+
+  //*if user refresh the details page , then will current product remove and get empty page
+  if (Object.keys(currentProduct).length === 0)
+    return (
+      <Card>
+        <Typography component="p">
+          Please Check Your Connection OR Refresh the Page <br />
+          Or Back to Home
+        </Typography>
+      </Card>
+    );
 
   return (
     <Box component="div" style={{ position: "relative" }}>
@@ -30,7 +41,7 @@ export default function ProductDetails() {
       </Typography>
 
       {/* //*btns Group by type */}
-      <Box component="div" sx={{ position: "absolute", right: 0 }}>
+      <Box component="div" sx={{ position: "absolute", right: 10 }}>
         <ItemBtns type={type} productId={currentProduct?.id} isDetails={true} />
       </Box>
 

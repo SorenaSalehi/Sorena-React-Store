@@ -10,7 +10,6 @@ import React, { useEffect } from "react";
 import ShowMoreDrawer from "./ShowMoreDrawer";
 import { calcDiscount } from "../utils/helpers";
 import { useShopContext } from "../context/ShopContext";
-import { useNavigate } from "react-router";
 
 export default function ProductDetailsContent() {
   const {
@@ -21,25 +20,9 @@ export default function ProductDetailsContent() {
       price,
       description,
       discountPercentage,
+      rating,
     },
   } = useShopContext();
-
-  //*if user refresh the details page , then will current product remove and get empty page
-  if (
-    !brand &&
-    !title &&
-    !category &&
-    !price &&
-    !description &&
-    !discountPercentage
-  )
-    return (
-      <Card>
-        <Typography component="p">
-          Please Check Your Connection OR Refresh the Page
-        </Typography>
-      </Card>
-    );
 
   return (
     <Card
@@ -52,12 +35,22 @@ export default function ProductDetailsContent() {
       }}
     >
       <CardContent
-        style={{ backgroundColor: "background.paper", borderRadius: "1rem" }}
+        style={{
+          backgroundColor: "background.paper",
+          borderRadius: "1rem",
+        }}
       >
-        <Box sx={{ marginBottom: "0.5rem" }}>
+        <Box
+          sx={{
+            marginBottom: "0.5rem",
+            "& .MuiTypography-root": {
+              color: "primary.main",
+            },
+          }}
+        >
           <Typography>{brand}</Typography>
 
-          <Typography gutterBottom variant="h5" component="div">
+          <Typography gutterBottom variant="h5">
             {title}
           </Typography>
         </Box>
@@ -66,51 +59,62 @@ export default function ProductDetailsContent() {
         <Box
           component="div"
           sx={{
-            color: "text.secondary",
             display: "flex",
             gap: "0.3rem",
             alignItems: "center",
-            justifyContent: "space-evenly",
+            justifyContent: "space-between",
           }}
         >
           <Typography component="p" variant="caption">
-            {category?.replace("-", " ").toUpperCase()} |
+            {category?.replace("-", " ").toUpperCase()}
           </Typography>
           <Box
             component="div"
             sx={{
               display: "flex",
+              flexDirection: "column",
               alignItems: "center",
-              justifyContent: "space-evenly",
             }}
           >
-            <Typography variant="body2">Price: </Typography>
-            <Typography
+            <Box
+              component="div"
               sx={{
-                textDecoration: "line-through",
-                marginX: "0.3rem",
-                color: "secondary.main",
-              }}
-              variant="caption"
-            >
-              {price}
-            </Typography>
-            <Typography variant="body2">&rarr;</Typography>
-            <Typography
-              variant="body2"
-              sx={{
-                marginX: "0.3rem",
-                color: "primary.main",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-evenly",
               }}
             >
-              {calcDiscount(price, discountPercentage)}
-            </Typography>
+              <Typography variant="body2">Price: </Typography>
+              <Typography
+                sx={{
+                  textDecoration: "line-through",
+                  marginX: "0.3rem",
+                  color: "red",
+                }}
+                variant="caption"
+              >
+                {price}
+              </Typography>
+              <Typography variant="body2">&rarr;</Typography>
+              <Typography
+                variant="body2"
+                sx={{
+                  marginX: "0.3rem",
+                  color: "primary.main",
+                }}
+              >
+                {calcDiscount(price, discountPercentage)}
+              </Typography>
+            </Box>
+
+            <Rating name="read-only" value={rating} readOnly size="small" />
           </Box>
-          <Rating name="read-only" value={4} readOnly />
         </Box>
         <Divider />
 
-        <Typography sx={{ marginTop: "1rem" }}>{description}</Typography>
+        <Typography sx={{ marginTop: "1rem", color: "primary.main" }}>
+          {description}
+        </Typography>
         <Divider />
         <Box sx={{ display: "flex" }}>
           <ShowMoreDrawer section="reviews" />
